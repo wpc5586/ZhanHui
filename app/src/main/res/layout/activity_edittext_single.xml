@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme" >
+
+    <EditText
+        android:id="@+id/edittext_single_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/edit_bg"
+        android:hint="请输入内容"
+        android:minHeight="50dp"
+        android:padding="10dp"
+        android:textColor="@color/common_title"
+        android:textColorHint="@color/gray_normal"
+        android:textCursorDrawable="@null"
+        android:textSize="17sp" />
+
+    <EditText
+        android:id="@+id/edittext_single_et2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittext_single_et"
+        android:layout_marginTop="0.5dp"
+        android:background="@color/edit_bg"
+        android:hint="请输入内容"
+        android:minHeight="50dp"
+        android:padding="10dp"
+        android:textColor="@color/common_title"
+        android:textCursorDrawable="@null"
+        android:textSize="17sp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/edittext_multiple_tv_changenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/edittext_single_et"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="最多可以修改6个字"
+        android:textColor="@color/content"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+</RelativeLayout>
