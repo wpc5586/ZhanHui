@@ -14,10 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aaron.aaronlibrary.widget.GenericToast;
+
 public class ToastUtil {
 
-	public static void show(Context context, String info) {
-		Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
+	public static Toast show(Context context, String info) {
+		Toast toast = Toast.makeText(context, info, Toast.LENGTH_SHORT);
+		toast.show();
+		return toast;
 	}
 
 	public static void show(Context context, int info) {
@@ -30,6 +34,12 @@ public class ToastUtil {
 
     public static void showLong(Context context, int info) {
         Toast.makeText(context, info, Toast.LENGTH_LONG).show();
+    }
+
+    public static GenericToast show(Context context, String info, int duration) {
+        GenericToast toast = GenericToast.makeText(context, info, duration);
+        toast.show();
+        return toast;
     }
     
     public static void  SetToast(Context context, int imageId, Spanned fromHtml, int duration) {

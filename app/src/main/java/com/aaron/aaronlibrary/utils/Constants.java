@@ -1,5 +1,7 @@
 package com.aaron.aaronlibrary.utils;
 
+import com.xhy.zhanhui.BuildConfig;
+
 /**
  * 全局常量
  * 
@@ -11,7 +13,12 @@ public class Constants {
     /**
      * 开发阶段将DEBUGABLE设置为true，便于调试。
      */
-    public static final boolean DEBUGABLE = true;
+    public static final boolean DEBUGABLE = BuildConfig.DEBUGABLE;
+
+    /**
+     * 当前版本是否为用户版本  true 为观众版   false 为企业版
+     */
+    public static final boolean VERSION_IS_USER = "one".equals(BuildConfig.PACKAGE);
 
     /**
      * 全局常量：二期开发内容是否显示
@@ -19,17 +26,9 @@ public class Constants {
     public static final boolean bVersion2 = false;
 
     /**
-     * 全局常量：商家库开发内容是否显示
+     * 全局常量：7.0以上内容提供者包名
      */
-    public static final boolean businessVersion = false;
-    
-    /**
-     * 全局常量：数据存储路径
-     */
-    public static final String DATA_PATH = "/atwill";
-    public static final String DATA_PATH_CRASH = "/atwill/crash";
-    public static final String DATA_PATH_PIC = "/atwill/pics";
-    public static final String IMAGE_TEMP = "atwill_tempimage.jpg";
+    public static final String FILE_CONTENT_FILEPROVIDER = BuildConfig.APPLICATION_ID + ".fileProvider";
 
     /**
      * 全局常量：图片压缩比例
@@ -42,13 +41,6 @@ public class Constants {
      * </p>
      */
     public static final int PULL_TO_FOOT_ROWS = 10;
-
-    /**
-     * <p>
-     * 全局常量：外网服务器地址
-     * </p>
-     */
-    public static final String SERVER_URLPATH = "";
 
     /**
      * <p>
@@ -118,14 +110,6 @@ public class Constants {
 
     /**
      * <p>
-     * 全局常量：页面跳转的ACTION类型
-     * </p>
-     */
-    public static final String ACTION_CHECK_OTHER_LIBRARY = "com.bm.atwill.activity.MainActivity.Setting";
-    public static final String ACTION_NEW_MESSAGE = "com.bm.atwill.activity.DiscoveryDetailActivity.NewMessage";
-
-    /**
-     * <p>
      * 全局常量：头像页面跳转的请求码
      * </p>
      */
@@ -167,10 +151,4 @@ public class Constants {
      * 全局常量：相册请求码
      */
     public static final int REQUEST_PHOTO = 70;
-
-    /**
-     * 全局常量：封面预览的请求码
-     */
-    public static final int REQUEST_LIBRARY_EDIT_TO_COVER = 80;
-    public static final int RESULT_LIBRARY_EDIT_TO_COVER = 800;
 }

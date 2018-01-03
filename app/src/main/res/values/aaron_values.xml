@@ -5,7 +5,6 @@
 
     <color name="trend">#0394f1</color>
     <color name="indicator">#5cb548</color>
-    <color name="divider_jf">#b0dffa</color>
     <color name="main_tab_pressed">#0064bd</color>
     <color name="main_tab_pressed_mourn">#6C6C6C</color>
     <color name="drawer_pressed_mourn">#808080</color>
@@ -15,8 +14,9 @@
     <color name="collect_up_text">#6bc137</color>
     <color name="collect_down_text">#eb3b5a</color>
 
-    <color name="theme_black">#606060</color>
-    <color name="theme_gray">#828282</color>
+    <color name="theme_black">#101010</color>
+    <color name="theme_blue">#32b7ef</color>
+    <color name="theme_gray">#f7f7f7</color>
     <color name="collection_text">#818181</color>
     <color name="theme_jf">#3EAFF8</color>
     <color name="gray_mourn">#7B7B7B</color>
@@ -49,8 +49,12 @@
     <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
     <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
     <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
-    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
-    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">
+        @color/vpi__bright_foreground_holo_light
+    </color>
+    <color name="vpi__bright_foreground_inverse_holo_light">
+        @color/vpi__bright_foreground_holo_dark
+    </color>
 
     <!-- wheel city -->
     <color name="trans">#00000000</color>
@@ -60,12 +64,12 @@
     <color name="actionsheet_gray">#8F8F8F</color>
 
 
-    <color name="gray_pressed">#b5b5b6</color>
-    <color name="gray_normal">#666667</color>
+    <color name="gray_pressed">#a5a5a5</color>
+    <color name="gray_normal">#d3c3d3</color>
     <color name="black_overlay">#66000000</color>
     <color name="test">#84e6f1</color>
     <color name="library_image_bg">#f2f2f2</color>
-    <color name="gray_line">#d1d1d1</color>
+    <color name="gray_line">#dbdbdb</color>
     <color name="water_mark">#777777</color>
     <color name="button_press">#1c000000</color>
     <color name="edit_bg">#4d000000</color>
@@ -76,17 +80,20 @@
     <color name="commodity_bg">#b3000000</color>
     <color name="progress_bg">#b5b5b5</color>
     <color name="progress_pg">#c71321</color>
-    <color name="blank">#00000000</color>
+    <color name="transparent">#00000000</color>
     <color name="description">#b9b9b9</color>
     <color name="content">#999999</color>
     <color name="disable">#888888</color>
-    <color name="divider">#e8e8e8</color>
+    <color name="divider">#e9e9e9</color>
     <color name="blue">#127bdd</color>
     <color name="gray">#aaaaaa</color>
     <color name="camera_bg_d">#282828</color>
     <color name="camera_bg_p">#141414</color>
     <color name="light_blue">#6593cb</color>
-    <color name="theme">#e7e7e7</color>
+    <color name="theme">#ffe13232</color>
+    <color name="theme_pressed">#ffbb3232</color>
+    <color name="tab_bg">#fafafa</color>
+    <color name="theme_text">#141414</color>
     <color name="red">#c12c20</color>
     <color name="list_pressed_bg">#d9d9d9</color>
     <color name="albumback">#E1E0DE</color>
@@ -147,6 +154,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="NoTitleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -156,9 +167,10 @@
     </style>
 
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
-        <item name="android:windowBackground">@color/blank</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="center">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
@@ -324,5 +336,30 @@
 
     <style name="TextAppearance.TabPageIndicator" parent="Widget">
         <item name="android:textColor">@color/vpi__dark_theme</item>
+    </style>
+
+    <!-- Base theme for the menu drawer. -->
+    <style name="Widget.MenuDrawer">
+        <item name="mdMenuBackground">@color/md__defaultBackground</item>
+        <item name="mdContentBackground">?android:attr/windowBackground</item>
+        <item name="mdDrawerOpenUpContentDescription">@string/md__drawerOpenIndicatorDesc</item>
+        <item name="mdDrawerClosedUpContentDescription">@string/md__drawerClosedIndicatorDesc</item>
+    </style>
+
+    <string name="md__drawerOpenIndicatorDesc">Close drawer</string>
+    <string name="md__drawerClosedIndicatorDesc">Open drawer</string>
+
+    <declare-styleable name="SwipeItemLayout.Layout">
+        <attr name="layout_itemType">
+            <flag name="main" value="0x01" />
+            <flag name="menu" value="0x02" />
+        </attr>
+    </declare-styleable>
+
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 </resources>

@@ -3,15 +3,14 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/blank" >
+    android:background="@color/transparent" >
 
     <View
         android:id="@+id/statusbar"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:visibility="gone"/>
-    
+
     <com.aaron.aaronlibrary.widget.ActionbarView
         android:id="@+id/actionbar"
         android:layout_width="match_parent"

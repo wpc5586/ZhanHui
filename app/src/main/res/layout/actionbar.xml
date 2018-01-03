@@ -1,19 +1,19 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="50dp"
     android:background="#0b2975">
 
     <ImageView
         android:id="@+id/actionbar_back"
         android:layout_width="50dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/common_back"
+        android:layout_height="match_parent"
         android:background="@drawable/selector_actionbar_button"
+        android:paddingBottom="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="15dp"
-        android:paddingBottom="15dp"/>
+        android:src="@mipmap/common_back" />
 
     <TextView
         android:id="@+id/actionbar_title"
@@ -21,23 +21,34 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="text"
-        android:textColor="#fff"
-        android:textSize="21sp" />
+        android:textColor="@color/theme_black"
+        android:textSize="17sp" />
 
     <EditText
         android:id="@+id/actionbar_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:textCursorDrawable="@null"
-        android:paddingLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="11dp"
+        android:layout_toRightOf="@+id/actionbar_back"
         android:background="@drawable/actionbar_search_bg"
-        android:layout_toRightOf="@id/actionbar_back"
-        android:singleLine="true"
         android:imeOptions="actionSearch"
-        android:visibility="gone"
-        android:gravity="center_vertical"
-        android:textColor="@color/gray_normal"
-        android:textSize="15sp"/>
+        android:inputType="text"
+        android:paddingLeft="12dp"
+        android:text=""
+        android:textColor="@color/theme_black"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/actionbar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line"
+        android:visibility="gone" />
 </merge>
 

@@ -11,11 +11,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
@@ -34,6 +37,7 @@ import com.aaron.aaronlibrary.base.utils.StrictUtils;
 import com.aaron.aaronlibrary.manager.EditTextManager;
 import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.Constants;
+import com.aaron.aaronlibrary.utils.SystemBarTintManager;
 import com.aaron.aaronlibrary.utils.ToastUtil;
 import com.aaron.aaronlibrary.widget.ActionbarView;
 import com.xhy.zhanhui.R;
@@ -49,6 +53,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
      * 开发阶段将DEBUGABLE设置为true，便于调试。
      */
     protected boolean debug = Constants.DEBUGABLE;
+
+    /**
+     * 是否不加载父类onCreate方法
+     */
+    protected boolean isNotLoadParent;
 
     /**
      * 新模式关闭页面的判定范围（px）
@@ -87,10 +96,16 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     protected BitmapFactory.Options options;
 
     protected RelativeLayout parent;
+    protected View content;
 
     protected View statusView;
 
     protected ActionbarView actionbarView;
+
+    /**
+     * 内容布局是否在ActionBar下方
+     */
+    protected boolean contentIsBelow = true;
 
     /**
      * actionbar最右侧的按钮，默认为null，当设置过（setRightButton）后，保存为最右侧按钮对象
@@ -123,15 +138,17 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (debug) {
+        if (false) {
             StrictUtils.startThread();
             StrictUtils.startVm();
         }
         super.onCreate(savedInstanceState);
         // 禁止截屏（安全保护）
-        if (!Constants.DEBUGABLE)
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+//        if (!Constants.DEBUGABLE)
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         baseInit();
+        if (isNotLoadParent)
+            return;
         setContentView(R.layout.activity_base);
         baseFindView();
         setContentLayout(getContentLayoutId());
@@ -143,10 +160,27 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     protected void setContentLayout(int layoutId) {
         if (layoutId == 0)
             return;
-        View content = View.inflate(mContext, layoutId, null);
+        content = View.inflate(mContext, layoutId, null);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.BELOW, actionbarView.getId());
+        if (contentIsBelow)
+            params.addRule(RelativeLayout.BELOW, actionbarView.getId());
         parent.addView(content, params);
+        if (!contentIsBelow) {
+            LayoutParams paramsStatus = (LayoutParams) statusView.getLayoutParams();
+            LayoutParams paramsActionbar = (LayoutParams) actionbarView.getLayoutParams();
+            parent.removeView(statusView);
+            parent.removeView(actionbarView);
+            parent.addView(statusView, paramsStatus);
+            parent.addView(actionbarView, paramsActionbar);
+            if (isBigerVersion(21))
+                statusView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void setActionbarOnContent(){
+        LayoutParams paramsActionbar = (LayoutParams) actionbarView.getLayoutParams();
+        parent.removeView(actionbarView);
+        parent.addView(actionbarView, paramsActionbar);
     }
 
     @Override
@@ -156,8 +190,8 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     }
 
     protected void baseFindView() {
-        parent = (RelativeLayout) findViewById(R.id.parent);
-        actionbarView = (ActionbarView) findViewById(R.id.actionbar);
+        parent = findViewById(R.id.parent);
+        actionbarView = findViewById(R.id.actionbar);
         statusView = findViewById(R.id.statusbar);
         if (isNewMode)
             actionbarView.getBackButton().setOnTouchListener(this);
@@ -175,12 +209,32 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         actionbarView.setBackgroundColor(getColorFromResuource(id));
     }
 
+    protected void setActionbarDividerVisibility(boolean visibility) {
+        actionbarView.getDividerView().setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    protected void setStatusBarVisibility(boolean visibility) {
+        statusView.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    protected void setStatusBackground(int id) {
+        statusView.setBackgroundColor(getColorFromResuource(id));
+    }
+
     /**
      * 设置actionbar标题
      * @param title 标题内容
      */
     protected void setActionbarTitle(String title) {
         actionbarView.setTitle(title);
+    }
+
+    /**
+     * 设置actionbar标题颜色
+     * @param color 标题颜色
+     */
+    protected void setActionbarTitleColor(int color) {
+        actionbarView.setTitleColor(getColorFromResuource(color));
     }
 
     public ActionbarView getActionbarView() {
@@ -211,11 +265,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         if (getIntent().hasExtra("title"))
             setActionbarTitle(getIntent().getStringExtra("title"));
     }
-
-    protected View findAndSetClickListener(int id) {
+    @SuppressWarnings("TypeParameterUnusedInFormals")
+    protected <T extends View> T findAndSetClickListener(@IdRes int id) {
         View view = findViewById(id);
         view.setOnClickListener(this);
-        return view;
+        return (T) view;
     }
 
     @Override
@@ -244,7 +298,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         backEndEnd = System.currentTimeMillis();
         backEndTime = backEndEnd - backEndBegin;
         if (backEndTime > BACK_END_TIME && !Constants.DEBUGABLE) {
-            new AlertDialog.Builder(mContext).setCancelable(false).setMessage("会话超时，请重新登录").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            showAlertDialog("", "会话超时，请重新登录", "确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -255,7 +309,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 //                    Intent intent = new Intent(mContext, LoginActivity.class);
 //                    startActivity(intent);
                 }
-            }).show();
+            }, "", null, false);
         }
         backEndBegin = -1;
         backEndEnd = -1;
@@ -412,6 +466,11 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         }
     }
 
+    protected void showLog(String title, String content) {
+        if (Constants.DEBUGABLE)
+            System.out.println("~!~ " + title + " = " + content);
+    }
+
     public void showToast(final String content){
         runOnUiThread(new Runnable() {
             public void run() {
@@ -561,12 +620,17 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK && progressDialog != null && progressDialog.isShowing())) {
-            progressDialog.dismiss();
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+                return false;
+            } else if (isMain) {
+                // 进入后台
+                moveTaskToBack(false);
+                return false;
+            }
         }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -592,5 +656,68 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 
     protected void setActionbarMode(int mode) {
         actionbarView.setMode(mode);
+    }
+
+    protected void showAlertDialog(String title, String message, String button1, DialogInterface.OnClickListener listener1, String button2, DialogInterface.OnClickListener listener2, boolean cancelable) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext).setCancelable(cancelable);
+            if (!TextUtils.isEmpty(title))
+                builder.setTitle(title);
+            if (!TextUtils.isEmpty(message))
+                builder.setMessage(message);
+            if (!TextUtils.isEmpty(button2))
+                builder.setPositiveButton(button2, listener2);
+            builder.setNegativeButton(button1, listener1).create().show();
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext).setCancelable(cancelable);
+            if (!TextUtils.isEmpty(title))
+                builder.setTitle(title);
+            if (!TextUtils.isEmpty(message))
+                builder.setMessage(message);
+            if (!TextUtils.isEmpty(button2))
+                builder.setPositiveButton(button2, listener2);
+            builder.setNegativeButton(button1, listener1).create().show();
+        }
+    }
+
+    protected void showAlertListDialog(String[] items, DialogInterface.OnClickListener listener, boolean cancelable) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext).setCancelable(cancelable);
+            builder.setItems(items, listener).create().show();
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext).setCancelable(cancelable);
+            builder.setItems(items, listener).create().show();
+        }
+    }
+
+    /**
+     * 状态栏颜色调整
+     */
+    protected void initSystemBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            //设置透明状态栏,这样才能让 ContentView 向上
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //设置状态栏颜色
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+
+        // 使用颜色资源
+        tintManager.setStatusBarTintResource(getStatusBarColor());//buttom_background
+    }
+
+    protected int getStatusBarColor() {
+        return R.color.white;
+    }
+
+    protected String getStringExtra(String key) {
+        if (getIntent().hasExtra(key))
+            return getIntent().getStringExtra(key);
+        return "";
     }
 }

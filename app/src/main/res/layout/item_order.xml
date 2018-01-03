@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<com.aaron.aaronlibrary.widget.listview.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/swipeItem"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="120dp"-->
+    <!--android:background="@color/white">-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/main"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_itemType="main">-->
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#f2f0ed"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="0dp">
+
+            <RelativeLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/order_list_bg">
+
+                <ImageView
+                    android:id="@+id/ivThum"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ivThum"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/ivThum"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="312321321231321"
+                    android:textColor="@color/theme_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@+id/ivThum"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="预约时间：2017-12-26 17:01:59"
+                    android:textColor="#bdbdbd"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvStateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/ivThum"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="预约状态："
+                    android:textColor="#bdbdbd"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/tvStateText"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="等待对方响应…"
+                    android:textColor="@color/order_state1"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/ivState"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_marginTop="3dp"
+                    android:layout_alignBottom="@+id/tvState"
+                    android:layout_toRightOf="@+id/tvState"
+                    android:src="@mipmap/icon_order_state2"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    <!--</RelativeLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_itemType="menu">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/delete"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/theme"-->
+            <!--android:text="删除"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="16sp" />-->
+
+    <!--</LinearLayout>-->
+
+<!--</com.aaron.aaronlibrary.widget.listview.SwipeItemLayout>-->

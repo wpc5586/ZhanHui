@@ -1,11 +1,17 @@
 package com.aaron.aaronlibrary.base.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +19,7 @@ import android.view.ViewGroup;
 import com.aaron.aaronlibrary.base.activity.BaseActivity;
 import com.aaron.aaronlibrary.base.utils.Logger;
 import com.aaron.aaronlibrary.utils.ToastUtil;
+import com.xhy.zhanhui.activity.MainActivity;
 
 /**
  * BaseFragment
@@ -132,6 +139,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return view;
     }
 
+    protected void showLog(String title, String content) {
+        System.out.println("~!~ " + title + " = " + content);
+    }
+
     public void showToast(final String content){
         if (getActivity() != null && getActivity() instanceof BaseActivity)
             ((BaseActivity) getActivity()).runOnUiThread(new Runnable() {
@@ -157,5 +168,46 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected void startMyActivity(Class cls) {
         startActivity(new Intent(mContext, cls));
+    }
+
+    protected <T extends View> T findViewById(@IdRes int id) {
+        return view.findViewById(id);
+    }
+
+    @SuppressWarnings("TypeParameterUnusedInFormals")
+    protected <T extends View> T findViewAndSetListener(int id) {
+        View findView = view.findViewById(id);
+        findView.setOnClickListener(this);
+        return (T) findView;
+    }
+
+    protected void showAlertDialog(String title, String message, String button1, DialogInterface.OnClickListener listener1, String button2, DialogInterface.OnClickListener listener2, boolean cancelable) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext).setCancelable(cancelable);
+            if (!TextUtils.isEmpty(title))
+                builder.setTitle(title);
+            if (!TextUtils.isEmpty(message))
+                builder.setMessage(message);
+            if (!TextUtils.isEmpty(button2))
+                builder.setPositiveButton(button2, listener2);
+            builder.setNegativeButton(button1, listener1).create().show();
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
+            if (!TextUtils.isEmpty(title))
+                builder.setTitle(title);
+            if (!TextUtils.isEmpty(message))
+                builder.setMessage(message);
+            if (!TextUtils.isEmpty(button2))
+                builder.setPositiveButton(button2, listener2);
+            builder.setNegativeButton(button1, listener1).create().show();
+        }
+    }
+
+    protected void showProgressDialog(String content) {
+        ((BaseActivity) mContext).showProgressDialog(content);
+    }
+
+    protected void dismissProgressDialog() {
+        ((BaseActivity) mContext).dismissProgressDialog();
     }
 }

@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by wangpc on 2016/6/6.
+ * ActionbarView
+ * Created by Aaron on 2016/6/6.
  */
 public class ActionbarView extends RelativeLayout {
 
@@ -35,6 +36,8 @@ public class ActionbarView extends RelativeLayout {
     private int mode = ACTIONBAR_MODE_DEFAULT;
 
     private Context mContext;
+
+    private View divider;
 
     private ImageView backButton;
 
@@ -70,9 +73,10 @@ public class ActionbarView extends RelativeLayout {
         button_width = MathUtils.dip2px(mContext, 60);
         inflate(mContext, R.layout.actionbar, this);
         actionbarH = MathUtils.dip2px(mContext, mContext.getResources().getDimensionPixelSize(R.dimen.actionbar_height));
-        titleView = (TextView) findViewById(R.id.actionbar_title);
-        backButton = (ImageView) findViewById(R.id.actionbar_back);
-        searchView = (EditText) findViewById(R.id.actionbar_search);
+        titleView = findViewById(R.id.actionbar_title);
+        backButton = findViewById(R.id.actionbar_back);
+        searchView = findViewById(R.id.actionbar_search);
+        divider = findViewById(R.id.actionbar_divider);
         buttons = new ArrayList<>();
         setListener();
     }
@@ -175,6 +179,14 @@ public class ActionbarView extends RelativeLayout {
     }
 
     /**
+     * 获取下划线View
+     * @return titleView
+     */
+    public View getDividerView() {
+        return divider;
+    }
+
+    /**
      * 给Actionbar添加右侧的文字按钮（从最右方开始添加）
      * @param content 文字内容
      * @param onClickListener 点击事件
@@ -198,12 +210,20 @@ public class ActionbarView extends RelativeLayout {
         backButton.setOnClickListener(onClickListener);
     }
 
+    public void setOnBackIcon(int drawableId) {
+        backButton.setImageResource(drawableId);
+    }
+
     public ImageView getBackButton() {
         return backButton;
     }
 
     public EditText getSearchView() {
         return searchView;
+    }
+
+    public Button getSearchButton() {
+        return searchBtn;
     }
 
     public int getRightButtonCount() {
@@ -237,7 +257,7 @@ public class ActionbarView extends RelativeLayout {
         button.setId(defaultId++);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, BUTTON_TEXT_SIZE);
         button.setText(content);
-        button.setTextColor(mContext.getResources().getColor(R.color.white));
+        button.setTextColor(mContext.getResources().getColor(R.color.theme_black));
         button.setBackgroundResource(R.drawable.selector_actionbar_button);
         buttons.add(button);
         return button;

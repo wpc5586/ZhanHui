@@ -1,14 +1,39 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            if (PACKAGE == "one") {
+                keyAlias 'android'
+            } else {
+                keyAlias 'android-c'
+            }
+            keyPassword 'xhy1234'
+            storeFile file('../android.keystore')
+            storePassword 'xhy1234'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.xhy.zhanhui"
+        if (PACKAGE == "one") {
+            applicationId "com.xhy.zhanhui"
+            manifestPlaceholders = [app_name:"星瀚云合客户版",package_name:"com.xhy.zhanhui"
+                                    ,baidu_key:"BRroUSeNY2XXSElw0QyVZKyoknBqpRid"
+                                    ,file_path:"Android/data/com.xhy.zhanhui/"]
+        } else {
+            applicationId "com.xhy.zhanhuic"
+            manifestPlaceholders = [app_name:"星瀚云合企业版",package_name:"com.xhy.zhanhuic"
+                                    ,baidu_key:"hHBy0FWRytDq41Q7rY86bClhPSpFSLVe"
+                                    ,file_path:"Android/data/com.xhy.zhanhuic/"]
+        }
+        buildConfigField "String", "PACKAGE", "\"${PACKAGE}\""
+        buildConfigField "boolean", "DEBUGABLE", "${DEBUGABLE}"
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     sourceSets {
         main {
@@ -38,6 +63,7 @@ android {
         abortOnError false
     }
     productFlavors {
+
     }
 }
 
@@ -52,7 +78,7 @@ repositories{
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -72,13 +98,24 @@ dependencies {
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile 'com.yydcdut.sdlv:sdlv:0.5.5@aar'
     compile 'com.kevin:wraprecyclerview:1.0.6'
-//    compile name: 'SMSSDK-3.0.0', ext: 'aar'
-//    compile name: 'SMSSDKGUI-3.0.0', ext: 'aar'
-//    compile 'com.google.android.gms:play-services-gcm:11.6.2'
-//    compile 'com.hyphenate:hyphenate-sdk:3.3.5'
+    //    compile name: 'SMSSDK-3.0.0', ext: 'aar'
+    //    compile name: 'SMSSDKGUI-3.0.0', ext: 'aar'
+    compile 'com.google.android.gms:play-services-gcm:11.6.2'
+    compile 'com.hyphenate:hyphenate-sdk:3.3.5'
     //支付宝版红包SDK使用下面的远程依赖
-//    compile 'com.hyphenate.redpacket:redpacket-alipay:1.1.2'
+    compile 'com.hyphenate.redpacket:redpacket-alipay:1.1.2'
     //钱包版红包SDK使用下面的远程依赖
     //compile 'com.hyphenate.redpacket:redpacket-wallet:3.4.4'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.2'
+    //    compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+    compile 'com.github.barteksc:android-pdf-viewer:2.8.1'
+    compile 'com.google.zxing:core:3.3.0'
+    // 二维码
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
+    compile 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
+    // 地址选择器
+    compile 'com.contrarywind:Android-PickerView:3.2.7'
+    // Switch Button
+    compile 'com.kyleduo.switchbutton:library:1.4.1'
 }

@@ -8,4 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorAccent">@color/gray_line</item>
+    </style>
+
+    <style name="AppTheme_NoActionBar_Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="android:windowTranslucentStatus">false</item>-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <!--&lt;!&ndash;Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色&ndash;&gt;-->
+        <!--<item name="android:statusBarColor">@color/transparent</item>-->
+    </style>
+
+    <style name="AutoButton" parent="AppTheme">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="colorButtonNormal">@color/white</item>
+    </style>
+
+    <style name="Dropdown_theme" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/theme</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">#f5f5f5</item>
+    </style>
+
 </resources>

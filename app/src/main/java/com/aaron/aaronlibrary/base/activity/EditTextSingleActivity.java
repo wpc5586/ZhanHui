@@ -144,7 +144,7 @@ public class EditTextSingleActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             parent.setBackgroundResource(com.xhy.zhanhui.R.mipmap.common_bottom_bg);
-            actionbarView.setBackgroundColor(getColorFromResuource(com.xhy.zhanhui.R.color.blank));
+            actionbarView.setBackgroundColor(getColorFromResuource(com.xhy.zhanhui.R.color.transparent));
             statusView.getLayoutParams().height = AppInfo.getStatusBarHeight();
             statusView.setVisibility(View.VISIBLE);
         }

@@ -2,23 +2,23 @@ package com.aaron.aaronlibrary.bean;
 
 public class BaseBean {
 
-    private int statusCode;
+    private int code;
 
-    private String message = "";
+    private String msg = "";
 
     public int getStatusCode() {
-        return statusCode;
+        return code;
     }
 
     public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+        this.code = statusCode;
     }
 
     public String getMessage() {
-        return message;
+        return msg;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.msg = message;
     }
 }

@@ -12,7 +12,7 @@ public class DataPath {
     /**
      * 全局常量：数据存储路径
      */
-    public static final String DATA_PATH = "/sjjf/";
+    public static final String DATA_PATH = "/Nebintel/";
     public static final String DATA_PATH_DOWNLOAD = DATA_PATH + "download/";
     public static final String DATA_PATH_DOWNLOAD_NOT = DATA_PATH + "download";
     public static final String DATA_PATH_CRASH = DATA_PATH + "crash/";

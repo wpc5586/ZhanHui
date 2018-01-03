@@ -84,7 +84,7 @@ public class ListDialog extends Dialog implements OnClickListener {
      */
     public void init() {
         executorService = Executors.newFixedThreadPool(1);
-        rl_parent.setBackgroundColor(mContext.getResources().getColor(com.xhy.zhanhui.R.color.blank));
+        rl_parent.setBackgroundColor(mContext.getResources().getColor(com.xhy.zhanhui.R.color.transparent));
         btnNames = new ArrayList<String>();
         listButtonClickListener = new ListButtonClickListener();
     }

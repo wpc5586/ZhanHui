@@ -2,6 +2,7 @@ package com.aaron.aaronlibrary.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
@@ -17,12 +19,21 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
+
+import com.aaron.aaronlibrary.base.utils.DataPath;
+import com.hyphenate.chat.EMClient;
+import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.base.ZhanHuiApplication;
 
 import java.io.File;
 import java.util.List;
@@ -30,18 +41,18 @@ import java.util.Locale;
 
 /**
  * app相关信息
- * @author wangpc
  *
+ * @author wangpc
  */
 public class AppInfo {
-    
+
     /**
      * <p>app是否是debug模式</p>
      */
     public static boolean isDebug = true;
-    
+
     public static int statusBarHeight;
-    
+
     public static int getStatusBarHeight(Context mContext) {
         if (statusBarHeight == 0) {
             Rect frame = new Rect();
@@ -50,46 +61,49 @@ public class AppInfo {
         }
         return statusBarHeight;
     }
-    
+
     /**
      * <p>app是否是初次启动</p>
      */
-    public static boolean isFirstStartup(Context context){
+    public static boolean isFirstStartup(Context context) {
         SharedPreferences settings = context.getSharedPreferences("setting", 0);
-        boolean FirstStartup = settings.getBoolean("FirstStartup",true);
-        
+        boolean FirstStartup = settings.getBoolean("FirstStartup", true);
+
         if (FirstStartup) {
             SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("FirstStartup",false);
+            editor.putBoolean("FirstStartup", false);
             editor.commit();
             return true;
         } else {
             return false;
         }
     }
+
     /**
      * <p>方法描述：获取免责界面checkbox是否勾选状态</p>
      */
-    
-    public static boolean getIsChecked(Context context, CheckBox checkbox){
+
+    public static boolean getIsChecked(Context context, CheckBox checkbox) {
         SharedPreferences settings = context.getSharedPreferences("setting", 0);
-        boolean isChecked = settings.getBoolean("isChecked",false);
+        boolean isChecked = settings.getBoolean("isChecked", false);
         return isChecked;
     }
+
     /**
      * <p>方法描述：存储免责界面checkbox当前状态</p>
      */
-    public static void putShowGuide(Context context, boolean isChecked){
+    public static void putShowGuide(Context context, boolean isChecked) {
         SharedPreferences settings = context.getSharedPreferences("setting", 0);
         SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("isChecked",isChecked);
-            editor.commit();
+        editor.putBoolean("isChecked", isChecked);
+        editor.commit();
     }
-    
+
     /**
      * <p> 方法描述: 确认SD卡的可用空间大小是否符合要求 </p>
+     *
      * @return true:符合要求  <br> false:不符合要求
-     * */
+     */
     @SuppressWarnings("deprecation")
     public static boolean checkMemory(long size) {
         if (checkSDAccess()) {// SD卡存在
@@ -101,7 +115,7 @@ public class AppInfo {
             long availaBlock = statfs.getAvailableBlocks();
             // 计算 SDCard 剩余大小MB (availaBlock * blocSize / 1024 / 1024)
             long available = availaBlock * blocSize / 1024 / 1024;
-            
+
             if (available > size) {// 可用空间符合要求
                 return true;
             } else {// 可用空间不符合要求
@@ -110,18 +124,20 @@ public class AppInfo {
         }
         return false;
     }
-    
+
     /**
      * <p>方法描述: 确认SD卡是否可以访问 </p>
+     *
      * @return true:可以正常访问  <br> false:无法访问
      */
     public static boolean checkSDAccess() {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED) ? true : false;
     }
-    
+
     /**
      * <p>方法描述: 获取屏幕高宽度</p>
+     *
      * @param context 上下文
      * @param isWidth 是否获得宽度
      */
@@ -134,15 +150,16 @@ public class AppInfo {
     /**
      * <p>方法描述: 获取屏幕上方通知栏高度</p>
      */
-    public static int getStatusBarHeight() {  
+    public static int getStatusBarHeight() {
         return Resources.getSystem().getDimensionPixelSize(
                 Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android"));
     }
-    
+
     /**
      * <p>方法描述: 获取版本号</p>
+     *
      * @param context 上下文
-     * @param isName 是Name
+     * @param isName  是Name
      */
     public static String getVersionNameOrCode(Context context, boolean isName) throws NameNotFoundException {
         // 获取packagemanager的实例  
@@ -175,15 +192,37 @@ public class AppInfo {
         }
     }
 
+    public static String getTempFilePath() {
+        return DataPath.getDirectory(DataPath.DATA_PATH_TEMP) + EMClient.getInstance().getCurrentUser()
+                + System.currentTimeMillis() + ".png";
+    }
+
+    public static String getTempOutFilePath() {
+        return DataPath.getDirectory(DataPath.DATA_PATH_TEMP) + EMClient.getInstance().getCurrentUser()
+                + System.currentTimeMillis() + "_out.png";
+    }
+
     /**
      * <p>方法描述: 打开系统相机</p>
      */
-    public static void openCamera(Context context) {
+    public static String openCamera(Context context) {
+        String tempPath = getTempFilePath();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(context.getFilesDir().getAbsolutePath(), Constants.IMAGE_TEMP)));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), Constants.IMAGE_TEMP)));
-        System.out.println("~~~ " + Environment.getExternalStorageDirectory());
-        ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CAMERA);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            //兼容android7.0 使用共享文件的形式
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, tempPath);
+            Uri uri = ZhanHuiApplication.getInstance().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            ((Activity) context).startActivityForResult(
+                    new Intent(MediaStore.ACTION_IMAGE_CAPTURE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .putExtra(MediaStore.EXTRA_OUTPUT, uri),
+                    Constants.REQUEST_MY_USERIMAGE_CAMERA);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(DataPath.getDirectory(DataPath.DATA_PATH_TEMP))));
+            ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CAMERA);
+        }
+        return tempPath;
     }
 
     /**
@@ -193,40 +232,206 @@ public class AppInfo {
 //        Intent intent = new Intent(Intent.ACTION_PICK, null);
 //        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/jpeg");
 //        ((Activity) context).startActivityForResult(intent, Constants.REQUEST_PHOTO);
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 80);
-        intent.putExtra("outputY", 80);
-        intent.putExtra("return-data", true);
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+
+        } else {
+            intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        }
+//        startActivityForResult(intent, REQUEST_CODE_LOCAL);
+//        Intent intent;
+//        if (Build.VERSION.SDK_INT < 19) {
+//            intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//
+//        } else {
+//            intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        }
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        intent.putExtra("crop", "true");
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+//        intent.putExtra("outputX", 80);
+//        intent.putExtra("outputY", 80);
+//        intent.putExtra("return-data", true);
         ((Activity) context).startActivityForResult(intent,
                 Constants.REQUEST_PHOTO);
+    }
+
+    /**
+     * 根据Uri获取图片地址
+     * @param mContext 上下文
+     * @param selectedImage url
+     * @return 图片地址
+     */
+    public static String getFilePathFromUri(Context mContext, Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = mContext.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            if (picturePath == null || picturePath.equals("null")) {
+                Toast toast = Toast.makeText(mContext, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return "";
+            }
+            return picturePath;
+        } else {
+            File file = new File(selectedImage.getPath());
+            if (!file.exists()) {
+                Toast toast = Toast.makeText(mContext, R.string.cant_find_pictures, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return "";
+            }
+            return file.getAbsolutePath();
+        }
     }
 
     /**
      * <p>方法描述: 开始图片裁剪</p>
      */
     public static void openPhotoZoom(Context context) {
-        File temp = new File(Environment.getExternalStorageDirectory() + "/" + Constants.IMAGE_TEMP);
-//        File temp = new File(context.getFilesDir().getAbsolutePath()  + Constants.IMAGE_TEMP);
-        Uri data = Uri.fromFile(temp);
+//        File temp = new File(Environment.getExternalStorageDirectory() + "/" + Constants.IMAGE_TEMP);
+//        File temp = new File(getTempFilePath());
+////        File temp = new File(context.getFilesDir().getAbsolutePath()  + Constants.IMAGE_TEMP);
+//        Uri data;
+//        Intent intent = new Intent("com.android.camera.action.CROP");
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+//            //兼容android7.0 使用共享文件的形式
+//            ContentValues contentValues = new ContentValues(1);
+//            contentValues.put(MediaStore.Images.Media.DATA, DataPath.getDirectory(DataPath.DATA_PATH_TEMP));
+//            data = ZhanHuiApplication.getInstance().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//        } else {
+//            data = Uri.fromFile(temp);
+//        }
+//        intent.setDataAndType(data, "image/jpeg");
+//        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+//        intent.putExtra("crop", "true");
+//        // aspectX aspectY 是宽高的比例
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+//        // outputX outputY 是裁剪图片宽高
+//        intent.putExtra("outputX", 480);
+//        intent.putExtra("outputY", 480);
+//        intent.putExtra("return-data", true);
+//        intent.putExtra("scale", true);
+//        intent.putExtra("scaleUpIfNeeded", true);
+//        ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CUT);
+
+        File file = new File(getTempFilePath());
+        Uri imageUri;
+        Uri outputUri;
+        String crop_image = getTempOutFilePath();
+
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(data, "image/jpeg");
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //通过FileProvider创建一个content类型的Uri
+            imageUri = FileProvider.getUriForFile(context, Constants.FILE_CONTENT_FILEPROVIDER, file);
+            outputUri = Uri.fromFile(new File(crop_image));
+            // outputUri不需要ContentUri,否则失败
+            //outputUri = FileProvider.getUriForFile(activity, "com.solux.furniture.fileprovider", new File(crop_image));
+        } else {
+            imageUri = Uri.fromFile(file);
+            outputUri = Uri.fromFile(new File(crop_image));
+        }
+        intent.setDataAndType(imageUri, "image/*");
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
+        //设置宽高比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 480);
-        intent.putExtra("outputY", 480);
-        intent.putExtra("return-data", true);
+        //设置裁剪图片宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
         intent.putExtra("scale", true);
-        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        intent.putExtra("noFaceDetection", true);
         ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CUT);
+    }
+
+    /**
+     * <p>方法描述: 开始图片裁剪根据Uri</p>
+     */
+    public static String openPhotoZoom(Context context, Uri uriFile) {
+        File file = new File(getFilePathFromUri(context, uriFile));
+        Uri imageUri;
+        Uri outputUri;
+        String crop_image = getTempOutFilePath();
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //通过FileProvider创建一个content类型的Uri
+            imageUri = FileProvider.getUriForFile(context, Constants.FILE_CONTENT_FILEPROVIDER, file);
+            outputUri = Uri.fromFile(new File(crop_image));
+            // outputUri不需要ContentUri,否则失败
+            //outputUri = FileProvider.getUriForFile(activity, "com.solux.furniture.fileprovider", new File(crop_image));
+        } else {
+            imageUri = Uri.fromFile(file);
+            outputUri = Uri.fromFile(new File(crop_image));
+        }
+        intent.setDataAndType(imageUri, "image/*");
+        intent.putExtra("crop", "true");
+        //设置宽高比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //设置裁剪图片宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        intent.putExtra("noFaceDetection", true);
+        ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CUT);
+        return crop_image;
+    }
+
+    /**
+     * <p>方法描述: 开始图片裁剪根据文件路径</p>
+     */
+    public static String openPhotoZoom(Context context, String filePath) {
+        File file = new File(filePath);
+        Uri imageUri;
+        Uri outputUri;
+        String crop_image = getTempOutFilePath();
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //通过FileProvider创建一个content类型的Uri
+            imageUri = FileProvider.getUriForFile(context, Constants.FILE_CONTENT_FILEPROVIDER, file);
+            outputUri = Uri.fromFile(new File(crop_image));
+            // outputUri不需要ContentUri,否则失败
+            //outputUri = FileProvider.getUriForFile(activity, "com.solux.furniture.fileprovider", new File(crop_image));
+        } else {
+            imageUri = Uri.fromFile(file);
+            outputUri = Uri.fromFile(new File(crop_image));
+        }
+        intent.setDataAndType(imageUri, "image/*");
+        intent.putExtra("crop", "true");
+        //设置宽高比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //设置裁剪图片宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        intent.putExtra("noFaceDetection", true);
+        ((Activity) context).startActivityForResult(intent, Constants.REQUEST_MY_USERIMAGE_CUT);
+        return crop_image;
     }
 
     /**
@@ -236,9 +441,13 @@ public class AppInfo {
 //        File temp = new File(Environment.getExternalStorageDirectory() + "/" + Constants.IMAGE_TEMP);
 //        File temp = new File(context.getFilesDir().getAbsolutePath()  + Constants.IMAGE_TEMP);
 //        Uri data = Uri.fromFile(temp);
-        Uri data = Uri.parse(MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, null,null));
+        Uri data = Uri.parse(MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, null, null));
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(data, "image/jpeg");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        }
+        // TODO
+        intent.setDataAndType(data, "image/png");
         //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
@@ -255,7 +464,7 @@ public class AppInfo {
 
     /**
      * 获取当前屏幕截图，包含状态栏
-     * 
+     *
      * @param activity
      * @return
      */
@@ -275,7 +484,7 @@ public class AppInfo {
 
     /**
      * 获取当前屏幕截图，不包含状态栏
-     * 
+     *
      * @param activity
      * @return
      */
@@ -370,7 +579,7 @@ public class AppInfo {
     /**
      * 获取当前系统上的语言列表(Locale列表)
      *
-     * @return  语言列表
+     * @return 语言列表
      */
     public static Locale[] getSystemLanguageList() {
         return Locale.getAvailableLocales();
@@ -379,7 +588,7 @@ public class AppInfo {
     /**
      * 获取当前手机系统版本号
      *
-     * @return  系统版本号
+     * @return 系统版本号
      */
     public static String getSystemVersion() {
         return android.os.Build.VERSION.RELEASE;
@@ -388,7 +597,7 @@ public class AppInfo {
     /**
      * 获取手机型号
      *
-     * @return  手机型号
+     * @return 手机型号
      */
     public static String getSystemModel() {
         return android.os.Build.MODEL;
@@ -397,7 +606,7 @@ public class AppInfo {
     /**
      * 获取手机厂商
      *
-     * @return  手机厂商
+     * @return 手机厂商
      */
     public static String getDeviceBrand() {
         return android.os.Build.BRAND;
