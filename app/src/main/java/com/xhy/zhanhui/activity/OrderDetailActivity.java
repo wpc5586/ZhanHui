@@ -1,5 +1,6 @@
 package com.xhy.zhanhui.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.OrderDetailBean;
-import com.xhy.zhanhui.http.vo.TrustVo;
+import com.xhy.zhanhui.http.domain.TrustUserBean;
 
 /**
  * 预约详情页面
@@ -51,6 +52,15 @@ public class OrderDetailActivity extends ZhanHuiActivity{
         setActionbarTitle("预约详情");
         reservationId = getStringExtra("reservationId");
         getData();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            btnTrust.setEnabled(false);
+            btnTrust.setText("已申请信任并交换名片");
+        }
     }
 
     /**
@@ -103,19 +113,43 @@ public class OrderDetailActivity extends ZhanHuiActivity{
      * 提交信任申请
      */
     private void trust() {
-        PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), data.getHx_username(), "3"), new PostCall.PostResponse<BaseBean>() {
-            @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("申请成功");
-                btnTrust.setEnabled(false);
-                btnTrust.setText("已申请信任并交换名片");
-            }
-
-            @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
-
-            }
-        }, new String[]{}, true, BaseBean.class);
+        TrustUserBean.Obj userData = new TrustUserBean().new Obj();
+        userData.setHx_username(data.getHx_username());
+        userData.setIcon(data.getCompany_user().getIcon());
+        userData.setNickname(data.getCompany_user().getNickname());
+        userData.setUser_id(data.getCompany_user().getUser_id());
+        userData.setV_title(data.getCompany_user().getV_title());
+        StartActivityUtils.startTrustUser(mContext, userData);
+//        showProgressDialog("申请中");
+//        EaseCommonUtils.addFriend(data.getHx_username(), "", new EMCallBack() {
+//            @Override
+//            public void onSuccess() {
+//                PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), data.getHx_username(), "3"), new PostCall.PostResponse<BaseBean>() {
+//                    @Override
+//                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+//                        dismissProgressDialog();
+//                        showToast("申请成功");
+//                        btnTrust.setEnabled(false);
+//                        btnTrust.setText("已申请信任并交换名片");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, byte[] responseBody) {
+//                        dismissProgressDialog();
+//                    }
+//                }, new String[]{}, false, BaseBean.class);
+//            }
+//
+//            @Override
+//            public void onError(int code, String error) {
+//
+//            }
+//
+//            @Override
+//            public void onProgress(int progress, String status) {
+//
+//            }
+//        });
     }
 
     /**

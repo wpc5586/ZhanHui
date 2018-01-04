@@ -131,12 +131,14 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
             }
 
             @Override
-            public void onFailure(int i, byte[] bytes) {}
+            public void onFailure(int i, byte[] bytes) {
+            }
         }, new String[]{}, false, NoticeBean.class);
     }
 
     /**
      * 设置页面
+     *
      * @param list 图片数据
      */
     private void setBanner(List<NoticeBean.Obj> list) {
@@ -177,7 +179,7 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
                     int size = tempData.getCompanys().size() / 3;
                     if (size == 0 && tempData.getCompanys().size() > 0)
                         size = tempData.getCompanys().size();
-                    else if(tempData.getCompanys().size() % 3 != 0)
+                    else if (tempData.getCompanys().size() % 3 != 0)
                         size += 1;
                     for (int j = 0; j < size; j++) {
                         List<ExhibitionCompanyBean.Obj.Company> tempDatas = new ArrayList<>();
@@ -242,7 +244,7 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
             this.onItemLongClickListener = onItemLongClickListener;
         }
 
-        public ExhibitionDetailAdapter(Context context){
+        public ExhibitionDetailAdapter(Context context) {
             this.context = context;
         }
 
@@ -265,48 +267,23 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
             holder.parent.setTag(holder);
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
-            if (data instanceof String) {
-                holder.titleView.setVisibility(View.VISIBLE);
-                holder.contentGrid.setVisibility(View.GONE);
-                holder.contentList.setVisibility(View.GONE);
-                holder.titleView.setTag(data);
-                if (((String) data).contains("divide")) {
-                    data = ((String) data).replace("divide", "");
-                    holder.titleView.setDivideVisibility(View.VISIBLE);
-                } else
-                    holder.titleView.setDivideVisibility(View.GONE);
-                if (((String) data).contains("hallId")) {
-                    String[] temp = ((String) data).split("hallId");
-                    data = temp[0];
-                    holder.titleView.setDivideVisibility(View.VISIBLE);
-                    holder.titleView.setOnClickListener(this);
-                } else
-                    holder.titleView.setDivideVisibility(View.GONE);
-                holder.titleView.setText((String) data);
-            } else if (data instanceof List) {
-                holder.titleView.setVisibility(View.GONE);
-                holder.contentGrid.setVisibility(View.VISIBLE);
-                holder.contentList.setVisibility(View.GONE);
-                holder.resetList();
-                int size = ((List) data).size();
-                for (int i = 0; i < size; i++) {
-                    ExhibitionCompanyBean.Obj.Company tempData = (ExhibitionCompanyBean.Obj.Company) ((List) data).get(i);
-                    holder.gridTextViews[i].setVisibility(View.VISIBLE);
-                    holder.gridTextViews[i].setText(tempData.getCompany_name());
-                    ImageView imageView = holder.gridImageViews[i];
-                    imageView.getLayoutParams().height = (AppInfo.getScreenWidthOrHeight(mContext, true) - MathUtils.dip2px(mContext, 18)) / 3;
-                    ImageUtils.loadImage(mContext, tempData.getImage_url(), imageView);
-                    View parent = (View) imageView.getParent();
-                    parent.setTag(tempData.getCompany_id());
-                    parent.setOnClickListener(this);
-                }
-            } else if (data instanceof ExhibitionNewsBean.Obj) {
-                holder.titleView.setVisibility(View.GONE);
-                holder.contentGrid.setVisibility(View.GONE);
-                holder.contentList.setVisibility(View.VISIBLE);
-                holder.listTitle.setText(((ExhibitionNewsBean.Obj) data).getNews_title());
-                holder.browse.setText(((ExhibitionNewsBean.Obj) data).getBrowse());
-                ImageUtils.loadImage(mContext, ((ExhibitionNewsBean.Obj) data).getImage_url(), holder.listImage);
+            holder.titleView.setVisibility(View.GONE);
+            holder.contentGrid.setVisibility(View.VISIBLE);
+            holder.contentList.setVisibility(View.GONE);
+            holder.resetList();
+            if (!(data instanceof List))
+                return;
+            int size = ((List) data).size();
+            for (int i = 0; i < size; i++) {
+                ExhibitionCompanyBean.Obj.Company tempData = (ExhibitionCompanyBean.Obj.Company) ((List) data).get(i);
+                holder.gridTextViews[i].setVisibility(View.VISIBLE);
+                holder.gridTextViews[i].setText(tempData.getCompany_name());
+                ImageView imageView = holder.gridImageViews[i];
+                imageView.getLayoutParams().height = (AppInfo.getScreenWidthOrHeight(mContext, true) - MathUtils.dip2px(mContext, 18)) / 3;
+                ImageUtils.loadImage(mContext, tempData.getImage_url(), imageView);
+                View parent = (View) imageView.getParent();
+                parent.setTag(tempData.getCompany_id());
+                parent.setOnClickListener(this);
             }
         }
 
@@ -315,7 +292,9 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
             return datas.size();
         }
 
-        public Object getItem(int position) { return datas.get(position); }
+        public Object getItem(int position) {
+            return datas.get(position);
+        }
 
         @Override
         public void onClick(View v) {
@@ -324,13 +303,6 @@ public class CompanyFragment extends ZhanHuiFragment implements OnItemClickListe
                     ExhibitionDetailHolder holder = (ExhibitionDetailHolder) v.getTag();
                     if (onItemClickListener != null)
                         onItemClickListener.onItemClick(v, holder);
-                    break;
-                case R.id.titleView:
-                    String data = (String) v.getTag();
-                    String[] temp = ((String) data).split("hallId");
-                    String hallId = temp[1];
-                    String hallName = temp[0];
-                    StartActivityUtils.startCompanyList(mContext, hallId, hallName);
                     break;
                 case R.id.rl1:
                 case R.id.rl2:

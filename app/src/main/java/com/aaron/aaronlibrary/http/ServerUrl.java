@@ -50,6 +50,31 @@ public class ServerUrl {
     }
 
     /**
+     * 根据环信ID获取朋友详情
+     * @param hxId 环信ID
+     * @return 数据
+     */
+    public static String hxidFriend(String hxId) {
+        return getService() + "users/hxid/" + hxId;
+    }
+
+    /**
+     * 获取朋友详情
+     * @return 数据
+     */
+    public static String trustFriends(String userId) {
+        return getService() + "relation/users/" + ZhanHuiApplication.getInstance().getUserId() + "/trustFriends/" + userId;
+    }
+
+    /**
+     * 删除朋友
+     * @return 数据
+     */
+    public static String deleteFriends() {
+        return getService() + "relation/deleteFriend";
+    }
+
+    /**
      * 登录接口
      * @return 数据
      */
@@ -183,6 +208,15 @@ public class ServerUrl {
     }
 
     /**
+     * 展会-企业介绍H5
+     * @param companyId 企业ID
+     * @return 数据
+     */
+    public static String companyIntroduction(String companyId) {
+        return getService() + "companies/" + companyId + "/introduction";
+    }
+
+    /**
      * 展会-产品接口
      * @return 数据
      */
@@ -200,6 +234,15 @@ public class ServerUrl {
     }
 
     /**
+     * 展会-产品介绍H5
+     * @param productId 企业ID
+     * @return 数据
+     */
+    public static String productIntroduction(String productId) {
+        return getService() + "products/" + productId + "/introduction";
+    }
+
+    /**
      * 展会-产品关注接口
      * @param productId 产品ID
      * @return 数据
@@ -214,7 +257,7 @@ public class ServerUrl {
      * @return 数据
      */
     public static String cancelProduct(String productId) {
-        return getService() + "products/" + productId + "/favoriate?user_id=" + ZhanHuiApplication.getInstance().getUserId();
+        return getService() + "products/" + productId + "/favorite?user_id=" + ZhanHuiApplication.getInstance().getUserId();
     }
 
     /**
@@ -429,6 +472,14 @@ public class ServerUrl {
     }
 
     /**
+     * 商圈-获取关注产品接口
+     * @return 数据
+     */
+    public static String favoritesProduct() {
+        return getService() + "relation/users/" + ZhanHuiApplication.getInstance().getUserId() + "/favorites";
+    }
+
+    /**
      * 商圈-提交信任接口
      * @return 数据
      */
@@ -453,7 +504,7 @@ public class ServerUrl {
     }
 
     /**
-     * 商圈-提交信任接口
+     * 商圈-提交线下信任接口
      * @return 数据
      */
     public static String offlineScanToAddFriend() {

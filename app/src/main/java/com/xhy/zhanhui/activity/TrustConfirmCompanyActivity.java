@@ -1,20 +1,21 @@
 package com.xhy.zhanhui.activity;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aaron.aaronlibrary.bean.BaseBean;
-import com.aaron.aaronlibrary.http.BaseMap;
+import com.aaron.aaronlibrary.easeui.utils.EaseCommonUtils;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.ImageUtils;
-import com.aaron.aaronlibrary.utils.TimeUtils;
+import com.hyphenate.EMCallBack;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
-import com.xhy.zhanhui.http.domain.CenterBean;
 import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 import com.xhy.zhanhui.http.vo.TrustVo;
+import com.xhy.zhanhui.preferences.TrustSharedPreferences;
 
 /**
  * 信任确认页面-企业页面
@@ -26,6 +27,7 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
     private TrustCompanyBean bean;
     private ImageView ivThum;
     private TextView tvName;
+    private EditText editText;
 
     @Override
     protected int getContentLayoutId() {
@@ -37,6 +39,7 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
         super.findView();
         ivThum = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
+        editText = findViewById(R.id.etMessage);
         findAndSetClickListener(R.id.btnCommit);
     }
 
@@ -54,25 +57,44 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
      * 提交信任申请
      */
     private void commit() {
-        TrustCompanyBean.Obj.User user = null;
+        TrustCompanyBean.Obj.User user;
         if (bean.getData().getCompany_users() != null && bean.getData().getCompany_users().size() > 0)
             user = bean.getData().getCompany_users().get(0);
         else {
             showToast("申请接收方为空");
             return;
         }
-        PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), user.getUser_id(), "3"), new PostCall.PostResponse<BaseBean>() {
+        showProgressDialog("申请中");
+        final TrustCompanyBean.Obj.User finalUser = user;
+        EaseCommonUtils.addFriend(finalUser.getHx_username(), editText.getText().toString(), new EMCallBack() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("申请成功");
-                finish();
+            public void onSuccess() {
+                PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), finalUser.getUser_id(), "3"), new PostCall.PostResponse<BaseBean>() {
+                    @Override
+                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        dismissProgressDialog();
+                        showToast("申请成功");
+                        finish();
+                        TrustSharedPreferences.getInstance().setTrustData("向" + TrustConfirmCompanyActivity.this.bean.getData().getCompany_name() + "发送了信任申请");
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, byte[] responseBody) {
+                        dismissProgressDialog();
+                    }
+                }, new String[]{}, false, BaseBean.class);
             }
 
             @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
+            public void onError(int code, String error) {
 
             }
-        }, new String[]{}, true, BaseBean.class);
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+        });
     }
 
     @Override
@@ -80,7 +102,8 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.btnCommit:
-                commit();
+                if (!isVcardIdZero())
+                    commit();
                 break;
         }
     }

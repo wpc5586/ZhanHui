@@ -115,16 +115,24 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        boolean deleteMessage = false;
+        System.out.println("~!~ delete 1 = " + item.getTitle());
         if (item.getItemId() == R.id.delete_message) {
-            deleteMessage = true;
+            return deleteConversation(true, ((AdapterContextMenuInfo) item.getMenuInfo()).position);
         } else if (item.getItemId() == R.id.delete_conversation) {
-            deleteMessage = false;
+            return deleteConversation(false, ((AdapterContextMenuInfo) item.getMenuInfo()).position);
         }
-    	EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
-    	if (tobeDeleteCons == null) {
-    	    return true;
-    	}
+        return false;
+    }
+
+    /**
+     * 删除消息
+     * @param deleteMessage 是否删除本地记录
+     */
+    public boolean deleteConversation(boolean deleteMessage, int position) {
+        EMConversation tobeDeleteCons = conversationListView.getItem(position);
+        if (tobeDeleteCons == null) {
+            return true;
+        }
         if(tobeDeleteCons.getType() == EMConversationType.GroupChat){
             EaseAtMessageHelper.get().removeAtMeGroup(tobeDeleteCons.conversationId());
         }
@@ -137,10 +145,9 @@ public class ConversationListFragment extends EaseConversationListFragment{
             e.printStackTrace();
         }
         refresh();
-
+        return true;
         // update unread count
 //        ((MainActivity) getActivity()).updateUnreadLabel();
-        return true;
     }
 
     @Override

@@ -24,9 +24,9 @@ import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.chat.EMMessage;
 
 public class ContextMenuActivity extends EaseBaseActivity {
-    public static final int RESULT_CODE_COPY = 1;
-    public static final int RESULT_CODE_DELETE = 2;
-    public static final int RESULT_CODE_FORWARD = 3;
+	public static final int RESULT_CODE_COPY = 1;
+	public static final int RESULT_CODE_DELETE = 2;
+	public static final int RESULT_CODE_FORWARD = 3;
 	public static final int RESULT_CODE_RECALL = 4;
 
 	@Override
@@ -79,6 +79,8 @@ public class ContextMenuActivity extends EaseBaseActivity {
 			View recall = (View) findViewById(R.id.recall);
 			recall.setVisibility(View.GONE);
 		}
+		View recall = (View) findViewById(R.id.recall);
+		recall.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -108,5 +110,5 @@ public class ContextMenuActivity extends EaseBaseActivity {
 		setResult(RESULT_CODE_RECALL);
 		finish();
 	}
-	
+
 }

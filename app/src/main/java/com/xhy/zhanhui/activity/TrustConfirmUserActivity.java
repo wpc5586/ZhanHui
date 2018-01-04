@@ -6,16 +6,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aaron.aaronlibrary.bean.BaseBean;
+import com.aaron.aaronlibrary.easeui.utils.EaseCommonUtils;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.ImageUtils;
+import com.hyphenate.EMCallBack;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.http.domain.OfflineScanFriendBean;
+import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 import com.xhy.zhanhui.http.domain.TrustUserBean;
 import com.xhy.zhanhui.http.vo.OfflineTrustVo;
 import com.xhy.zhanhui.http.vo.TrustVo;
+import com.xhy.zhanhui.preferences.TrustSharedPreferences;
 
 /**
  * 信任确认页面-用户页面
@@ -75,13 +79,15 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, OfflineScanFriendBean bean) {
                 offlineData = bean.getData();
-                ImageUtils.loadImageCircle(mContext, offlineData.getAvatar(), ivAvatar);
-                tvName.setText(offlineData.getName());
+                if (offlineData != null) {
+                    ImageUtils.loadImageCircle(mContext, offlineData.getAvatar(), ivAvatar);
+                    tvName.setText(offlineData.getName());
+                }
             }
 
             @Override
             public void onFailure(int statusCode, byte[] responseBody) {
-
+                finish();
             }
         }, new String[]{}, true, OfflineScanFriendBean.class);
     }
@@ -90,36 +96,75 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
      * 提交信任申请
      */
     private void commit() {
-        PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), trustData.getUser_id(), "3"), new PostCall.PostResponse<BaseBean>() {
+        showProgressDialog("申请中");
+        EaseCommonUtils.addFriend(trustData.getHx_username(), editText.getText().toString(), new EMCallBack() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("申请成功");
-                finish();
+            public void onSuccess() {
+                PostCall.postJson(mContext, ServerUrl.requestFrien(), new TrustVo(getUserId(), trustData.getUser_id(), "3"), new PostCall.PostResponse<BaseBean>() {
+                    @Override
+                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        dismissProgressDialog();
+                        showToast("申请成功");
+                        setResult(RESULT_OK);
+                        finish();
+                        TrustSharedPreferences.getInstance().setTrustData("向" + trustData.getNickname() + "发送了信任申请");
+                    }
+                    @Override
+                    public void onFailure(int statusCode, byte[] responseBody) {
+                        dismissProgressDialog();
+                    }
+                }, new String[]{}, false, BaseBean.class);
             }
 
             @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
+            public void onError(int code, String error) {
+                showToast(error);
+                dismissProgressDialog();
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
 
             }
-        }, new String[]{}, true, BaseBean.class);
+        });
     }
 
     /**
      * 提交线下信任申请
      */
     private void offlineCommit() {
-        PostCall.postJson(mContext, ServerUrl.offlineScanToAddFriend(), new OfflineTrustVo(getUserId(), offlineData.getUser_id(), getHxUserId(), offlineData.getHx_username()), new PostCall.PostResponse<BaseBean>() {
+        showProgressDialog("申请中");
+        EaseCommonUtils.addFriend(offlineData.getHx_username(), editText.getText().toString(), new EMCallBack() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("申请成功");
-                finish();
+            public void onSuccess() {
+                PostCall.postJson(mContext, ServerUrl.offlineScanToAddFriend(), new OfflineTrustVo(getUserId(), offlineData.getUser_id(), getHxUserId(), offlineData.getHx_username()), new PostCall.PostResponse<BaseBean>() {
+                    @Override
+                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        dismissProgressDialog();
+                        showToast("申请成功");
+                        setResult(RESULT_OK);
+                        finish();
+                        TrustSharedPreferences.getInstance().setTrustData("向" + offlineData.getNickname() + "发送了信任申请");
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, byte[] responseBody) {
+                        dismissProgressDialog();
+                    }
+                }, new String[]{}, false, BaseBean.class);
             }
 
             @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
+            public void onError(int code, String error) {
+                showToast(error);
+                dismissProgressDialog();
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
 
             }
-        }, new String[]{}, true, BaseBean.class);
+        });
     }
 
     @Override
@@ -127,10 +172,12 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.btnCommit:
-                if (isOffline)
-                    offlineCommit();
-                else
-                    commit();
+                if (!isVcardIdZero()) {
+                    if (isOffline)
+                        offlineCommit();
+                    else
+                        commit();
+                }
                 break;
         }
     }

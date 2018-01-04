@@ -27,17 +27,22 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
+import com.aaron.aaronlibrary.bean.BaseBean;
 import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.DemoHelper.DataSyncListener;
 import com.aaron.aaronlibrary.easeui.db.InviteMessgeDao;
 import com.aaron.aaronlibrary.easeui.db.UserDao;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
+import com.aaron.aaronlibrary.http.PostCall;
+import com.aaron.aaronlibrary.http.ServerUrl;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
 import com.xhy.zhanhui.domain.StartActivityUtils;
+import com.xhy.zhanhui.http.vo.DeleteFriendVo;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -71,8 +76,6 @@ public class ContactListFragment extends EaseContactListFragment{
         //add loading view
         loadingView = LayoutInflater.from(getActivity()).inflate(R.layout.em_layout_loading_data, null);
         contentContainer.addView(loadingView);
-
-        registerForContextMenu(listView);
     }
 
     @Override
@@ -114,6 +117,7 @@ public class ContactListFragment extends EaseContactListFragment{
         }
         setContactsMap(m);
         super.setUpView();
+        registerForContextMenu(listView);
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -206,7 +210,6 @@ public class ContactListFragment extends EaseContactListFragment{
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
         toBeProcessUser = (EaseUser) listView.getItemAtPosition(((AdapterContextMenuInfo) menuInfo).position);
         toBeProcessUsername = toBeProcessUser.getUsername();
         getActivity().getMenuInflater().inflate(R.menu.em_context_contact_list, menu);
@@ -225,11 +228,12 @@ public class ContactListFragment extends EaseContactListFragment{
                 e.printStackTrace();
             }
             return true;
-        } else if (item.getItemId() == R.id.add_to_blacklist) {
-            moveToBlacklist(toBeProcessUsername);
-            return true;
         }
-        return super.onContextItemSelected(item);
+//        else if (item.getItemId() == R.id.add_to_blacklist) {
+//            moveToBlacklist(toBeProcessUsername);
+//            return true;
+//        }
+        return true;
     }
 
 
@@ -239,41 +243,43 @@ public class ContactListFragment extends EaseContactListFragment{
      * @param tobeDeleteUser
      */
     public void deleteContact(final EaseUser tobeDeleteUser) {
-        String st1 = getResources().getString(R.string.deleting);
-        final String st2 = getResources().getString(R.string.Delete_failed);
-        final ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.setMessage(st1);
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    EMClient.getInstance().contactManager().deleteContact(tobeDeleteUser.getUsername());
-                    // remove user from memory and database
-                    UserDao dao = new UserDao(getActivity());
-                    dao.deleteContact(tobeDeleteUser.getUsername());
-                    DemoHelper.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            pd.dismiss();
-                            contactList.remove(tobeDeleteUser);
-                            contactListLayout.refresh();
-
+        showProgressDialog("删除中");
+        PostCall.deleteJson(mContext, ServerUrl.deleteFriends(), new DeleteFriendVo(getUserId(), tobeDeleteUser.getUserId()), new PostCall.PostResponse<BaseBean>() {
+            @Override
+            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            EMClient.getInstance().contactManager().deleteContact(tobeDeleteUser.getUsername());
+                            // remove user from memory and database
+                            UserDao dao = new UserDao(getActivity());
+                            dao.deleteContact(tobeDeleteUser.getUsername());
+                            DemoHelper.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
+                            getActivity().runOnUiThread(new Runnable() {
+                                public void run() {
+                                    dismissProgressDialog();
+                                    contactList.remove(tobeDeleteUser);
+                                    contactListLayout.refresh();
+                                    EMClient.getInstance().chatManager().getAllConversations().remove(tobeDeleteUser.getUsername());
+                                    MainActivity.getInstance().refreshConversation();
+                                }
+                            });
+                        } catch (final Exception e) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                public void run() {
+                                    dismissProgressDialog();
+                                }
+                            });
                         }
-                    });
-                } catch (final Exception e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            pd.dismiss();
-                            Toast.makeText(getActivity(), st2 + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                }
-
+                    }
+                }).start();
             }
-        }).start();
 
+            @Override
+            public void onFailure(int statusCode, byte[] responseBody) {
+                dismissProgressDialog();
+            }
+        }, new String[]{}, false, BaseBean.class);
     }
 
     class ContactSyncListener implements DataSyncListener {

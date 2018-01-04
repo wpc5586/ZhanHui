@@ -117,7 +117,7 @@ public class EditVcardActivity extends ZhanHuiActivity {
     }
 
     private void save() {
-        UserInfoVo vo = new UserInfoVo();
+        final UserInfoVo vo = new UserInfoVo();
         vo.setV_name(etName.getText().toString());
         vo.setV_idCard(etCard.getText().toString());
         vo.setV_company(etCompany.getText().toString());
@@ -132,6 +132,8 @@ public class EditVcardActivity extends ZhanHuiActivity {
             public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                 showToast("保存成功");
                 finish();
+                ZhanHuiApplication.getInstance().updateNickName(vo.getV_name());
+                MainActivity.getInstance().refreshName();
             }
 
             @Override

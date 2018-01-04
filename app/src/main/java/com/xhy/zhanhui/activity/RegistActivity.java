@@ -120,7 +120,7 @@ public class RegistActivity extends ZhanHuiActivity {
 
             @Override
             public void onFailure(int i, byte[] bytes) {}
-        }, new String[]{}, false, BaseBean.class);
+        }, new String[]{}, true, BaseBean.class);
     }
 
     /**

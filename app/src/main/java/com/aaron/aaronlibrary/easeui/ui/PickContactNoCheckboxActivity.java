@@ -49,10 +49,10 @@ public class PickContactNoCheckboxActivity extends EaseBaseActivity {
 	@Override
 	protected void init() {
 		super.init();
-		ListView listView = (ListView) findViewById(R.id.list);
-		EaseSidebar sidebar = (EaseSidebar) findViewById(R.id.sidebar);
+		ListView listView = findViewById(R.id.list);
+		EaseSidebar sidebar = findViewById(R.id.sidebar);
 		sidebar.setListView(listView);
-		contactList = new ArrayList<EaseUser>();
+		contactList = new ArrayList<>();
 		// get contactlist
 		getContactList();
 		// set adapter
@@ -65,6 +65,7 @@ public class PickContactNoCheckboxActivity extends EaseBaseActivity {
 				onListItemClick(position);
 			}
 		});
+		setActionbarTitle("选择联系人");
 	}
 
 	protected void onListItemClick(int position) {

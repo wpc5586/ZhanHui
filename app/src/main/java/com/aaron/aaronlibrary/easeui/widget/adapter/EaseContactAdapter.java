@@ -104,7 +104,8 @@ public class EaseContactAdapter extends ArrayAdapter<EaseUser> implements Sectio
 
         EaseUserUtils.setUserNick(username, holder.nameView);
 //        EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
-        ImageUtils.loadImageRoundedCorners(getContext(), user.getAvatar(), holder.avatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(getContext(), 5));
+//        ImageUtils.loadImageRoundedCorners(getContext(), user.getAvatar(), holder.avatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(getContext(), 5));
+        ImageUtils.loadImageCircle(getContext(), user.getAvatar(), holder.avatar);
 
 
         if(primaryColor != 0)

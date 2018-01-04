@@ -17,10 +17,12 @@ import com.easemob.redpacketsdk.bean.TokenData;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.xhy.zhanhui.activity.LoginActivity;
 import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.http.domain.FriendBean;
 import com.xhy.zhanhui.http.domain.LoginBean;
 import com.xhy.zhanhui.http.domain.VersionBean;
+import com.xhy.zhanhui.preferences.TrustSharedPreferences;
 import com.xhy.zhanhui.preferences.UserSharedPreferences;
 
 import java.util.ArrayList;
@@ -92,7 +94,6 @@ public class ZhanHuiApplication extends CrashApplication {
         });
         RedPacket.getInstance().setDebugMode(true);
         //end of red packet code
-
         login(UserSharedPreferences.getInstance().getLoginData());
     }
 
@@ -116,6 +117,10 @@ public class ZhanHuiApplication extends CrashApplication {
 
     public String getUserName() {
         return loginBean == null ? "" : loginBean.getObj().getUserName();
+    }
+
+    public String getVcardId() {
+        return loginBean == null ? "0" : loginBean.getObj().getVcard_id();
     }
 
     public String getIcon() {
@@ -145,11 +150,21 @@ public class ZhanHuiApplication extends CrashApplication {
     }
 
     /**
-     * 更新缓存用户名
+     * 更新缓存用户名（登录用户名，也是电话号）
      * @param userName
      */
     public void updateUserName(String userName) {
         this.loginBean.getObj().setUserName(userName);
+        saveLoginInfo();
+        MainActivity.getInstance().refreshName();
+    }
+
+    /**
+     * 更新缓存用户昵称
+     * @param nickName
+     */
+    public void updateNickName(String nickName) {
+        this.loginBean.getObj().setNickname(nickName);
         saveLoginInfo();
         MainActivity.getInstance().refreshName();
     }
@@ -176,6 +191,7 @@ public class ZhanHuiApplication extends CrashApplication {
             @Override
             public void run() {
                 UserSharedPreferences.getInstance().clean();
+                TrustSharedPreferences.getInstance().clean();
             }
         }.start();
     }
@@ -214,13 +230,10 @@ public class ZhanHuiApplication extends CrashApplication {
             }
 
             @Override
-            public void onProgress(int progress, String status) {
-
-            }
+            public void onProgress(int progress, String status) {}
 
             @Override
-            public void onError(int code, String message) {
-            }
+            public void onError(int code, String message) {}
         });
     }
 

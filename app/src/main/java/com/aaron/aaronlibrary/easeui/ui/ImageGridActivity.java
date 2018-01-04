@@ -8,7 +8,7 @@ import com.xhy.zhanhui.R;
 
 public class ImageGridActivity extends EaseBaseActivity {
 
-	private static final String TAG = "ImageGridActivity";
+    private static final String TAG = "ImageGridActivity";
 
     @Override
     protected int getContentLayoutId() {
@@ -30,8 +30,8 @@ public class ImageGridActivity extends EaseBaseActivity {
     }
 
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);	
-	}	
-	
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

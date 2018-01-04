@@ -58,11 +58,11 @@ public class StartActivityUtils {
     /**
      * 跳转产品详情页面
      * @param mContext 上下文
-     * @param companyId 企业ID
+     * @param productId 产品ID
      */
-    public static void startProductDetail(Context mContext, String companyId) {
+    public static void startProductDetail(Context mContext, String productId) {
         Intent intent = new Intent(mContext, ProductDetailActivity.class);
-        intent.putExtra("product_id", companyId);
+        intent.putExtra("product_id", productId);
         mContext.startActivity(intent);
     }
 

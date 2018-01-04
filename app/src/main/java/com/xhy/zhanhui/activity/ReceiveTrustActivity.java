@@ -24,6 +24,8 @@ import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.aaron.aaronlibrary.utils.MathUtils;
 import com.aaron.aaronlibrary.widget.listview.SwipeItemLayout;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
@@ -265,20 +267,38 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
          * @param holder
          */
         private void accept(final ReceiveTrustHolder holder) {
-            String requestId = ((ReceiveTrustBean.Obj) holder.data).getRequest_id();
-            String acceptId = getUserId();
-            PostCall.putJson(mContext, ServerUrl.acceptFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+            final String requestId = ((ReceiveTrustBean.Obj) holder.data).getRequest_id();
+            final String acceptId = getUserId();
+            showProgressDialog("接受中");
+            EMClient.getInstance().contactManager().asyncAcceptInvitation(((ReceiveTrustBean.Obj) holder.data).getHx_username(), new EMCallBack() {
                 @Override
-                public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                    ((ReceiveTrustBean.Obj)getItem(holder.getAdapterPosition())).setState("2");
-                    notifyDataSetChanged();
+                public void onSuccess() {
+                    PostCall.putJson(mContext, ServerUrl.acceptFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+                        @Override
+                        public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                            dismissProgressDialog();
+                            ((ReceiveTrustBean.Obj)getItem(holder.getAdapterPosition())).setState("2");
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, byte[] responseBody) {
+                            dismissProgressDialog();
+                        }
+                    }, new String[]{}, false, BaseBean.class);
                 }
 
                 @Override
-                public void onFailure(int statusCode, byte[] responseBody) {
+                public void onError(int code, String error) {
+                    dismissProgressDialog();
+                    showToast(error);
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
 
                 }
-            }, new String[]{}, true, BaseBean.class);
+            });
         }
         
         /**

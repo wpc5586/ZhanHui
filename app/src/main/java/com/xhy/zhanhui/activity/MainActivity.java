@@ -15,13 +15,19 @@ import com.aaron.aaronlibrary.base.activity.drawer.BaseListSample;
 import com.aaron.aaronlibrary.base.activity.drawer.Item;
 import com.aaron.aaronlibrary.base.menudrawer.MenuDrawer;
 import com.aaron.aaronlibrary.base.menudrawer.Position;
+import com.aaron.aaronlibrary.bean.BaseBean;
+import com.aaron.aaronlibrary.http.PostCall;
+import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.ImageUtils;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
 import com.xhy.zhanhui.fragment.BusinessCircleFragment;
 import com.xhy.zhanhui.fragment.CenterFragment;
 import com.xhy.zhanhui.fragment.ExhibitionFragment;
 import com.xhy.zhanhui.fragment.MainFragment;
+import com.xhy.zhanhui.http.vo.DeleteFriendVo;
 
 /**
  * 主界面
@@ -96,6 +102,7 @@ public class MainActivity extends BaseListSample{
     @Override
     protected void init() {
         super.init();
+        ZhanHuiApplication.getInstance().loginEmchat();
     }
 
     /**
@@ -156,7 +163,27 @@ public class MainActivity extends BaseListSample{
                 break;
             case R.id.rl4:
                 index = 3;
-//                startActivity(new Intent(mContext, TempActivity.class));
+                String[] deleteIds = new String[]{"48"};
+                for (int i = 0; i < deleteIds.length; i++) {
+                    PostCall.deleteJson(mContext, ServerUrl.deleteFriends(), new DeleteFriendVo(getUserId(), deleteIds[i]), new PostCall.PostResponse<BaseBean>() {
+                        @Override
+                        public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, byte[] responseBody) {
+
+                        }
+                    }, new String[]{}, false, BaseBean.class);
+                }
+                String[] deleteIds1 = new String[]{"nebintel1514985279710"};
+                for (int i = 0; i < deleteIds1.length; i++) {
+                    try {
+                        EMClient.getInstance().contactManager().deleteContact(deleteIds1[i]);
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
         setIndexFragment(index);
@@ -182,10 +209,27 @@ public class MainActivity extends BaseListSample{
     }
 
     /**
+     * 刷新最新发出的信任邀请
+     */
+    public void refreshMainMessage() {
+        if (fragments != null && fragments.length > 0)
+            ((MainFragment) fragments[0]).refresh();
+    }
+
+    /**
+     * 关注产品或者取消关注后，刷新商圈-关注产品页面
+     */
+    public void refreshAttentionProduct() {
+        if (fragments != null && fragments.length > 2)
+            ((BusinessCircleFragment) fragments[2]).refreshAttentionProduct();
+    }
+
+    /**
      * 收藏或者取消收藏后，刷新资料中心的收藏页面
      */
     public void refreshCenterCollect() {
-        ((CenterFragment) fragments[3]).refreshCenterCollect();
+        if (fragments != null && fragments.length > 3)
+            ((CenterFragment) fragments[3]).refreshCenterCollect();
     }
 
     /**
@@ -207,5 +251,21 @@ public class MainActivity extends BaseListSample{
      */
     public void refreshAvatar() {
         ImageUtils.loadImageCircle(mContext, ZhanHuiApplication.getInstance().getIcon(), ivAvatar);
+    }
+
+    /**
+     * 刷新会话列表
+     */
+    public void refreshConversation() {
+        if (fragments != null && fragments.length > 2)
+            ((BusinessCircleFragment) fragments[2]).refreshConversation();
+    }
+
+    /**
+     * 刷新联系人列表
+     */
+    public void refreshContact() {
+        if (fragments != null && fragments.length > 2)
+            ((BusinessCircleFragment) fragments[2]).refreshContact();
     }
 }

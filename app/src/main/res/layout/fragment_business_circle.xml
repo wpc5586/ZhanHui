@@ -36,7 +36,8 @@
             android:layout_alignParentRight="true"
             android:padding="8dp"
             android:layout_marginRight="5dp"
-            android:src="@mipmap/icon_search"/>
+            android:src="@mipmap/icon_search"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

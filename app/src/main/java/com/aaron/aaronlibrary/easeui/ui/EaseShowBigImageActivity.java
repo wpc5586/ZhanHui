@@ -40,7 +40,7 @@ import java.io.File;
 
 /**
  * download and show original image
- * 
+ *
  */
 public class EaseShowBigImageActivity extends EaseBaseActivity {
 	private static final String TAG = "ShowBigImage";
@@ -94,7 +94,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 				image.setImageBitmap(bitmap);
 			}
 		} else if(msgId != null) {
-		    downloadImage(msgId);
+			downloadImage(msgId);
 		}else {
 			image.setImageResource(default_res);
 		}
@@ -106,15 +106,15 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 			}
 		});
 	}
-	
+
 	/**
 	 * download image
-	 * 
+	 *
 	 * @param msgId
 	 */
 	@SuppressLint("NewApi")
 	private void downloadImage(final String msgId) {
-        EMLog.e(TAG, "download with messageId: " + msgId);
+		EMLog.e(TAG, "download with messageId: " + msgId);
 		String str1 = getResources().getString(R.string.Download_the_pictures);
 		pd = new ProgressDialog(this);
 		pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -125,13 +125,13 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 		final String tempPath = temp.getParent() + "/temp_" + temp.getName();
 		final EMCallBack callback = new EMCallBack() {
 			public void onSuccess() {
-			    EMLog.e(TAG, "onSuccess" );
+				EMLog.e(TAG, "onSuccess" );
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-                        new File(tempPath).renameTo(new File(localFilePath));
+						new File(tempPath).renameTo(new File(localFilePath));
 
-                        DisplayMetrics metrics = new DisplayMetrics();
+						DisplayMetrics metrics = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(metrics);
 						int screenWidth = metrics.widthPixels;
 						int screenHeight = metrics.heightPixels;
@@ -145,7 +145,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 							isDownloaded = true;
 						}
 						if (isFinishing() || isDestroyed()) {
-						    return;
+							return;
 						}
 						if (pd != null) {
 							pd.dismiss();
@@ -164,10 +164,10 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 					@Override
 					public void run() {
 						if (EaseShowBigImageActivity.this.isFinishing() || EaseShowBigImageActivity.this.isDestroyed()) {
-						    return;
+							return;
 						}
-                        image.setImageResource(default_res);
-                        pd.dismiss();
+						image.setImageResource(default_res);
+						pd.dismiss();
 					}
 				});
 			}
@@ -178,15 +178,15 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-                        if (EaseShowBigImageActivity.this.isFinishing() || EaseShowBigImageActivity.this.isDestroyed()) {
-                            return;
-                        }
+						if (EaseShowBigImageActivity.this.isFinishing() || EaseShowBigImageActivity.this.isDestroyed()) {
+							return;
+						}
 						pd.setMessage(str2 + progress + "%");
 					}
 				});
 			}
 		};
-		
+
 		EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);
 		msg.setMessageStatusCallback(callback);
 

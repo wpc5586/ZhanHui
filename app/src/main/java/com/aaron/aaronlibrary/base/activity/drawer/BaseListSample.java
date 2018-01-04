@@ -132,20 +132,35 @@ public abstract class BaseListSample extends ZhanHuiActivity implements MenuAdap
                 startMyActivity(AccountSecurityActivity.class);
                 break;
             case R.id.rlLogout: // 注销
-                showAlertDialog("账户注销", "确定注销账户并重新登录吗？", "取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }, "确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ZhanHuiApplication.getInstance().logout();
-                        startMyActivity(LoginActivity.class);
-                        finish();
-                    }
-                }, true);
+                logout();
                 break;
         }
+    }
+
+    /**
+     * 注销登出
+     */
+    public void logout() {
+        ZhanHuiApplication.getInstance().logout();
+        startMyActivity(LoginActivity.class);
+        finish();
+    }
+
+    /**
+     * 有提示信息确认的注销（例如：已在其他设备登录）
+     * @param message
+     */
+    public void logoutWithInfo(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showAlertDialog("", message, "确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                }, "", null, false);
+            }
+        });
     }
 }

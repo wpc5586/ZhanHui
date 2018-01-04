@@ -118,7 +118,7 @@ public class BusinessCircleFragment extends ZhanHuiFragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                int padding = (int) ((AppInfo.getScreenWidthOrHeight(mContext, true) / 3) * 0.15f);
+                int padding = (int) ((AppInfo.getScreenWidthOrHeight(mContext, true) / 3) * 0.10f);
                 int paddingDp = MathUtils.px2dip(mContext, padding);
                 PublicMethod.setTabLayoutLineLength(tabLayout, paddingDp, paddingDp);
             }
@@ -133,5 +133,29 @@ public class BusinessCircleFragment extends ZhanHuiFragment {
                 MainActivity.getInstance().openMenu();
                 break;
         }
+    }
+
+    /**
+     * 刷新会话列表
+     */
+    public void refreshConversation() {
+        if (fragmentList != null && fragmentList.size() > 0)
+            ((ConversationListFragment) fragmentList.get(0)).refresh();
+    }
+
+    /**
+     * 刷新联系人列表
+     */
+    public void refreshContact() {
+        if (fragmentList != null && fragmentList.size() > 0)
+            ((ContactListFragment) fragmentList.get(2)).refresh();
+    }
+
+    /**
+     * 关注产品或者取消关注后，刷新商圈-关注产品页面
+     */
+    public void refreshAttentionProduct() {
+        if (fragmentList != null && fragmentList.size() > 0)
+            ((BusinessProductFragment) fragmentList.get(3)).refresh();
     }
 }

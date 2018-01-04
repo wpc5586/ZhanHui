@@ -37,7 +37,9 @@ import com.aaron.aaronlibrary.easeui.ui.VoiceCallActivity;
 import com.aaron.aaronlibrary.easeui.utils.EaseCommonUtils;
 import com.aaron.aaronlibrary.easeui.utils.PreferenceManager;
 import com.aaron.aaronlibrary.easeui.utils.RedPacketUtil;
-import com.aaron.aaronlibrary.utils.MathUtils;
+import com.aaron.aaronlibrary.http.BaseMap;
+import com.aaron.aaronlibrary.http.PostCall;
+import com.aaron.aaronlibrary.http.ServerUrl;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
@@ -62,6 +64,7 @@ import com.hyphenate.util.EMLog;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
+import com.xhy.zhanhui.http.domain.HxFriendBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -852,20 +855,45 @@ public class DemoHelper {
     public class MyContactListener implements EMContactListener {
 
         @Override
-        public void onContactAdded(String username) {
+        public void onContactAdded(final String username) {
             // save contact
-            Map<String, EaseUser> localUsers = getContactList();
-            Map<String, EaseUser> toAddUsers = new HashMap<>();
-            EaseUser user = new EaseUser(username);
-
-            if (!localUsers.containsKey(username)) {
-                userDao.saveContact(user);
-            }
-            toAddUsers.put(username, user);
-            localUsers.putAll(toAddUsers);
-
-            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+//            Map<String, EaseUser> localUsers = getContactList();
+//            Map<String, EaseUser> toAddUsers = new HashMap<String, EaseUser>();
+//            EaseUser user = new EaseUser(username);
+//
+//            if (!localUsers.containsKey(username)) {
+//                userDao.saveContact(user);
+//            }
+//            toAddUsers.put(username, user);
+//            localUsers.putAll(toAddUsers);
+//
+//            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             showToast("onContactAdded:" + username);
+            PostCall.get(appContext, ServerUrl.hxidFriend(username), new BaseMap(), new PostCall.PostResponse<HxFriendBean>() {
+                @Override
+                public void onSuccess(int i, byte[] bytes, HxFriendBean bean) {
+                    HxFriendBean.Obj data = bean.getData();
+                    Map<String, EaseUser> localUsers = getContactList();
+                    Map<String, EaseUser> toAddUsers = new HashMap<>();
+                    EaseUser user = new EaseUser(username);
+                    user.setAvatar(data.getIcon());
+                    user.setNickname(data.getNickname());
+                    user.setUserId(data.getUser_id());
+                    user.setV_title(data.getV_title());
+
+                    if (!localUsers.containsKey(username)) {
+                        userDao.saveContact(user);
+                    }
+                    toAddUsers.put(username, user);
+                    localUsers.putAll(toAddUsers);
+                    MainActivity.getInstance().refreshContact();
+                }
+
+                @Override
+                public void onFailure(int i, byte[] bytes) {
+
+                }
+            }, new String[]{"", ""}, false, HxFriendBean.class);
         }
 
         @Override
@@ -879,10 +907,11 @@ public class DemoHelper {
 
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
             showToast("onContactDeleted:" + username);
+            MainActivity.getInstance().refreshContact();
         }
 
         @Override
-        public void onContactInvited(String username, String reason) {
+        public void onContactInvited(final String username, String reason) {
             List<InviteMessage> msgs = inviteMessgeDao.getMessagesList();
 
             for (InviteMessage inviteMessage : msgs) {
@@ -927,7 +956,9 @@ public class DemoHelper {
         }
     }
 
-    public class MyMultiDeviceListener implements EMMultiDeviceListener {
+    public class
+
+    MyMultiDeviceListener implements EMMultiDeviceListener {
 
         @Override
         public void onContactEvent(int event, String target, String ext) {
@@ -1194,20 +1225,20 @@ public class DemoHelper {
         inviteMessgeDao.saveUnreadMessageCount(1);
         // notify there is new message
         getNotifier().vibrateAndPlayTone(null);
+        MainActivity.getInstance().refreshMainMessage();
     }
 
     /**
      * user met some exception: conflict, removed or forbidden
      */
     protected void onUserException(String exception){
+        MainActivity.getInstance().logoutWithInfo(appContext.getString(R.string.connect_conflict));
 //        EMLog.e(TAG, "onUserException: " + exception);
 //        Intent intent = new Intent(appContext, MainActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 //        intent.putExtra(exception, true);
 //        appContext.startActivity(intent);
-//
-//        showToast(exception);
     }
  
 	private EaseUser getUserInfo(String username){
@@ -1247,6 +1278,7 @@ public class DemoHelper {
                         getNotifier().onNewMsg(message);
 //                    }
                 }
+                MainActivity.getInstance().refreshConversation();
 			}
 			
 			@Override
@@ -1430,7 +1462,7 @@ public class DemoHelper {
         
         // return a empty non-null object to avoid app crash
         if(contactList == null){
-        	return new Hashtable<String, EaseUser>();
+        	return new HashMap<>();
         }
         
         return contactList;

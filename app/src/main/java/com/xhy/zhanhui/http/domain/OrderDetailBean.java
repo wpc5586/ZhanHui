@@ -2,6 +2,8 @@ package com.xhy.zhanhui.http.domain;
 
 import com.aaron.aaronlibrary.bean.BaseBean;
 
+import java.util.List;
+
 /**
  * 预约详情Bean
  * Created by Aaron on 2017/11/1 0001.
@@ -20,7 +22,6 @@ public class OrderDetailBean extends BaseBean {
 
     public class Obj {
         private String booth_no;
-        private String hx_username;
         private String reservation_note;
         private String reservation_no;
         private String company_name;
@@ -29,6 +30,19 @@ public class OrderDetailBean extends BaseBean {
         private String reservation_id;
         private String reservation_time;
         private String event_name;
+        private List<User> company_users;
+
+        public User getCompany_user() {
+            return company_users != null && company_users.size() > 0 ? company_users.get(0) : new User();
+        }
+
+        public List<User> getCompany_users() {
+            return company_users;
+        }
+
+        public void setCompany_users(List<User> company_users) {
+            this.company_users = company_users;
+        }
 
         public String getBooth_no() {
             return booth_no;
@@ -39,11 +53,7 @@ public class OrderDetailBean extends BaseBean {
         }
 
         public String getHx_username() {
-            return hx_username;
-        }
-
-        public void setHx_username(String hx_username) {
-            this.hx_username = hx_username;
+            return getCompany_user().getHx_username();
         }
 
         public String getReservation_note() {
@@ -108,6 +118,54 @@ public class OrderDetailBean extends BaseBean {
 
         public void setEvent_name(String event_name) {
             this.event_name = event_name;
+        }
+
+        public class User {
+            private String hx_username;
+            private String icon;
+            private String nickname;
+            private String user_id;
+            private String v_title;
+
+            public String getHx_username() {
+                return hx_username;
+            }
+
+            public void setHx_username(String hx_username) {
+                this.hx_username = hx_username;
+            }
+
+            public String getIcon() {
+                return icon;
+            }
+
+            public void setIcon(String icon) {
+                this.icon = icon;
+            }
+
+            public String getNickname() {
+                return nickname;
+            }
+
+            public void setNickname(String nickname) {
+                this.nickname = nickname;
+            }
+
+            public String getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getV_title() {
+                return v_title;
+            }
+
+            public void setV_title(String v_title) {
+                this.v_title = v_title;
+            }
         }
     }
 }

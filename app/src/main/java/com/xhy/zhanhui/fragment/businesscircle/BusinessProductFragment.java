@@ -1,6 +1,7 @@
 package com.xhy.zhanhui.fragment.businesscircle;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +17,12 @@ import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemClickListener;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemLongClickListener;
-import com.aaron.aaronlibrary.manager.MyLinearLayoutManager;
 import com.aaron.aaronlibrary.utils.ImageUtils;
+import com.aaron.aaronlibrary.utils.MathUtils;
 import com.xhy.zhanhui.R;
-import com.xhy.zhanhui.activity.BusinessAttentionCompanyActivity;
-import com.xhy.zhanhui.activity.BusinessCompanyDetailActivity;
 import com.xhy.zhanhui.base.ZhanHuiFragment;
 import com.xhy.zhanhui.domain.StartActivityUtils;
-import com.xhy.zhanhui.http.domain.BusinessOfflineBean;
-import com.xhy.zhanhui.http.domain.BusinessTrustBean;
+import com.xhy.zhanhui.http.domain.ProductBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +40,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
 
     private PtrClassicFrameLayout ptrFrameLayout;
     private RecyclerView recyclerView;
-    private BusinessCompanyAdapter adapter;
+    private BusinessProductAdapter adapter;
 
     @Override
     protected int getContentLayoutId() {
@@ -53,8 +51,6 @@ public class BusinessProductFragment extends ZhanHuiFragment {
     protected void findViews(View view) {
         ptrFrameLayout = findViewById(R.id.ptrFrameLayout);
         recyclerView = view.findViewById(R.id.recycler);
-        findViewAndSetListener(R.id.rlTarget);
-        findViewAndSetListener(R.id.rlAttention);
     }
 
     @Override
@@ -90,12 +86,12 @@ public class BusinessProductFragment extends ZhanHuiFragment {
         // 如果是重新加载数据，清空adapter
         if (adapter != null)
             adapter.clearData();
-        PostCall.get(mContext, ServerUrl.trustCompanies(), new BaseMap(), new PostCall.PostResponse<BusinessTrustBean>() {
+        PostCall.get(mContext, ServerUrl.favoritesProduct(), new BaseMap(), new PostCall.PostResponse<ProductBean>() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BusinessTrustBean bean) {
+            public void onSuccess(int statusCode, byte[] responseBody, ProductBean bean) {
                 if (ptrFrameLayout.isRefreshing())
                     ptrFrameLayout.refreshComplete();
-                List<BusinessTrustBean.Obj> dataBean = bean.getData();
+                List<ProductBean.Obj> dataBean = bean.getData();
                 if (dataBean == null)
                     return;
                 setRecyclerView();
@@ -109,7 +105,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
             public void onFailure(int statusCode, byte[] responseBody) {
 
             }
-        }, new String[]{}, false, BusinessTrustBean.class);
+        }, new String[]{}, false, ProductBean.class);
     }
 
 
@@ -117,23 +113,19 @@ public class BusinessProductFragment extends ZhanHuiFragment {
      * 设置RecyclerView
      */
     private void setRecyclerView() {
-        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(mContext);
-        linearLayoutManager.setScrollEnabled(false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+//        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(mContext);
+//        linearLayoutManager.setScrollEnabled(false);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+        recyclerView.setLayoutManager(manager);
         if (adapter == null) {
-            adapter = new BusinessCompanyAdapter(mContext);
+            adapter = new BusinessProductAdapter(mContext);
             recyclerView.setAdapter(adapter);
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
                 @Override
                 public void onItemClick(View view, BaseViewHolder holder) {
-                    String companyId = "";
-                    if (holder.data instanceof BusinessTrustBean.Obj) {
-                        companyId = ((BusinessTrustBean.Obj) holder.data).getCompany_id();
-                    } else if (holder.data instanceof BusinessOfflineBean.Obj) {
-                        companyId = ((BusinessOfflineBean.Obj) holder.data).getCompany_id();
-                    }
-                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_TRUST);
+                    String productId = ((ProductBean.Obj) holder.data).getProduct_id();
+                    StartActivityUtils.startProductDetail(mContext, productId);
                 }
             });
             adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
@@ -145,7 +137,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
             adapter.notifyDataSetChanged();
     }
 
-    public class BusinessCompanyAdapter extends RecyclerView.Adapter<BusinessCompanyHolder> implements View.OnClickListener, View.OnLongClickListener {
+    public class BusinessProductAdapter extends RecyclerView.Adapter<BusinessProductHolder> implements View.OnClickListener, View.OnLongClickListener {
 
         private final Context context;
 
@@ -163,7 +155,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
             this.onItemLongClickListener = onItemLongClickListener;
         }
 
-        public BusinessCompanyAdapter(Context context) {
+        public BusinessProductAdapter(Context context) {
             this.context = context;
         }
 
@@ -177,23 +169,25 @@ public class BusinessProductFragment extends ZhanHuiFragment {
         }
 
         @Override
-        public BusinessCompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final BusinessCompanyHolder holder = new BusinessCompanyHolder(LayoutInflater.from(context).
-                    inflate(R.layout.item_business_company, parent, false));
+        public BusinessProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            final BusinessProductHolder holder = new BusinessProductHolder(LayoutInflater.from(context).
+                    inflate(R.layout.item_product, parent, false));
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(BusinessCompanyHolder holder, int position) {
+        public void onBindViewHolder(BusinessProductHolder holder, int position) {
             Object data = getItem(position);
             holder.data = data;
             holder.parent.setTag(holder);
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
-            ImageUtils.loadImage(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar);
-            holder.tvName.setText(((BusinessTrustBean.Obj) data).getCompany_name());
-            if (position == getItemCount() - 1)
-                holder.divider.setVisibility(View.GONE);
+            ImageUtils.loadImage(mContext, ((ProductBean.Obj) data).getImage_url(), holder.ivAvatar);
+            holder.tvName.setText(((ProductBean.Obj) data).getProduct_name());
+            holder.tvCompany.setText(((ProductBean.Obj) data).getCompany_name());
+            int paddingT = MathUtils.dip2px(mContext, 10);
+            int paddingL = MathUtils.dip2px(mContext, 5);
+            holder.parent.setPadding(paddingL, paddingT, paddingL, 0);
         }
 
         @Override
@@ -209,7 +203,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.parent:
-                    BusinessCompanyHolder holder = (BusinessCompanyHolder) v.getTag();
+                    BusinessProductHolder holder = (BusinessProductHolder) v.getTag();
                     if (onItemClickListener != null)
                         onItemClickListener.onItemClick(v, holder);
                     break;
@@ -223,7 +217,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
         public boolean onLongClick(View v) {
             switch (v.getId()) {
                 case R.id.parent:
-                    BusinessCompanyHolder holder = (BusinessCompanyHolder) v.getTag();
+                    BusinessProductHolder holder = (BusinessProductHolder) v.getTag();
                     if (onItemLongClickListener != null)
                         onItemLongClickListener.onItemLongClick(v, holder);
                     break;
@@ -234,30 +228,30 @@ public class BusinessProductFragment extends ZhanHuiFragment {
         }
     }
 
-    static class BusinessCompanyHolder extends BaseViewHolder {
+    static class BusinessProductHolder extends BaseViewHolder {
         RelativeLayout parent;
         ImageView ivAvatar;
         TextView tvName;
-        View divider;
+        TextView tvCompany;
 
-        public BusinessCompanyHolder(View itemView) {
+        public BusinessProductHolder(View itemView) {
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
-            ivAvatar = itemView.findViewById(R.id.ivThum);
-            tvName = itemView.findViewById(R.id.tvName);
-            divider = itemView.findViewById(R.id.divider);
+            ivAvatar = itemView.findViewById(R.id.image);
+            tvName = itemView.findViewById(R.id.title);
+            tvCompany = itemView.findViewById(R.id.company);
         }
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()) {
-            case R.id.rlTarget:
-                break;
-            case R.id.rlAttention:
-                startMyActivity(BusinessAttentionCompanyActivity.class);
-                break;
-        }
+    }
+
+    /**
+     * 刷新页面
+     */
+    public void refresh() {
+        getData();
     }
 }

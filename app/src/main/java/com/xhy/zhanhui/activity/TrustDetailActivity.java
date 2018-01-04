@@ -16,9 +16,12 @@ import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.aaron.aaronlibrary.utils.MathUtils;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
+import com.xhy.zhanhui.http.domain.ReceiveTrustBean;
 import com.xhy.zhanhui.http.domain.TrustDetailBean;
 import com.xhy.zhanhui.http.vo.ReceiveTrustVo;
 
@@ -84,15 +87,14 @@ public class TrustDetailActivity extends ZhanHuiActivity{
             acceptId = getIntent().getStringExtra("accept_id");
         if (getIntent().hasExtra("is_receive"))
             isReceive = getIntent().getBooleanExtra("is_receive", true);
+        getData();
         if (isReceive) {
-
         } else {
             llIntro.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
             ((RelativeLayout.LayoutParams) tvInfo.getLayoutParams()).bottomMargin = MathUtils.dip2px(mContext, 15);
             ((RelativeLayout.LayoutParams) llButton.getLayoutParams()).bottomMargin = MathUtils.dip2px(mContext, 15);
         }
-        getData();
     }
 
     /**
@@ -363,39 +365,74 @@ public class TrustDetailActivity extends ZhanHuiActivity{
     /**
      * 接受
      */
-    private void accept() { //ServerUrl.getTrustDetail(requestId, acceptId)
-        PostCall.putJson(mContext, ServerUrl.acceptFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+    private void accept() {
+        showProgressDialog("接受中");
+        EMClient.getInstance().contactManager().asyncAcceptInvitation(data.getHx_username(), new EMCallBack() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("接受成功");
-                isChange = true;
-                getData();
+            public void onSuccess() {
+                PostCall.putJson(mContext, ServerUrl.acceptFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+                    @Override
+                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        showToast("接受成功");
+                        isChange = true;
+                        getData();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, byte[] responseBody) {
+
+                    }
+                }, new String[]{}, false, BaseBean.class);
             }
 
             @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
+            public void onError(int code, String error) {
+                dismissProgressDialog();
+                showToast(error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
 
             }
-        }, new String[]{}, false, BaseBean.class);
+        });
     }
 
     /**
      * 拒绝
      */
     private void refuse() {
-        PostCall.putJson(mContext, ServerUrl.declineFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+        showProgressDialog("拒绝中");
+        EMClient.getInstance().contactManager().asyncDeclineInvitation(data.getHx_username(), new EMCallBack() {
             @Override
-            public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-                showToast("拒绝成功");
-                isChange = true;
-                getData();
+            public void onSuccess() {
+                PostCall.putJson(mContext, ServerUrl.declineFriend(), new ReceiveTrustVo(requestId, acceptId), new PostCall.PostResponse<BaseBean>() {
+                    @Override
+                    public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
+                        dismissProgressDialog();
+                        showToast("拒绝成功");
+                        isChange = true;
+                        getData();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, byte[] responseBody) {
+                        dismissProgressDialog();
+                    }
+                }, new String[]{}, false, BaseBean.class);
             }
 
             @Override
-            public void onFailure(int statusCode, byte[] responseBody) {
+            public void onError(int code, String error) {
+                dismissProgressDialog();
+                showToast(error);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
 
             }
-        }, new String[]{}, false, BaseBean.class);
+        });
     }
 
     @Override

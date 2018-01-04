@@ -1,7 +1,5 @@
 package com.xhy.zhanhui.preferences;
 
-import android.text.TextUtils;
-
 import com.aaron.aaronlibrary.base.utils.BaseSharedPreferences;
 import com.google.gson.Gson;
 import com.xhy.zhanhui.http.domain.LoginBean;
@@ -32,7 +30,6 @@ public class UserSharedPreferences extends BaseSharedPreferences {
 
     public void setLoginData(LoginBean bean) {
         String data = new Gson().toJson(bean);
-        System.out.println("~!~ data = " + data);
         set(LOGIN_DATA, data);
     }
 

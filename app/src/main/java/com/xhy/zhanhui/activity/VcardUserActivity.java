@@ -147,7 +147,7 @@ public class VcardUserActivity extends ZhanHuiActivity{
         super.onStart();
         if (task != null) {
             timer = new Timer();
-            autoRefreshQRCode();
+            getData();
         }
     }
 

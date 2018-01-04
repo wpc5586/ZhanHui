@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.aaron.aaronlibrary.listener.OnRecyclerItemLongClickListener;
 import com.aaron.aaronlibrary.manager.MyLinearLayoutManager;
 import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.ImageUtils;
+import com.aaron.aaronlibrary.web.X5WebView;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
@@ -44,13 +46,15 @@ import cn.jzvd.JZVideoPlayerStandard;
 public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClickListener {
 
     private String productId;
+    private boolean isChange; // 是否关注或者取消关注过
     private MyConvenientBanner convenientBanner;
     private ImageView ivThum;
     private TextView tvName, tvId, tvAttentionNum, tvProductNum, tvIntro, tvAttention;
     private JZVideoPlayerStandard jzVideoPlayerStandard;
-    private RecyclerView recyclerParam, recyclerView;
-    private ProductDetailAdapter adapter;
+    private RecyclerView recyclerParam;
     private ProductParamAdapter adapterParam;
+    private LinearLayout llContent;
+    private X5WebView webView;
 
     @Override
     protected int getContentLayoutId() {
@@ -75,9 +79,9 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
         tvProductNum = findViewById(R.id.tvProductNum);
         tvIntro = findViewById(R.id.tvIntro);
         recyclerParam = findViewById(R.id.recyclerParam);
-        recyclerView = findViewById(R.id.recycler);
         tvAttention = findViewById(R.id.tv2);
         findAndSetClickListener(R.id.rl2);
+        llContent = findViewById(R.id.llContent);
     }
 
     @Override
@@ -86,7 +90,7 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
         setActionbarTitle("");
         setActionbarBackground(R.color.transparent);
         setActionbarDividerVisibility(false);
-        productId = getIntent().getStringExtra("product_id");
+        productId = getStringExtra("product_id");
         initBannerHeight();
         getData();
     }
@@ -164,8 +168,10 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
                     PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
                 }
                 setRecyclerView();
-                adapter.setData(data.getImages2());
+//                adapter.setData(data.getImages2());
                 adapterParam.setData(data.getParams());
+                // 设置WebView
+                setData();
             }
 
             @Override
@@ -182,28 +188,25 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
         MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(mContext);
         linearLayoutManager.setScrollEnabled(false);
         recyclerParam.setLayoutManager(linearLayoutManager);
-        MyLinearLayoutManager linearLayoutManager1 = new MyLinearLayoutManager(mContext);
-        linearLayoutManager1.setScrollEnabled(false);
-        recyclerView.setLayoutManager(linearLayoutManager1);
-        if (adapter == null) {
-            adapter = new ProductDetailAdapter(mContext);
+        if (adapterParam == null) {
             adapterParam = new ProductParamAdapter(mContext);
-            recyclerView.setAdapter(adapter);
             recyclerParam.setAdapter(adapterParam);
-            adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-                @Override
-                public void onItemClick(View view, BaseViewHolder holder) {
-                }
-            });
-            adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
-                @Override
-                public void onItemLongClick(View view, BaseViewHolder holder) {
-                }
-            });
         } else {
-            adapter.notifyDataSetChanged();
             adapterParam.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 数据加载后加载页面数据并初始化webview
+     */
+    private void setData() {
+        if (webView != null)
+            return;
+        webView = new X5WebView(mContext);
+        llContent.addView(webView);
+        PublicMethod.setWebView(mContext, webView, null);
+        webView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        webView.loadUrl(ServerUrl.productIntroduction(productId));
     }
 
     public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailHolder> implements View.OnClickListener, View.OnLongClickListener {
@@ -428,11 +431,31 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
      * 添加关注
      */
     private void attention() {
-        PostCall.get(mContext, ServerUrl.attentionProduct(productId), new BaseMap(), new PostCall.PostResponse<ExhibitionProductInfoBean>() {
+        PostCall.post(mContext, ServerUrl.attentionProduct(productId), new BaseMap(), new PostCall.PostResponse<ExhibitionProductInfoBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, ExhibitionProductInfoBean bean) {
                 tvAttention.setText("已关注");
                 showToast("已关注");
+                isChange = true;
+            }
+
+            @Override
+            public void onFailure(int statusCode, byte[] responseBody) {
+
+            }
+        }, new String[]{}, false, ExhibitionProductInfoBean.class);
+    }
+
+    /**
+     * 取消关注
+     */
+    private void cancelAttention() {
+        PostCall.delete(mContext, ServerUrl.cancelProduct(productId), "", new PostCall.PostResponse<ExhibitionProductInfoBean>() {
+            @Override
+            public void onSuccess(int statusCode, byte[] responseBody, ExhibitionProductInfoBean bean) {
+                tvAttention.setText("关注");
+                showToast("已取消关注");
+                isChange = true;
             }
 
             @Override
@@ -443,11 +466,21 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        if (isChange)
+            MainActivity.getInstance().refreshAttentionProduct();
+    }
+
+    @Override
     public void onClick(View view) {
         super.onClick(view);
         switch(view.getId()) {
             case R.id.rl2: // 添加关注
-                attention();
+                if ("关注".equals(tvAttention.getText().toString()))
+                    attention();
+                else
+                    cancelAttention();
                 break;
         }
     }

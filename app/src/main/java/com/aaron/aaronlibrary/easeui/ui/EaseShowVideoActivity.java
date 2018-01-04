@@ -26,11 +26,11 @@ import java.io.File;
 
 /**
  * show the video
- * 
+ *
  */
 public class EaseShowVideoActivity extends EaseBaseActivity {
 	private static final String TAG = "ShowVideoActivity";
-	
+
 	private RelativeLayout loadingLayout;
 	private ProgressBar progressBar;
 	private String localFilePath;
@@ -151,6 +151,6 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 	public void onBackPressed() {
 		finish();
 	}
- 
+
 
 }

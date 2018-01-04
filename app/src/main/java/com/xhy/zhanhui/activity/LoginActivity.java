@@ -163,14 +163,7 @@ public class LoginActivity extends ZhanHuiActivity {
 
             @Override
             public void onFailure(int i, byte[] bytes) {
-                if (Constants.DEBUGABLE) {
-                    String login = "{\"code\":0,\"data\":{\"hx_password\":\"36664824\",\"hx_username\":\"nebintel1513235133133\",\"icon\":\"http://nebintel02.oss-cn-beijing.aliyuncs.com/timg2.jpg\",\"user_id\":28},\"msg\":\"用户登录成功\"}";
-                    LoginBean bean = new Gson().fromJson(login, LoginBean.class);
-                    ZhanHuiApplication.getInstance().login(bean);
-                    showToast("登录成功");
-                    startMyActivity(MainActivity.class);
-                    finish();
-                }
+                dismissProgressDialog();
             }
         }, new String[]{}, false, LoginBean.class);
     }

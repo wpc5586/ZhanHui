@@ -86,17 +86,18 @@ public class RecorderVideoActivity extends EaseBaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// no title
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);// full screen
 		// translucency mode，used in surface view
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
+		super.onCreate(savedInstanceState);
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK,
 				CLASS_LABEL);
 		mWakeLock.acquire();
 		initViews();
+		setActionbarTitle("录制视频");
 	}
 
 	private void initViews() {

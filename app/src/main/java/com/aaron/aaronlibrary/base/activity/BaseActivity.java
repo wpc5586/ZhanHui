@@ -18,7 +18,10 @@ import android.support.annotation.IdRes;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
@@ -213,12 +216,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         actionbarView.getDividerView().setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
-    protected void setStatusBarVisibility(boolean visibility) {
-        statusView.setVisibility(visibility ? View.VISIBLE : View.GONE);
-    }
-
     protected void setStatusBackground(int id) {
         statusView.setBackgroundColor(getColorFromResuource(id));
+    }
+
+    protected void setStatusBarVisibility(boolean visibility) {
+        statusView.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -227,6 +230,20 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
      */
     protected void setActionbarTitle(String title) {
         actionbarView.setTitle(title);
+    }
+
+    /**
+     * 设置进入页面焦点是否在输入框上
+     * @param isFocus true：在输入框上  false：不在
+     */
+    protected void setActionbarEditFocus(boolean isFocus) {
+        if (!isFocus) {
+            actionbarView.getSearchButton().requestFocus();
+            actionbarView.getSearchButton().requestFocusFromTouch();
+        } else {
+            actionbarView.getSearchView().requestFocus();
+            actionbarView.getSearchView().requestFocusFromTouch();
+        }
     }
 
     /**
@@ -719,5 +736,18 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         if (getIntent().hasExtra(key))
             return getIntent().getStringExtra(key);
         return "";
+    }
+
+    /**
+     * 缩进两个字
+     * @param content 需要缩进的内容
+     * @return SpannableStringBuilder
+     */
+    protected SpannableStringBuilder getIndent(String content) {
+        // 隐藏前两个字完美解决缩进问题
+        SpannableStringBuilder span = new SpannableStringBuilder("缩进" + content);
+        span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return span;
     }
 }

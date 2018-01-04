@@ -9,6 +9,7 @@ import com.aaron.aaronlibrary.easeui.db.DemoDBManager;
 import com.aaron.aaronlibrary.utils.MathUtils;
 import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.activity.EditVcardActivity;
 
 /**
  * Activity基类
@@ -82,6 +83,20 @@ public class ZhanHuiActivity extends BaseActivity {
      */
     protected String getUserName() {
         return ZhanHuiApplication.getInstance().getUserName();
+    }
+
+    /**
+     * 判断当前账户的vcard_id是否为0（系统默认值），如果为0，需要先去设置个人名片，才可显示个人名片或者添加他人信任
+     * @return
+     */
+    protected boolean isVcardIdZero() {
+        String vcardId = ZhanHuiApplication.getInstance().getVcardId();
+        if ("0".equals(vcardId)) {
+            showToast("您需要先设置个人名片");
+            startMyActivity(EditVcardActivity.class);
+            return true;
+        } else
+            return false;
     }
 
     /**

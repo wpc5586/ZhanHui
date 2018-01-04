@@ -28,6 +28,7 @@ import com.aaron.aaronlibrary.manager.MyLinearLayoutManager;
 import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.aaron.aaronlibrary.utils.MathUtils;
+import com.aaron.aaronlibrary.web.X5WebView;
 import com.aaron.aaronlibrary.widget.verticalscrolltext.Sentence;
 import com.aaron.aaronlibrary.widget.verticalscrolltext.VerticalScrollTextView;
 import com.xhy.zhanhui.R;
@@ -36,6 +37,7 @@ import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.ExhibitionCompanyInfoBean;
 import com.xhy.zhanhui.http.domain.ExhibitionDataBean;
 import com.xhy.zhanhui.http.domain.ExhibitionProductBean;
+import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 import com.xhy.zhanhui.widget.ExhibitionTitleView;
 
 import java.util.ArrayList;
@@ -52,14 +54,18 @@ import cn.jzvd.JZVideoPlayerStandard;
 public class CompanyDetailActivity extends ZhanHuiActivity {
 
     private String companyId;
+    private ExhibitionCompanyInfoBean.Obj data;
     private ScrollView scrollView;
     private RelativeLayout rlUp;
     private ImageView ivThum;
-    private TextView tvName, tvId, tvAttentionNum, tvProductNum, tvIntro, tvIntroduction;
+    private TextView tvName, tvId, tvAttentionNum, tvProductNum, tvIntro;
     private VerticalScrollTextView scrollTextView;
     private JZVideoPlayerStandard jzVideoPlayerStandard;
     private RecyclerView recyclerView;
     private ExhibitionDetailAdapter adapter;
+    private List<ExhibitionDataBean.Obj> dataBean; // 资料数据
+    private LinearLayout llContent;
+    private X5WebView webView;
 
     @Override
     protected int getContentLayoutId() {
@@ -86,8 +92,8 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
         tvAttentionNum = findViewById(R.id.tvAttentionNum);
         tvProductNum = findViewById(R.id.tvProductNum);
         tvIntro = findViewById(R.id.tvIntro);
-        tvIntroduction = findViewById(R.id.tvIntroduction);
-        recyclerView = findViewById(R.id.recycler);
+        llContent = findViewById(R.id.llContent);
+        findAndSetClickListener(R.id.btnTrust);
     }
 
     @Override
@@ -104,12 +110,18 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
             scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    int height = MathUtils.dip2px(mContext, 50);
+                    float ratio = scrollY / (float) height;
                     if (scrollY == 0) {
                         setActionbarBackground(R.color.transparent);
                         setStatusBackground(R.color.transparent);
                     } else {
-                        setActionbarBackground(R.color.theme);
+                        setActionbarBackground(R.color.white);
                         setStatusBackground(R.color.theme);
+                        setActionbarTitleColor(R.color.theme_black);
+                        if (ratio <= 1 && ratio >= 0) {
+                            getActionbarView().getBackground().setAlpha((int) (ratio * 255));
+                        }
                     }
                 }
             });
@@ -135,18 +147,14 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
         PostCall.get(mContext, ServerUrl.company(companyId), new BaseMap(), new PostCall.PostResponse<ExhibitionCompanyInfoBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, ExhibitionCompanyInfoBean bean) {
-                ExhibitionCompanyInfoBean.Obj data = bean.getData();
+                data = bean.getData();
                 ImageUtils.loadImage(mContext, data.getImage_url(), ivThum);
                 tvName.setText(data.getCompany_name());
                 tvId.setText(data.getBooth_no());
                 tvAttentionNum.setText(data.getFocus());
                 tvProductNum.setText(data.getPdt_nums());
                 tvIntro.setText(data.getCompany_introduction());
-                // 隐藏前两个字完美解决缩进问题
-                SpannableStringBuilder span = new SpannableStringBuilder("缩进" + data.getCompany_introduction());
-                span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
-                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                tvIntroduction.setText(span);
+//                tvIntroduction.setText(getIndent(data.getCompany_introduction()));
                 jzVideoPlayerStandard.setUp(data.getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
                 jzVideoPlayerStandard.setVisibility(View.VISIBLE);
                 PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
@@ -160,25 +168,9 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
         PostCall.get(mContext, ServerUrl.companyDocument(companyId), new BaseMap(), new PostCall.PostResponse<ExhibitionDataBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, ExhibitionDataBean bean) {
-                List<ExhibitionDataBean.Obj> dataBean = bean.getData();
-                setRecyclerView();
-                adapter.addData("资料");
-                int size = dataBean.size() / 3;
-                if (size == 0 && dataBean.size() > 0)
-                    size = dataBean.size();
-                else if(dataBean.size() % 3 != 0)
-                    size += 1;
-                for (int i = 0; i < size; i++) {
-                    List<ExhibitionDataBean.Obj> tempDatas = new ArrayList<>();
-                    int pos = 3 * i;
-                    for (int j = pos; j < pos + 3; j++) {
-                        if (j < dataBean.size()) {
-                            tempDatas.add(dataBean.get(j));
-                        }
-                    }
-                    adapter.addData(tempDatas);
-                }
-                getProductData();
+                dataBean = bean.getData();
+                // 设置WebView
+                setData();
             }
 
             @Override
@@ -186,6 +178,45 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
 
             }
         }, new String[]{}, false, ExhibitionDataBean.class);
+    }
+
+    /**
+     * 数据加载后加载页面数据并初始化webview
+     */
+    private void setData() {
+        if (webView != null)
+            return;
+        webView = new X5WebView(mContext);
+        llContent.addView(webView);
+        PublicMethod.setWebView(mContext, webView, null);
+        webView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        webView.loadUrl(ServerUrl.companyIntroduction(companyId));
+        RelativeLayout relativeLayout = new RelativeLayout(mContext);
+        recyclerView = new RecyclerView(mContext);
+        relativeLayout.addView(recyclerView);
+        llContent.addView(relativeLayout);
+        relativeLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+        relativeLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        recyclerView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        setRecyclerView();
+        adapter.addData("资料");
+        int size = dataBean.size() / 3;
+        if (size == 0 && dataBean.size() > 0)
+            size = dataBean.size();
+        else if(dataBean.size() % 3 != 0)
+            size += 1;
+        for (int i = 0; i < size; i++) {
+            List<ExhibitionDataBean.Obj> tempDatas = new ArrayList<>();
+            int pos = 3 * i;
+            for (int j = pos; j < pos + 3; j++) {
+                if (j < dataBean.size()) {
+                    tempDatas.add(dataBean.get(j));
+                }
+            }
+            adapter.addData(tempDatas);
+        }
+        getProductData();
     }
 
     /**
@@ -355,8 +386,7 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
                 case R.id.rl3:
                     Object data = v.getTag();
                     if (data instanceof ExhibitionDataBean.Obj) {
-                        StartActivityUtils.startCenterDetail(mContext, ((ExhibitionDataBean.Obj) data).getDocument_id(),
-                                ((ExhibitionDataBean.Obj) data).getImage_url(), ((ExhibitionDataBean.Obj) data).getDocument_name());
+                        StartActivityUtils.startCenterDetail(mContext, ((ExhibitionDataBean.Obj) data).getDocument_id(), ((ExhibitionDataBean.Obj) data).getImage_url(), ((ExhibitionDataBean.Obj) data).getDocument_name());
                     } else if (data instanceof ExhibitionProductBean.Obj) {
                         String productId = ((ExhibitionProductBean.Obj) data).getProduct_id();
                         StartActivityUtils.startProductDetail(mContext, productId);
@@ -431,5 +461,23 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
     protected void onPause() {
         super.onPause();
         JZVideoPlayer.releaseAllVideos();
+    }
+
+    /**
+     * 信任并交换名片
+     */
+    private void trust() {
+//        if (!isVcardIdZero())
+//          StartActivityUtils.startTrustCompany(mContext, bean);
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.btnTrust:
+//                trust();
+                break;
+        }
     }
 }

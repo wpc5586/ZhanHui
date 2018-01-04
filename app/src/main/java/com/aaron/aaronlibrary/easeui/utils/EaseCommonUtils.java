@@ -22,6 +22,8 @@ import android.text.TextUtils;
 
 import com.aaron.aaronlibrary.easeui.EaseConstant;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
@@ -263,6 +265,16 @@ public class EaseCommonUtils {
      */
     public static boolean isSilentMessage(EMMessage message){
         return message.getBooleanAttribute("em_ignore_notification", false);
+    }
+
+    /**
+     * 添加好友
+     * @param userName 环信id
+     * @param reason 备注
+     * @param callBack 回调
+     */
+    public static void addFriend(String userName, String reason, EMCallBack callBack) {
+        EMClient.getInstance().contactManager().aysncAddContact(userName, reason, callBack);
     }
 
 }
