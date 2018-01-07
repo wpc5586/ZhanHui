@@ -43,10 +43,11 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		super.onCreate(savedInstanceState);
-		setActionbarVisibility(false);
+		setActionbarVisibility(true);
+		setActionbarTitle("播放视频");
 		loadingLayout = findViewById(R.id.loading_layout);
 		progressBar = findViewById(R.id.progressBar);
 
@@ -59,7 +60,6 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 		EMVideoMessageBody messageBody = (EMVideoMessageBody)message.getBody();
 
 		localFilePath = messageBody.getLocalUrl();
-		System.out.println("~!~ localFilePath = " + localFilePath);
 
 		if (localFilePath != null && new File(localFilePath).exists()) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -88,7 +88,6 @@ public class EaseShowVideoActivity extends EaseBaseActivity {
 	 */
 	private void showLocalVideo(String localPath){
 		File file = new File(localPath);
-		System.out.println("~!~ file = " + file.exists());
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		Uri videoUri;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

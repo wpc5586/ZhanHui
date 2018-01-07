@@ -244,6 +244,8 @@ public class MainActivity extends BaseListSample{
      */
     public void refreshName() {
         tvName.setText(ZhanHuiApplication.getInstance().getNickname());
+        if (fragments != null && fragments.length > 0)
+            ((MainFragment) fragments[0]).refreshName();
     }
 
     /**

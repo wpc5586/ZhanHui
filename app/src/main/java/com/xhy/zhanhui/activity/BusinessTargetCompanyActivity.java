@@ -112,7 +112,7 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
             public void onFailure(int statusCode, byte[] responseBody) {
 
             }
-        }, new String[]{}, false, TargetCompanyBean.class);
+        }, new String[]{}, true, TargetCompanyBean.class);
     }
 
     /**

@@ -20,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
+import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.EaseConstant;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
 import com.hyphenate.EMCallBack;
@@ -87,7 +88,10 @@ public class EaseCommonUtils {
         case LOCATION:
             if (message.direct() == EMMessage.Direct.RECEIVE) {
                 digest = getString(context, R.string.location_recv);
-                digest = String.format(digest, message.getFrom());
+                String from = message.getFrom();
+                if (DemoHelper.getInstance().getContactList().get(message.getFrom()) != null && !TextUtils.isEmpty(DemoHelper.getInstance().getContactList().get(message.getFrom()).getNickname()))
+                    from = DemoHelper.getInstance().getContactList().get(message.getFrom()).getNickname();
+                digest = String.format(digest, from);
                 return digest;
             } else {
                 digest = getString(context, R.string.location_prefix);

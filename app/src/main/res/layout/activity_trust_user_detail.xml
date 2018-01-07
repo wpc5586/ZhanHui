@@ -81,7 +81,8 @@
                     android:layout_below="@+id/tvIntro"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="25dp"

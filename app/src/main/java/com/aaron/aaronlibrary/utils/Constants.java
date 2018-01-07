@@ -28,7 +28,7 @@ public class Constants {
     /**
      * 全局常量：7.0以上内容提供者包名
      */
-    public static final String FILE_CONTENT_FILEPROVIDER = "com.xhy.zhanhui.fileProvider";
+    public static final String FILE_CONTENT_FILEPROVIDER = Constants.VERSION_IS_USER ? "com.xhy.zhanhui.fileProvider" : "com.xhy.zhanhuic.fileProvider";
 
     /**
      * 全局常量：图片压缩比例

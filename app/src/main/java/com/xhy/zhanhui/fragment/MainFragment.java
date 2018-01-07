@@ -194,4 +194,11 @@ public class MainFragment extends ZhanHuiFragment {
     public void refresh() {
         getUnreadMessage();
     }
+
+    /**
+     * 刷新新设置的昵称
+     */
+    public void refreshName() {
+        tvName.setText(ZhanHuiApplication.getInstance().getNickname());
+    }
 }

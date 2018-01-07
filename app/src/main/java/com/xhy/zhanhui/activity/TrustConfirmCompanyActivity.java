@@ -49,8 +49,10 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
         setActionbarTitle("确认申请");
         if (getIntent().hasExtra("bean"))
             bean = (TrustCompanyBean) getIntent().getSerializableExtra("bean");
-        ImageUtils.loadImage(mContext, bean.getData().getImage_url(), ivThum);
-        tvName.setText(bean.getData().getCompany_name());
+        if (bean != null && bean.getData() != null) {
+            ImageUtils.loadImage(mContext, bean.getData().getImage_url(), ivThum);
+            tvName.setText(bean.getData().getCompany_name());
+        }
     }
 
     /**
@@ -102,7 +104,7 @@ public class TrustConfirmCompanyActivity extends ZhanHuiActivity {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.btnCommit:
-                if (!isVcardIdZero())
+                if (bean != null && bean.getData() != null && !isVcardIdZero())
                     commit();
                 break;
         }

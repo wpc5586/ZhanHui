@@ -257,7 +257,7 @@ public class SendTrustActivity extends ZhanHuiActivity implements SwipeItemLayou
          * @param holder
          */
         private void delete(final ReceiveTrustHolder holder) {
-            PostCall.deleteJson(mContext, ServerUrl.deleteRequestRecord(), new DeleteTrustVo(getHxUserId(), (((SendTrustBean.Obj) holder.data).getAccept_id())), new PostCall.PostResponse<BaseBean>() {
+            PostCall.deleteJson(mContext, ServerUrl.deleteRequestRecord(), new DeleteTrustVo(getUserId(), (((SendTrustBean.Obj) holder.data).getAccept_id())), new PostCall.PostResponse<BaseBean>() {
                 @Override
                 public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                     removeData(holder.data, holder.getAdapterPosition());

@@ -86,7 +86,7 @@ public class CenterMessageActivity extends ZhanHuiActivity implements SwipeItemL
             public void onFailure(int statusCode, byte[] responseBody) {
 
             }
-        }, new String[]{}, false, CenterMessageBean.class);
+        }, new String[]{}, true, CenterMessageBean.class);
     }
 
 

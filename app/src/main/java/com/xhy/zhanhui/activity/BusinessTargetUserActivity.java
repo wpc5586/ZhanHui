@@ -110,7 +110,7 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
             public void onFailure(int statusCode, byte[] responseBody) {
 
             }
-        }, new String[]{}, false, BusinessTrustBean.class);
+        }, new String[]{}, true, BusinessTrustBean.class);
     }
 
     /**

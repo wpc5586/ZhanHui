@@ -468,7 +468,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         if (progressDialog == null) {
 //            progressDialog = LoadingDialog.createDialog(mContext);
             progressDialog = new ProgressDialog(mContext);
-//            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         }
         progressDialog.setMessage(content);
