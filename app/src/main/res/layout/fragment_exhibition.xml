@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="51dp"
+            android:layout_marginRight="51dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/actionbar_search_bg">
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:paddingLeft="6dp"
+                android:imeOptions="actionSearch"
+                android:layout_toEndOf="@id/ivSearch"
+                android:inputType="text"
+                android:layout_toRightOf="@id/ivSearch"
+                android:background="@null"
+                android:text=""
+                android:textColor="@color/theme_black"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/rlProgressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="71dp"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_line"/>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/tab_bg"
+        app:tabBackground="@color/tab_bg"
+        app:tabIndicatorColor="@color/theme"
+        app:tabSelectedTextColor="@color/theme"
+        app:tabTextColor="@color/theme_black" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</LinearLayout>

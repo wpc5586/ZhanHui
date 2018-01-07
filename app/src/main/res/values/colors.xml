@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="order_state1">#ffc55f</color>
+    <color name="order_state2">#7acc7a</color>
+    <color name="order_state3">#ff0000</color>
+    <color name="order_state4">#c9c9c9</color>
+    <color name="order_state5">#c9c9c9</color>
+    <color name="order_title">#101010</color>
+    <color name="order_text">#808080</color>
+    <color name="order_title_done">#767676</color>
+    <color name="order_text_donw">#b9b9b9</color>
+</resources>

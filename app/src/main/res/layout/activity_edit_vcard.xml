@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:text="头像"
+                    android:textColor="@color/theme_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="35dp"
+                    android:src="@mipmap/common_avatar" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/arrow_right" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="真实姓名"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="35dp"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:hint="完善个人真实姓名"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlCard"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="身份证"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:layout_marginRight="35dp"
+                    android:digits="0123456789xX"
+                    android:maxLength="18"
+                    android:background="@null"
+                    android:hint="完善个人身份证"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#e8e8e8"
+                android:padding="10dp"
+                android:text="公司信息"
+                android:textColor="@color/theme_black"
+                android:textSize="13.5sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlCompany"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="公司"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etCompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:layout_marginRight="35dp"
+                    android:background="@null"
+                    android:hint="完善公司名称"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlTitle"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="职务"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:layout_marginRight="35dp"
+                    android:background="@null"
+                    android:hint="完善公司职务"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlAddress"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="地址"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/etAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="35dp"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:hint="完善公司地址"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/arrow_right" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlPhone"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="电话"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="35dp"
+                    android:maxLength="11"
+                    android:inputType="number"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:hint="完善公司电话"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlEmail"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="邮箱"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:layout_marginRight="35dp"
+                    android:background="@null"
+                    android:hint="完善公司邮箱"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="15dp"
+                android:background="#e8e3e8" />
+
+            <RelativeLayout
+                android:id="@+id/rlWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/drawer_list_bg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="官网"
+                    android:textColor="@color/theme_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etWebsite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:layout_marginRight="35dp"
+                    android:background="@null"
+                    android:hint="完善公司官网"
+                    android:textColor="@color/theme_black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@+id/tv"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/common_btn_bg"
+        android:text="保存信息"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+</RelativeLayout>

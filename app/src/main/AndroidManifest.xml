@@ -1,0 +1,418 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.xhy.zhanhui">
+
+    <uses-sdk tools:overrideLibrary="cn.jzvd"/>
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!-- 用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <permission
+        android:name="${package_name}.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signatureOrSystem" />
+
+    <uses-permission android:name="${package_name}.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".base.ZhanHuiApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/nebintel"
+        android:label="${app_name}"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme_NoActionBar" >
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.RegistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.VcardUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.QRCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.ReceiveTrustActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.SendTrustActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.TrustDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.OrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.OrderSponsorActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.TicketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.RecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.StaticsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.EditVcardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.AccountSecurityActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.SettingPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.ConfirmPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.PrivacySettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.SettingPwdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.UrlWebActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.UrlPdfActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.TempActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleTheme"/>
+        <activity
+            android:name=".activity.CompanyDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar_Transparent"/>
+        <activity
+            android:name=".activity.CompanyListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.ProductDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar_Transparent"/>
+        <activity
+            android:name=".activity.ProductListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.CenterDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.CenterMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.CenterMessageDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessCompanyDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessUserDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.TrustConfirmUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.TrustConfirmCompanyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessAttentionCompanyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessAttentionUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessTargetCompanyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.BusinessTargetUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <!--         easeui activity         -->
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.AddContactActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.NewFriendsMsgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.NewGroupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.EaseBaiduMapActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.EaseShowBigImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.ImageGridActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.VoiceCallActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.EaseShowVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.ChatActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.ContextMenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.RecorderVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.aaron.aaronlibrary.easeui.ui.ForwardMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <meta-data android:name="Mob-AppKey" android:value="2212c1b74cbf8"/>
+        <meta-data android:name="Mob-AppSecret" android:value="429856194a791d4bcb2767131de75ab8"/>
+
+        <!-- 设置环信应用的AppKey -->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="1154170920115109#maxsl" />
+        <!-- 声明SDK所需的service SDK核心功能-->
+        <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
+        <service android:name="com.hyphenate.chat.EMJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            />
+        <!-- 声明SDK所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <!--&lt;!&ndash; 开机自启动服务 &ndash;&gt;-->
+        <!--<receiver android:name="">-->
+        <!--<intent-filter android:priority="1000">-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--<action android:name="android.intent.action.QUICKBOOT_POWERON" />-->
+
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!-- FCM required start -->
+        <!--<service android:name=".fcm.EMFCMMSGService">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+
+        <!--<service android:name=".fcm.EMFCMTokenRefreshService">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+        <!-- FCM required end -->
+
+        <!-- mi push -->
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+
+        <receiver
+            android:name="com.hyphenate.chat.EMMipushReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
+        <!-- mi push end -->
+
+        <!--华为 HMS Config-->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="10492024" />
+        <!--华为推送 start-->
+        <receiver android:name="com.hyphenate.chat.EMHWPushReceiver">
+            <intent-filter>
+                <!-- 必须,用于接收 TOKEN -->
+                <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
+                <!-- 必须，用于接收消息 -->
+                <action android:name="com.huawei.android.push.intent.RECEIVE"/>
+                <!-- 可选，用于点击通知栏或通知栏上的按钮后触发 onEvent 回调 -->
+                <action android:name="com.huawei.android.push.intent.CLICK"/>
+                <!-- 可选，查看 PUSH 通道是否连接，不查看则不需要 -->
+                <action android:name="com.huawei.intent.action.PUSH_STATE"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
+            <intent-filter>
+                <!-- 接收通道发来的通知栏消息，兼容老版本 PUSH -->
+                <action android:name="com.huawei.intent.action.PUSH"/>
+            </intent-filter>
+        </receiver>
+        <!-- huawei push end -->
+        <!-- 声明sdk所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 百度地图所需的service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="${baidu_key}" />
+
+        <!-- fabric start -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6b54bd4edc63eba3ef59d69f8e0a5070bea384e2" />
+        <!-- fabric end -->
+
+        <!-- 7.0以上安装APK-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${package_name}.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

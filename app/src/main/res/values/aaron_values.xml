@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="md__transparent">#00000000</color>
+    <color name="md__defaultBackground">#FF555555</color>
+
+    <color name="trend">#0394f1</color>
+    <color name="indicator">#5cb548</color>
+    <color name="main_tab_pressed">#0064bd</color>
+    <color name="main_tab_pressed_mourn">#6C6C6C</color>
+    <color name="drawer_pressed_mourn">#808080</color>
+    <color name="drawer_divider">#1078CE</color>
+    <color name="drawer_divider_mourn">#808080</color>
+
+    <color name="collect_up_text">#6bc137</color>
+    <color name="collect_down_text">#eb3b5a</color>
+
+    <color name="theme_black">#101010</color>
+    <color name="theme_blue">#32b7ef</color>
+    <color name="theme_gray">#f7f7f7</color>
+    <color name="collection_text">#818181</color>
+    <color name="theme_jf">#3EAFF8</color>
+    <color name="gray_mourn">#7B7B7B</color>
+    <color name="common_bg_color">#46A3FF</color>
+    <color name="black_3c">#3c3c3c</color>
+    <color name="black_d3">#d3d3d3</color>
+    <color name="headbg">#444444</color>
+    <color name="linecolor">#D8D7D8</color>
+    <color name="trendDown">#ef7b4b</color>
+    <color name="tab_text_select">#FF9244</color>
+    <color name="blacktransparent">#B2000000</color>
+    <color name="channel_text">#b8b6b6</color>
+    <color name="darkgrey">#4B4B4B</color>
+    <color name="specialReminder">#e4e4e4</color>
+    <color name="Calendar_DayBgColor">#F7F7F7</color>
+    <color name="isHoliday_BgColor">#E0E0E0</color>
+    <color name="isPresentMonth_FontColor">#626262</color>
+    <color name="unPresentMonth_FontColor">#d0d0d0</color>
+    <color name="city">#a7a7a7</color>
+    <color name="locationitembg">#EDE8DD</color>
+    <color name="headbg_old">#d8d3d4</color>
+    <color name="Calendar_WeekBgColor">#0295f0</color>
+    <color name="Calendar_WeekFontColor">#8C8A8C</color>
+    <color name="ribao_date_btn_color_normal">#f2f2f2</color>
+
+    <!-- tab page indicator -->
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">
+        @color/vpi__bright_foreground_holo_light
+    </color>
+    <color name="vpi__bright_foreground_inverse_holo_light">
+        @color/vpi__bright_foreground_holo_dark
+    </color>
+
+    <!-- wheel city -->
+    <color name="trans">#00000000</color>
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#0e6dfe</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
+
+
+    <color name="gray_pressed">#a5a5a5</color>
+    <color name="gray_normal">#d3c3d3</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="test">#84e6f1</color>
+    <color name="library_image_bg">#f2f2f2</color>
+    <color name="gray_line">#dbdbdb</color>
+    <color name="water_mark">#777777</color>
+    <color name="button_press">#1c000000</color>
+    <color name="edit_bg">#4d000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="common_title">#2affe8</color>
+    <color name="common_description">#666667</color>
+    <color name="commodity_bg">#b3000000</color>
+    <color name="progress_bg">#b5b5b5</color>
+    <color name="progress_pg">#c71321</color>
+    <color name="transparent">#00000000</color>
+    <color name="description">#b9b9b9</color>
+    <color name="content">#999999</color>
+    <color name="disable">#888888</color>
+    <color name="divider">#e9e9e9</color>
+    <color name="blue">#127bdd</color>
+    <color name="gray">#aaaaaa</color>
+    <color name="camera_bg_d">#282828</color>
+    <color name="camera_bg_p">#141414</color>
+    <color name="light_blue">#6593cb</color>
+    <color name="theme">#ffe13232</color>
+    <color name="theme_pressed">#ffbb3232</color>
+    <color name="tab_bg">#fafafa</color>
+    <color name="theme_text">#141414</color>
+    <color name="red">#c12c20</color>
+    <color name="list_pressed_bg">#d9d9d9</color>
+    <color name="albumback">#E1E0DE</color>
+    <color name="pull_bg">#e1e1e1</color>
+    <color name="none_color">#00000000</color>
+    <color name="plugin_camera_black">#000000</color>
+    <color name="head_background_color">#e7e7e7</color>
+    <color name="get_red_packet_color">#faa290</color>
+    <color name="red_packet_description_color">#fefbfb</color>
+    <color name="receive_red_packet_list_divider">#d0d0d0</color>
+    <color name="receive_time_text_color">#d4d4d4</color>
+    <color name="head_with_right_button_color">#c71321</color>
+    <color name="head_search_location_formal_text_color">#333333</color>
+    <color name="head_search_location_informal_text_color">#d6d6d6</color>
+    <color name="head_search_location_hint_color">#bebebe</color>
+    <!-- 发现 地图 text -->
+    <color name="discovery_map_text_color">#000000</color>
+    <!-- pickerview -->
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <!--覆盖颜色-->
+    <color name="bgColor_overlay">#60000000</color>
+
+
+    <dimen name="padding_search_bar">5dp</dimen>
+    <dimen name="actionbar_height">50dp</dimen>
+    <dimen name="common_list_height">55dp</dimen>
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
+    <dimen name="ui_10_dip">10dip</dimen>
+    <dimen name="size_default_height">305dp</dimen>
+
+    <dimen name="ac_dialog_w">220dp</dimen>
+    <dimen name="ac_dialog_h">134dp</dimen>
+    <dimen name="ac_dialog_btn_cancel_w_h">50dp</dimen>
+    <dimen name="ac_dialog_btn_cancel_margin_b">42dp</dimen>
+
+    <dimen name="ac_dialog_list_btn_h">40dp</dimen>
+    <dimen name="ac_dialog_list_btn_margin_l_r">10dp</dimen>
+    <dimen name="ac_dialog_list_btn_textsize">17sp</dimen>
+
+
+    <string name="cancel">取消</string>
+    <string name="photo">选择相册</string>
+    <string name="request_timeout">请求超时，请检查网络！</string>
+
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="NoTitleTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="center">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="listDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="activity_theme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/Anim</item>
+    </style>
+
+    <style name="Anim" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/hold</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="NumberProgressBar_Default">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#3498DB</item>
+
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#3498DB</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Passing_Green">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#70A800</item>
+
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#70A800</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Beauty_Red">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#FF3D7F</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#FF3D7F</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Warning_Red">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#E74C3C</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#E74C3C</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Relax_Blue">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#6DBCDB</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#6DBCDB</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Grace_Yellow">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#FFC73B</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#FFC73B</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Funny_Orange">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#FF530D</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#FF530D</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="NumberProgressBar_Twinkle_Night">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#ECF0F1</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#ECF0F1</item>
+
+        <item name="progress_reached_bar_height">1.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>
+
+    <style name="Widget" />
+
+    <style name="Widget.TabPageIndicator" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextAppearance.TabPageIndicator" parent="Widget">
+        <item name="android:textColor">@color/vpi__dark_theme</item>
+    </style>
+
+    <!-- Base theme for the menu drawer. -->
+    <style name="Widget.MenuDrawer">
+        <item name="mdMenuBackground">@color/md__defaultBackground</item>
+        <item name="mdContentBackground">?android:attr/windowBackground</item>
+        <item name="mdDrawerOpenUpContentDescription">@string/md__drawerOpenIndicatorDesc</item>
+        <item name="mdDrawerClosedUpContentDescription">@string/md__drawerClosedIndicatorDesc</item>
+    </style>
+
+    <string name="md__drawerOpenIndicatorDesc">Close drawer</string>
+    <string name="md__drawerClosedIndicatorDesc">Open drawer</string>
+
+    <declare-styleable name="SwipeItemLayout.Layout">
+        <attr name="layout_itemType">
+            <flag name="main" value="0x01" />
+            <flag name="menu" value="0x02" />
+        </attr>
+    </declare-styleable>
+
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--style="@style/MenuDrawer.Widget.Title"-->
+    <TextView
+        android:id="@+id/menu_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="?android:attr/textColorPrimaryInverse"
+        android:textSize="14sp"
+        android:paddingLeft="67dp"
+        android:paddingRight="32dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical"
+        style="?drawerItemBackground"/>
+
+    <ImageView
+        android:id="@+id/menu_iv"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="23dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        style="?drawerDividerBackground"/>
+</RelativeLayout>
