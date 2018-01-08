@@ -15,6 +15,7 @@ import com.aaron.aaronlibrary.base.activity.BaseActivity;
 import com.aaron.aaronlibrary.base.menudrawer.MenuDrawer;
 import com.aaron.aaronlibrary.base.menudrawer.Position;
 import com.aaron.aaronlibrary.utils.AppInfo;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.aaron.aaronlibrary.utils.MathUtils;
 import com.hyphenate.EMCallBack;
@@ -57,7 +58,10 @@ public abstract class BaseListSample extends ZhanHuiActivity implements MenuAdap
         tvName = linearLayout.findViewById(R.id.tvName);
         ImageUtils.loadImageCircle(mContext, ZhanHuiApplication.getInstance().getIcon(), ivAvatar);
         tvName.setText(ZhanHuiApplication.getInstance().getNickname());
-        linearLayout.findViewById(R.id.rlCard).setOnClickListener(this);
+        if (!Constants.VERSION_IS_USER)
+            linearLayout.findViewById(R.id.rlCard).setVisibility(View.GONE);
+        else
+            linearLayout.findViewById(R.id.rlCard).setOnClickListener(this);
         linearLayout.findViewById(R.id.rlPrivacy).setOnClickListener(this);
         linearLayout.findViewById(R.id.rlSafe).setOnClickListener(this);
         linearLayout.findViewById(R.id.rlLogout).setOnClickListener(this);
@@ -76,7 +80,8 @@ public abstract class BaseListSample extends ZhanHuiActivity implements MenuAdap
 //        mList.setDividerHeight(MathUtils.dip2px(this, 0));
 
         mMenuDrawer.setMenuView(linearLayout);
-        mMenuDrawer.setMenuSize((int) (AppInfo.getScreenWidthOrHeight(this, true) * 0.8f));
+        mMenuDrawer.getMenuContainer().setBackgroundColor(getColorFromResuource(R.color.transparent));
+        mMenuDrawer.setMenuSize((int) (AppInfo.getScreenWidthOrHeight(this, true) * 0.666f));
     }
 
     @Override

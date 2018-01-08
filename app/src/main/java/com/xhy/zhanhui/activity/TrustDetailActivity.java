@@ -9,7 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aaron.aaronlibrary.bean.BaseBean;
+import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.db.InviteMessgeDao;
+import com.aaron.aaronlibrary.easeui.domain.InviteMessage;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
@@ -375,6 +377,7 @@ public class TrustDetailActivity extends ZhanHuiActivity{
                         dismissProgressDialog();
                         showToast("接受成功");
                         isChange = true;
+                        DemoHelper.getInstance().notifyNewInviteMessage(data.getHx_username(), InviteMessage.InviteMessageStatus.BEAGREED);
                         getData();
                     }
 
@@ -412,6 +415,7 @@ public class TrustDetailActivity extends ZhanHuiActivity{
                         dismissProgressDialog();
                         showToast("拒绝成功");
                         isChange = true;
+                        DemoHelper.getInstance().notifyNewInviteMessage(data.getHx_username(), InviteMessage.InviteMessageStatus.BEREFUSED);
                         getData();
                     }
 

@@ -1,6 +1,9 @@
 package com.xhy.zhanhui.base;
 
+import android.content.DialogInterface;
 import android.os.Build;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.aaron.aaronlibrary.base.activity.BaseActivity;
 import com.aaron.aaronlibrary.easeui.DemoHelper;
@@ -43,6 +46,18 @@ public class ZhanHuiActivity extends BaseActivity {
         super.onStop();
         // remove activity from foreground activity list
         EaseUI.getInstance().popActivity(this);
+    }
+
+    /**
+     * 根据size判断是否显示无数据背景
+     * @param size 数据数量
+     */
+    protected void showNoDataBg(int size) {
+        ImageView imageView = findViewById(R.id.ivNoData);
+        if (size == 0)
+            imageView.setVisibility(View.VISIBLE);
+        else
+            imageView.setVisibility(View.GONE);
     }
 
     /**
@@ -92,8 +107,12 @@ public class ZhanHuiActivity extends BaseActivity {
     protected boolean isVcardIdZero() {
         String vcardId = ZhanHuiApplication.getInstance().getVcardId();
         if ("0".equals(vcardId)) {
-            showToast("您需要先设置个人名片");
-            startMyActivity(EditVcardActivity.class);
+            showAlertDialog("", "个人名片信息不完善，请先完善个人名片信息。", "确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startMyActivity(EditVcardActivity.class);
+                }
+            }, "", null, false);
             return true;
         } else
             return false;

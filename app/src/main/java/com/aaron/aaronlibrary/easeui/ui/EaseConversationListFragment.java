@@ -71,16 +71,17 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     @Override
     protected void initView() {
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        conversationListView = (EaseConversationList) view.findViewById(R.id.list);
-        query = (EditText) view.findViewById(R.id.query);
+        conversationListView = view.findViewById(R.id.list);
+        query = view.findViewById(R.id.query);
         // button to clear content in search bar
-        clearSearch = (ImageButton) view.findViewById(R.id.search_clear);
-        errorItemContainer = (FrameLayout) view.findViewById(R.id.fl_error_item);
+        clearSearch = view.findViewById(R.id.search_clear);
+        errorItemContainer = view.findViewById(R.id.fl_error_item);
     }
 
     @Override
     protected void setUpView() {
         conversationList.addAll(loadConversationList());
+        showNoDataBg(conversationList.size());
         conversationListView.init(conversationList);
 
         if (listItemClickListener != null) {
@@ -163,6 +164,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
                 case MSG_REFRESH: {
                     conversationList.clear();
                     conversationList.addAll(loadConversationList());
+                    showNoDataBg(conversationList.size());
                     conversationListView.refresh();
                     break;
                 }

@@ -58,6 +58,7 @@ public class VcardUserActivity extends ZhanHuiActivity{
     protected void init() {
         super.init();
         setActionbarTitle("");
+        setActionbarVisibility(false);
         userId = getStringExtra("userId");
         boolean isShow = true; // 是否显示二维码
         if (getIntent().hasExtra("isShow"))

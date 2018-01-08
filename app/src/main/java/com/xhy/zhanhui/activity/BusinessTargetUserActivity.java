@@ -101,6 +101,7 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
                     return;
                 setRecyclerView();
                 int size = bean.getData().size();
+                showNoDataBg(size);
                 for (int i = 0; i < size; i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -226,6 +227,7 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
                 @Override
                 public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                     removeData(holder.data, holder.getAdapterPosition());
+                    showNoDataBg(getItemCount());
                 }
 
                 @Override

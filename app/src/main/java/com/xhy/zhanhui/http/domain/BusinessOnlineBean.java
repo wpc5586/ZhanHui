@@ -25,7 +25,16 @@ public class BusinessOnlineBean extends BaseBean implements Serializable {
         private String image_url;
         private String company_id;
         private String company_name;
+        private String attention_degree;
         private List<User> company_users;
+
+        public String getAttention_degree() {
+            return Float.valueOf(attention_degree) == 0 ? "0" : attention_degree;
+        }
+
+        public void setAttention_degree(String attention_degree) {
+            this.attention_degree = attention_degree;
+        }
 
         public String getImage_url() {
             return image_url;

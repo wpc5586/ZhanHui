@@ -100,6 +100,8 @@ public class DemoHelper {
 
 	private Map<String, EaseUser> contactList;
 
+    private Map<String, EaseUser> tempContactList;
+
     private Map<String, EaseUser> contactNeList;
 
 	private Map<String, RobotUser> robotList;
@@ -887,6 +889,7 @@ public class DemoHelper {
                     toAddUsers.put(username, user);
                     localUsers.putAll(toAddUsers);
                     MainActivity.getInstance().refreshContact();
+                    MainActivity.getInstance().refreshMainMessage();
                 }
 
                 @Override
@@ -928,6 +931,7 @@ public class DemoHelper {
             // set invitation status
             msg.setStatus(InviteMessageStatus.BEINVITEED);
             notifyNewInviteMessage(msg);
+            MainActivity.getInstance().refreshMainMessage();
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
@@ -945,16 +949,14 @@ public class DemoHelper {
             msg.setTime(System.currentTimeMillis());
             showToast(username + " accept your to be friend");
             msg.setStatus(InviteMessageStatus.BEAGREED);
-            notifyNewInviteMessage(msg);
+//            notifyNewInviteMessage(msg);
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
-            MainActivity.getInstance().refreshMainMessage();
         }
 
         @Override
         public void onFriendRequestDeclined(String username) {
             // your request was refused
             showToast(username + " refused to be your friend");
-            MainActivity.getInstance().refreshMainMessage();
         }
     }
 
@@ -1227,6 +1229,22 @@ public class DemoHelper {
         inviteMessgeDao.saveUnreadMessageCount(1);
         // notify there is new message
         getNotifier().vibrateAndPlayTone(null);
+    }
+
+    /**
+     * 保存同意或拒绝对方的消息
+     * @param username 对方环信ID
+     * @param status 状态（同意或拒绝）
+     */
+    public void notifyNewInviteMessage(String username, InviteMessageStatus status){
+        if(inviteMessgeDao == null){
+            inviteMessgeDao = new InviteMessgeDao(appContext);
+        }
+        InviteMessage msg = new InviteMessage();
+        msg.setFrom(username);
+        msg.setTime(System.currentTimeMillis());
+        msg.setStatus(status);
+        inviteMessgeDao.saveMessage(msg);
         MainActivity.getInstance().refreshMainMessage();
     }
 
@@ -1458,6 +1476,8 @@ public class DemoHelper {
      * @return
      */
     public Map<String, EaseUser> getContactList() {
+        System.out.println("~!~ isLog = " + isLoggedIn());
+        System.out.println("~!~ contactList = " + contactList);
         if (isLoggedIn() && contactList == null) {
             contactList = demoModel.getContactList();
         }
@@ -1468,6 +1488,21 @@ public class DemoHelper {
         }
         
         return contactList;
+    }
+
+    /**
+     * get temp contact list
+     * key是环信ID
+     *
+     * @return
+     */
+    public Map<String, EaseUser> getTempContactList() {
+        // return a empty non-null object to avoid app crash
+        if(tempContactList == null){
+            tempContactList = new HashMap<>();
+        }
+
+        return tempContactList;
     }
 
     /**

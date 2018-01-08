@@ -104,6 +104,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
                     return;
                 setRecyclerView();
                 int size = bean.getData().size();
+                showNoDataBg(size);
                 for (int i = 0; i < size; i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -249,7 +250,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
                 ImageUtils.loadImageRoundedCorners(mContext, ((BusinessOnlineBean.Obj) data).getImage_url(), holder.ivAvatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
                 holder.tvName.setText(((BusinessOnlineBean.Obj) data).getCompany_name());
 //                holder.tvContent.setText(data.getContent());
-//                holder.tvDegree.setText(data.getContent());
+                holder.tvDegree.setText("关注度：" + ((BusinessOnlineBean.Obj) data).getAttention_degree());
             } else if (data instanceof BusinessOfflineBean.Obj) {
                 ImageUtils.loadImageRoundedCorners(mContext, ((BusinessOfflineBean.Obj) data).getImage_url(), holder.ivAvatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
                 holder.tvName.setText(((BusinessOfflineBean.Obj) data).getCompany_name());
@@ -280,6 +281,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
                 @Override
                 public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                     removeData(holder.data, holder.getAdapterPosition());
+                    showNoDataBg(getItemCount());
                 }
 
                 @Override
@@ -379,7 +381,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
             ivAvatar = itemView.findViewById(R.id.ivThum);
             tvName = itemView.findViewById(R.id.tvName);
             tvContent = itemView.findViewById(R.id.tvContent);
-            tvDegree = itemView.findViewById(R.id.tvTime);
+            tvDegree = itemView.findViewById(R.id.tvDegree);
             btnTrust = itemView.findViewById(R.id.btnTrust);
         }
     }

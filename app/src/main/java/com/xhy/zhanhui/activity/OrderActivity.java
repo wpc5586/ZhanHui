@@ -63,19 +63,19 @@ public class OrderActivity extends ZhanHuiActivity implements SwipeItemLayout.On
     @Override
     protected void init() {
         super.init();
-        setActionbarTitle("收到的邀请");
-        setActionbarMode(ActionbarView.ACTIONBAR_MODE_SEARCH);
-        getActionbarView().setSearchEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    search();
-                    return true;
-                }
-                return false;
-            }
-        });
-        getActionbarView().getSearchButton().setVisibility(View.INVISIBLE);
+        setActionbarTitle("我的预约");
+//        setActionbarMode(ActionbarView.ACTIONBAR_MODE_SEARCH);
+//        getActionbarView().setSearchEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                    search();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//        getActionbarView().getSearchButton().setVisibility(View.INVISIBLE);
         initPull();
         getData(true);
     }
@@ -106,6 +106,7 @@ public class OrderActivity extends ZhanHuiActivity implements SwipeItemLayout.On
                 if (ptrFrameLayout.isRefreshing())
                     ptrFrameLayout.refreshComplete();
                 setRecyclerView();
+                showNoDataBg(bean.getData().size());
                 for (int i = 0; i < bean.getData().size(); i++) {
                     adapter.addData(bean.getData().get(i));
                 }

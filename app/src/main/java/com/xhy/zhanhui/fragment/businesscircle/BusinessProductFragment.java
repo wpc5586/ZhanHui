@@ -96,6 +96,7 @@ public class BusinessProductFragment extends ZhanHuiFragment {
                     return;
                 setRecyclerView();
                 int size = bean.getData().size();
+                showNoDataBg(size);
                 for (int i = 0; i < size; i++) {
                     adapter.addData(bean.getData().get(i));
                 }

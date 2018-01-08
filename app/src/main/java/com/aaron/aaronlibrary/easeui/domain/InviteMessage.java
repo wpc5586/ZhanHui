@@ -93,8 +93,6 @@ public class InviteMessage {
 	    return groupInviter;	    
 	}
 
-
-
 	public enum InviteMessageStatus {
 	    
 	    //==contact

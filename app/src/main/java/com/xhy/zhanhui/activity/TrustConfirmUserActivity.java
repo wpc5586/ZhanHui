@@ -144,7 +144,7 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
                         showToast("申请成功");
                         setResult(RESULT_OK);
                         finish();
-                        TrustSharedPreferences.getInstance().setTrustData("向" + offlineData.getNickname() + "发送了信任申请");
+                        TrustSharedPreferences.getInstance().setTrustData(offlineData.getNickname() + "已同意您的信任申请");
                     }
 
                     @Override

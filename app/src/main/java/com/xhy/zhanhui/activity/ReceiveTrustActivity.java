@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.aaron.aaronlibrary.base.domain.BaseViewHolder;
 import com.aaron.aaronlibrary.base.utils.PublicMethod;
 import com.aaron.aaronlibrary.bean.BaseBean;
+import com.aaron.aaronlibrary.easeui.DemoHelper;
+import com.aaron.aaronlibrary.easeui.db.InviteMessgeDao;
+import com.aaron.aaronlibrary.easeui.domain.InviteMessage;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
@@ -89,6 +92,7 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
                 if (ptrFrameLayout.isRefreshing())
                     ptrFrameLayout.refreshComplete();
                 setRecyclerView();
+                showNoDataBg(bean.getData().size());
                 for (int i = 0; i < bean.getData().size(); i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -122,6 +126,7 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
 
     /**
      * Item滑动监听
+     *
      * @param offset
      */
     @Override
@@ -152,7 +157,8 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
             });
             adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
                 @Override
-                public void onItemLongClick(View view, BaseViewHolder holder) {}
+                public void onItemLongClick(View view, BaseViewHolder holder) {
+                }
             });
         } else
             adapter.notifyDataSetChanged();
@@ -241,8 +247,9 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
 
         /**
          * 设置按钮已同意状态
+         *
          * @param holder
-         * @param text 内容
+         * @param text   内容
          */
         private void setBtnAcceptSuccess(ReceiveTrustHolder holder, String text) {
             holder.btnAccept.setBackgroundResource(R.drawable.receive_trust_btn_gray_bg);
@@ -263,6 +270,7 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
 
         /**
          * 接受
+         *
          * @param holder
          */
         private void accept(final ReceiveTrustHolder holder) {
@@ -276,8 +284,10 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
                         @Override
                         public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                             dismissProgressDialog();
-                            ((ReceiveTrustBean.Obj)getItem(holder.getAdapterPosition())).setState("2");
+                            ((ReceiveTrustBean.Obj) getItem(holder.getAdapterPosition())).setState("2");
                             notifyDataSetChanged();
+                            showNoDataBg(getItemCount());
+                            DemoHelper.getInstance().notifyNewInviteMessage(requestId, InviteMessage.InviteMessageStatus.BEAGREED);
                         }
 
                         @Override
@@ -299,9 +309,10 @@ public class ReceiveTrustActivity extends ZhanHuiActivity implements SwipeItemLa
                 }
             });
         }
-        
+
         /**
          * 删除消息
+         *
          * @param holder
          */
         private void delete(final ReceiveTrustHolder holder) {

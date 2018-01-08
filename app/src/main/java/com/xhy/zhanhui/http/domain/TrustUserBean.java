@@ -26,7 +26,8 @@ public class TrustUserBean extends BaseBean implements Serializable{
         private String nickname;
         private String user_id;
         private String v_title;
-        private String recommend_index; // 关联度
+        private String recommend_index = "0"; // 综合匹配度
+        private String attention_degree = "0"; // 企业关注度
 
         public String getHx_username() {
             return hx_username;
@@ -68,8 +69,16 @@ public class TrustUserBean extends BaseBean implements Serializable{
             this.v_title = v_title;
         }
 
+        public String getAttention_degree() {
+            return attention_degree == null ? "0" : (Float.valueOf(attention_degree) == 0 ? "0" : attention_degree);
+        }
+
+        public void setAttention_degree(String attention_degree) {
+            this.attention_degree = attention_degree;
+        }
+
         public String getRecommend_index() {
-            return recommend_index;
+            return recommend_index == null ? "0" : (Float.valueOf(recommend_index) == 0 ? "0" : recommend_index);
         }
 
         public void setRecommend_index(String recommend_index) {

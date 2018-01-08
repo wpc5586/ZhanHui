@@ -18,7 +18,7 @@
         layout="@layout/ease_search_bar_with_padding"
         android:visibility="gone" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,6 +29,12 @@
             android:layout_height="match_parent" />
         <!-- hyphenate:ctsListInitialLetterBg="#abc" -->
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_data_bg" />
+    </RelativeLayout>
 
 </LinearLayout>

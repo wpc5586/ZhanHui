@@ -273,7 +273,7 @@ public class StartActivityUtils {
      * 跳转聊天详情页面
      *
      * @param mContext 上下文
-     * @param userId   userId
+     * @param userId   环信userId
      */
     public static void startChat(Context mContext, String userId) {
         Intent intent = new Intent(mContext, ChatActivity.class);
@@ -285,7 +285,7 @@ public class StartActivityUtils {
      * 跳转聊天详情页面
      *
      * @param mContext 上下文
-     * @param userId   userId
+     * @param userId   环信userId
      * @param nickName 用户昵称
      */
     public static void startChat(Context mContext, String userId, String nickName) {

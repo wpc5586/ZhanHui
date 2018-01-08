@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.aaron.aaronlibrary.easeui.base.EaseBaseFragment;
@@ -64,7 +65,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
     protected String toBeProcessUsername;
     protected EaseContactList contactListLayout;
     protected boolean isConflict;
-    protected FrameLayout contentContainer;
+    protected RelativeLayout contentContainer;
 
     private Map<String, EaseUser> contactsMap;
 
@@ -83,14 +84,14 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     @Override
     protected void initView() {
-        contentContainer = (FrameLayout) view.findViewById(R.id.content_container);
+        contentContainer = view.findViewById(R.id.content_container);
 
-        contactListLayout = (EaseContactList) view.findViewById(R.id.contact_list);
+        contactListLayout = view.findViewById(R.id.contact_list);
         listView = contactListLayout.getListView();
 
         //search
-        query = (EditText) view.findViewById(R.id.query);
-        clearSearch = (ImageButton) view.findViewById(R.id.search_clear);
+        query = view.findViewById(R.id.query);
+        clearSearch = view.findViewById(R.id.search_clear);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
         contactList = new ArrayList<EaseUser>();
         getContactList();
+        showNoDataBg(contactList.size());
         //init list
         contactListLayout.init(contactList);
 

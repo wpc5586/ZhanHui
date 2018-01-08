@@ -11,13 +11,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.EaseUI;
 import com.aaron.aaronlibrary.easeui.domain.EaseAvatarOptions;
+import com.aaron.aaronlibrary.easeui.domain.EaseUser;
 import com.aaron.aaronlibrary.easeui.model.styles.EaseMessageListItemStyle;
 import com.aaron.aaronlibrary.easeui.utils.EaseUserUtils;
 import com.aaron.aaronlibrary.easeui.widget.EaseChatMessageList;
 import com.aaron.aaronlibrary.easeui.widget.EaseImageView;
+import com.aaron.aaronlibrary.easeui.widget.adapter.EaseConversationAdapter;
 import com.aaron.aaronlibrary.easeui.widget.adapter.EaseMessageAdapter;
+import com.aaron.aaronlibrary.http.BaseMap;
+import com.aaron.aaronlibrary.http.PostCall;
+import com.aaron.aaronlibrary.http.ServerUrl;
 import com.hyphenate.util.ImageUtils;
 import com.xhy.zhanhui.R;
 import com.hyphenate.EMCallBack;
@@ -27,6 +33,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Direct;
 import com.hyphenate.util.DateUtils;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
+import com.xhy.zhanhui.http.domain.HxFriendBean;
 
 import java.util.Date;
 
@@ -125,12 +132,33 @@ public abstract class EaseChatRow extends LinearLayout {
         if(userAvatarView != null) {
             //set nickname and avatar
             if (message.direct() == Direct.SEND) {
-//                EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
-                com.aaron.aaronlibrary.utils.ImageUtils.loadImageCircle(getContext(), ZhanHuiApplication.getInstance().getIcon(), userAvatarView);
+                EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
             } else {
-//                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
-                com.aaron.aaronlibrary.utils.ImageUtils.loadImageCircle(getContext(), EaseUserUtils.getUserInfo(message.getFrom()) != null ? EaseUserUtils.getUserInfo(message.getFrom()).getAvatar() : "", userAvatarView);
+                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
                 EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+                if ("获取昵称中...".equals(usernickView.getText().toString())) {
+                    // 通过服务器获取该环信ID的用户信息
+                    PostCall.get(context, ServerUrl.hxidFriend(message.getFrom()), new BaseMap(), new PostCall.PostResponse<HxFriendBean>() {
+                        @Override
+                        public void onSuccess(int i, byte[] bytes, HxFriendBean bean) {
+                            HxFriendBean.Obj data = bean.getData();
+                            EaseUser user = new EaseUser(message.getFrom());
+                            user.setAvatar(data.getIcon());
+                            user.setNickname(data.getNickname());
+                            user.setUserId(data.getUser_id());
+                            user.setV_title(data.getV_title());
+                            if (!DemoHelper.getInstance().getTempContactList().containsKey(message.getFrom()))
+                                DemoHelper.getInstance().getTempContactList().put(message.getFrom(), user);
+                            EaseUserUtils.setUserAvatar(getContext(), message.getFrom(), userAvatarView);
+                            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+                        }
+
+                        @Override
+                        public void onFailure(int i, byte[] bytes) {
+
+                        }
+                    }, new String[]{"", ""}, false, HxFriendBean.class);
+                }
             }
         }
         if(deliveredView != null){

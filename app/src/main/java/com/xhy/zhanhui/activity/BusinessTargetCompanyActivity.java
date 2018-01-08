@@ -103,6 +103,7 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
                     return;
                 setRecyclerView();
                 int size = bean.getData().size();
+                showNoDataBg(size);
                 for (int i = 0; i < size; i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -228,6 +229,7 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
                 @Override
                 public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                     removeData(holder.data, holder.getAdapterPosition());
+                    showNoDataBg(getItemCount());
                 }
 
                 @Override

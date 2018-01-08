@@ -22,16 +22,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.aaron.aaronlibrary.easeui.widget.EaseConversationList
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="#00000000"
-        android:divider="@null"
-        hyphenate:cvsListPrimaryTextSize="16sp"
-        hyphenate:cvsListPrimaryTextColor="@color/black"
-        hyphenate:cvsListSecondaryTextColor="#9b9b9b"
-        hyphenate:cvsListTimeTextColor="#9b9b9b"/>
+        android:layout_height="match_parent">
+
+        <com.aaron.aaronlibrary.easeui.widget.EaseConversationList
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null"
+            hyphenate:cvsListPrimaryTextColor="@color/black"
+            hyphenate:cvsListPrimaryTextSize="16sp"
+            hyphenate:cvsListSecondaryTextColor="#9b9b9b"
+            hyphenate:cvsListTimeTextColor="#9b9b9b" />
+
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_data_bg" />
+    </RelativeLayout>
 
 </LinearLayout>

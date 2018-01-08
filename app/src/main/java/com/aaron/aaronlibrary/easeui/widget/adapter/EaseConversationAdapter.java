@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
+import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.EaseUI;
 import com.aaron.aaronlibrary.easeui.domain.EaseAvatarOptions;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
@@ -22,6 +23,9 @@ import com.aaron.aaronlibrary.easeui.utils.EaseSmileUtils;
 import com.aaron.aaronlibrary.easeui.utils.EaseUserUtils;
 import com.aaron.aaronlibrary.easeui.widget.EaseConversationList;
 import com.aaron.aaronlibrary.easeui.widget.EaseImageView;
+import com.aaron.aaronlibrary.http.BaseMap;
+import com.aaron.aaronlibrary.http.PostCall;
+import com.aaron.aaronlibrary.http.ServerUrl;
 import com.xhy.zhanhui.R;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -30,6 +34,7 @@ import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.DateUtils;
+import com.xhy.zhanhui.http.domain.HxFriendBean;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +50,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
     private List<EMConversation> copyConversationList;
     private ConversationFilter conversationFilter;
     private boolean notiyfyByFilter;
+    private Context mContext;
     
     protected int primaryColor;
     protected int secondaryColor;
@@ -56,6 +62,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
     public EaseConversationAdapter(Context context, int resource,
                                    List<EMConversation> objects) {
         super(context, resource, objects);
+        mContext = context;
         conversationList = objects;
         copyConversationList = new ArrayList<EMConversation>();
         copyConversationList.addAll(objects);
@@ -102,7 +109,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         // get conversation
         EMConversation conversation = getItem(position);
         // get username or group id
-        String username = conversation.conversationId();
+        final String username = conversation.conversationId();
         
         if (conversation.getType() == EMConversationType.GroupChat) {
             String groupId = conversation.conversationId();
@@ -123,6 +130,30 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         }else {
             EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
             EaseUserUtils.setUserNick(username, holder.name);
+            if ("获取昵称中...".equals(holder.name.getText().toString())) {
+                // 通过服务器获取该环信ID的用户信息
+                final ViewHolder finalHolder = holder;
+                PostCall.get(mContext, ServerUrl.hxidFriend(username), new BaseMap(), new PostCall.PostResponse<HxFriendBean>() {
+                    @Override
+                    public void onSuccess(int i, byte[] bytes, HxFriendBean bean) {
+                        HxFriendBean.Obj data = bean.getData();
+                        EaseUser user = new EaseUser(username);
+                        user.setAvatar(data.getIcon());
+                        user.setNickname(data.getNickname());
+                        user.setUserId(data.getUser_id());
+                        user.setV_title(data.getV_title());
+                        if (!DemoHelper.getInstance().getTempContactList().containsKey(username))
+                            DemoHelper.getInstance().getTempContactList().put(username, user);
+                        EaseUserUtils.setUserAvatar(getContext(), username, finalHolder.avatar);
+                        EaseUserUtils.setUserNick(username, finalHolder.name);
+                    }
+
+                    @Override
+                    public void onFailure(int i, byte[] bytes) {
+
+                    }
+                }, new String[]{"", ""}, false, HxFriendBean.class);
+            }
             holder.motioned.setVisibility(View.GONE);
         }
 

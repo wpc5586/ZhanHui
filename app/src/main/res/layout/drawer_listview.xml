@@ -2,7 +2,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#f0ffffff"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -19,6 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:text="Aaron"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -128,13 +131,13 @@
         android:id="@+id/rlLogout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/drawer_list_bg">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/gray_line"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

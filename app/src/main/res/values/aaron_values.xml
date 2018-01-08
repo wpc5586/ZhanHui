@@ -154,6 +154,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme_User" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_user</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SplashTheme_Company" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_company</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="NoTitleTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
     </style>

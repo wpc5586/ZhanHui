@@ -3,7 +3,6 @@ package com.xhy.zhanhui.activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aaron.aaronlibrary.base.domain.BaseViewHolder;
-import com.aaron.aaronlibrary.bean.BaseBean;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemClickListener;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemLongClickListener;
-import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.ImageUtils;
-import com.aaron.aaronlibrary.utils.MathUtils;
-import com.aaron.aaronlibrary.utils.TimeUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
-import com.xhy.zhanhui.fragment.center.CenterAllFragment;
 import com.xhy.zhanhui.http.domain.CenterBean;
-import com.xhy.zhanhui.http.domain.ExhibitionNewsBean;
 import com.xhy.zhanhui.http.domain.TrustCompanyBean;
-import com.xhy.zhanhui.widget.ExhibitionTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +43,7 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
     private String companyId;
     private TrustCompanyBean bean;
     private ImageView ivAvatar; // 企业图片
-    private TextView tvName, tvIntro, tvProductDe, tvDemandDe, tvCompanyDe, tvDe;
+    private TextView tvName, tvIntro, tvDe1, tvDe2, tvDe3, tvDe4;
     private RecyclerView recyclerDocument, recyclerProduct;
     private TrustCompanyAdapter adapterDocument, adapterProduct;
     private LinearLayout llUser1, llUser2, llUser3, llTrend;
@@ -69,10 +61,10 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
         tvIntro = findViewById(R.id.tvIntro);
-        tvProductDe = findViewById(R.id.tvProductDe);
-        tvDemandDe = findViewById(R.id.tvDemandDe);
-        tvCompanyDe = findViewById(R.id.tvCompanyDe);
-        tvDe = findViewById(R.id.tvDe);
+        tvDe1 = findViewById(R.id.tvProductDe);
+        tvDe2 = findViewById(R.id.tvDemandDe);
+        tvDe3 = findViewById(R.id.tvCompanyDe);
+        tvDe4 = findViewById(R.id.tvDe);
         recyclerDocument = findViewById(R.id.recycler);
         recyclerProduct = findViewById(R.id.recycler1);
         llUser1 = findViewById(R.id.llUser1);
@@ -121,12 +113,14 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
                 ImageUtils.loadImageCircle(mContext, data.getImage_url(), ivAvatar);
                 tvName.setText(data.getCompany_name());
                 tvIntro.setText(data.getCompany_name_en());
-                if (!TextUtils.isEmpty(data.getAttention_degree()))
-                    tvDe.setText(data.getAttention_degree() + "%");
-                if (!TextUtils.isEmpty(data.getRecommend_index()))
-                    tvDe.setText(data.getRecommend_index() + "%");
-                if (data.getCompany_users() != null && data.getCompany_users().size() > 0 && data.getCompany_users().get(0).getHx_username().equals(getHxUserId()))
-                    btnTrust.setVisibility(View.GONE);
+                tvDe1.setText(data.getRecommend_index());
+                tvDe2.setText(data.getAttention_degree());
+                if (data.getCompany_users() != null && data.getCompany_users().size() > 0) {
+                    if (data.getCompany_users().get(0).getHx_username().equals(getHxUserId()))
+                        btnTrust.setVisibility(View.GONE);
+                    if (type == TYPE_TRUST)
+                        btnTrust.setText("交谈");
+                }
                 setRecyclerView();
                 if (data.getDocuments() != null)
                     adapterDocument.setDataDocument(data.getDocuments());
@@ -138,9 +132,10 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
                     linearLayout.setVisibility(View.VISIBLE);
                     ImageView imageView = (ImageView) linearLayout.getChildAt(0);
                     TextView tvName = (TextView) linearLayout.getChildAt(1);
-//                    TextView tvIntro = (TextView) linearLayout.getChildAt(2);
+                    TextView tvIntro = (TextView) linearLayout.getChildAt(2);
                     ImageUtils.loadImageCircle(mContext, user.getIcon(), imageView);
                     tvName.setText(user.getNickname());
+                    tvIntro.setText(user.getV_title());
                 }
             }
 
@@ -199,7 +194,10 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.btnTrust:
-                trust();
+                if ("交谈".equals(((Button) view).getText().toString()))
+                    StartActivityUtils.startChat(mContext, bean.getData().getCompany_users().get(0).getHx_username());
+                else
+                    trust();
                 break;
         }
     }

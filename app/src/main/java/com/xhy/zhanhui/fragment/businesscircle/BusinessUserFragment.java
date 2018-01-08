@@ -100,6 +100,7 @@ public class BusinessUserFragment extends ZhanHuiFragment {
                     return;
                 setRecyclerView();
                 int size = bean.getData().size();
+                showNoDataBg(size);
                 for (int i = 0; i < size; i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -258,5 +259,9 @@ public class BusinessUserFragment extends ZhanHuiFragment {
                 startMyActivity(BusinessAttentionUserActivity.class);
                 break;
         }
+    }
+
+    public void refresh() {
+        getData();
     }
 }

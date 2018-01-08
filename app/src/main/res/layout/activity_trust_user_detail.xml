@@ -125,28 +125,31 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="商业动态"
+                android:text="商业关系"
                 android:textColor="#333333"
                 android:textSize="15.5sp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/ivRed1"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_marginLeft="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="31dp"
                     android:src="@mipmap/icon_red" />
 
                 <TextView
+                    android:id="@+id/ivDeText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="1dp"
-                    android:text="产品匹配度："
+                    android:layout_toRightOf="@+id/ivRed1"
+                    android:text="综合匹配度："
                     android:textColor="#808080"
                     android:textSize="15sp" />
 
@@ -154,21 +157,28 @@
                     android:id="@+id/tvProductDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/ivDeText1"
                     android:text="0%"
                     android:textColor="@color/theme"
                     android:textSize="15sp" />
 
                 <ImageView
+                    android:id="@+id/ivRed2"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="191dp"
                     android:src="@mipmap/icon_red" />
 
                 <TextView
+                    android:id="@+id/ivDeText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="1dp"
-                    android:text="需求匹配度："
+                    android:layout_toRightOf="@+id/ivRed2"
+                    android:text="企业关注度："
                     android:textColor="#808080"
                     android:textSize="15sp" />
 
@@ -176,29 +186,34 @@
                     android:id="@+id/tvDemandDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/ivDeText2"
                     android:text="0%"
                     android:textColor="@color/theme"
                     android:textSize="15sp" />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/ivRed3"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_marginLeft="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="31dp"
                     android:src="@mipmap/icon_red" />
 
                 <TextView
+                    android:id="@+id/ivDeText3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="1dp"
-                    android:text="企业关注度："
+                    android:layout_toRightOf="@+id/ivRed3"
+                    android:text="产品匹配度："
                     android:textColor="#808080"
                     android:textSize="15sp" />
 
@@ -206,21 +221,28 @@
                     android:id="@+id/tvCompanyDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/ivDeText3"
+                    android:text="暂无"
                     android:textColor="@color/theme"
                     android:textSize="15sp" />
 
                 <ImageView
+                    android:id="@+id/ivRed4"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="191dp"
                     android:src="@mipmap/icon_red" />
 
                 <TextView
+                    android:id="@+id/ivDeText4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="1dp"
-                    android:text="匹配度："
+                    android:layout_toRightOf="@+id/ivRed4"
+                    android:text="需求匹配度："
                     android:textColor="#808080"
                     android:textSize="15sp" />
 
@@ -228,10 +250,12 @@
                     android:id="@+id/tvDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/ivDeText4"
+                    android:text="暂无"
                     android:textColor="@color/theme"
                     android:textSize="15sp" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:id="@+id/divider1"
@@ -308,7 +332,7 @@
                 android:text="业务顾问"
                 android:textColor="#333333"
                 android:textSize="15.5sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -337,7 +361,10 @@
                         android:id="@+id/tvName1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
                         android:layout_marginTop="4dp"
+                        android:gravity="center"
                         android:text="Aaron"
                         android:textColor="#4c4c4c"
                         android:textSize="15.5sp" />
@@ -373,7 +400,10 @@
                         android:id="@+id/tvName2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
                         android:layout_marginTop="4dp"
+                        android:gravity="center"
                         android:text="Aaron"
                         android:textColor="#4c4c4c"
                         android:textSize="15.5sp" />
@@ -409,7 +439,10 @@
                         android:id="@+id/tvName3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
                         android:layout_marginTop="4dp"
+                        android:gravity="center"
                         android:text="Aaron"
                         android:textColor="#4c4c4c"
                         android:textSize="15.5sp" />

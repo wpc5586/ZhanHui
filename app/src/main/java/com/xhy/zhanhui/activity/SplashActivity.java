@@ -15,11 +15,13 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.AppInfo;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.aaron.aaronlibrary.utils.DownloadUtils;
 import com.aaron.aaronlibrary.utils.ToastUtil;
 import com.daimajia.numberprogressbar.NumberProgressBar;
@@ -49,6 +51,7 @@ public class SplashActivity extends ZhanHuiActivity {
     private RelativeLayout rlDownload;
     private String url;
     private NumberProgressBar bar;
+    private ImageView imageView;
 
     @Override
     protected int getContentLayoutId() {
@@ -58,6 +61,7 @@ public class SplashActivity extends ZhanHuiActivity {
     @Override
     protected void findView() {
         rlDownload = findViewById(R.id.rl_download);
+        imageView = findViewById(R.id.imageView);
     }
 
     @Override
@@ -75,6 +79,7 @@ public class SplashActivity extends ZhanHuiActivity {
                     WindowManager.LayoutParams. FLAG_TRANSLUCENT_STATUS);
 //        loadVersion();
         requestPermission();
+        imageView.setImageResource(Constants.VERSION_IS_USER ? R.drawable.splash_user : R.drawable.splash_company);
     }
 
     /**

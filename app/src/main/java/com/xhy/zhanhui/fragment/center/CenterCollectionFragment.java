@@ -203,11 +203,14 @@ public class CenterCollectionFragment extends ZhanHuiFragment {
 
         public void addData(Object data) {
             datas.add(data);
+            showNoDataBg(getItemCount());
             notifyDataSetChanged();
         }
 
         public void clearData() {
             datas.clear();
+            showNoDataBg(getItemCount());
+            notifyDataSetChanged();
         }
 
         @Override

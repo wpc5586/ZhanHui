@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -65,6 +66,8 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
     private List<ExhibitionDataBean.Obj> dataBean; // 资料数据
     private LinearLayout llContent;
     private X5WebView webView;
+    private Button btnOrder;
+    private View btnDivider;
 
     @Override
     protected int getContentLayoutId() {
@@ -95,7 +98,8 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
         llContent = findViewById(R.id.llContent);
         tvAttention = findViewById(R.id.tv2);
         findAndSetClickListener(R.id.rl2);
-        findAndSetClickListener(R.id.btnOrder);
+        btnDivider = findViewById(R.id.centerView);
+        btnOrder = findAndSetClickListener(R.id.btnOrder);
         findAndSetClickListener(R.id.btnTrust);
     }
 
@@ -135,6 +139,10 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
         }
         getData();
         setScrollTextView();
+        if (!Constants.VERSION_IS_USER) {
+            btnOrder.setVisibility(View.GONE);
+            btnDivider.setVisibility(View.GONE);
+        }
     }
 
     private void setScrollTextView() {

@@ -87,6 +87,7 @@ public class SendTrustActivity extends ZhanHuiActivity implements SwipeItemLayou
                 if (ptrFrameLayout.isRefreshing())
                     ptrFrameLayout.refreshComplete();
                 setRecyclerView();
+                showNoDataBg(bean.getData().size());
                 for (int i = 0; i < bean.getData().size(); i++) {
                     adapter.addData(bean.getData().get(i));
                 }
@@ -261,6 +262,7 @@ public class SendTrustActivity extends ZhanHuiActivity implements SwipeItemLayou
                 @Override
                 public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                     removeData(holder.data, holder.getAdapterPosition());
+                    showNoDataBg(getItemCount());
                 }
 
                 @Override

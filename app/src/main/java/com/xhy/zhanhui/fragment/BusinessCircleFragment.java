@@ -144,6 +144,14 @@ public class BusinessCircleFragment extends ZhanHuiFragment {
     }
 
     /**
+     * 刷新信任客户列表
+     */
+    public void refreshTrustUser() {
+        if (fragmentList != null && fragmentList.size() > 0)
+            ((BusinessUserFragment) fragmentList.get(1)).refresh();
+    }
+
+    /**
      * 刷新联系人列表
      */
     public void refreshContact() {

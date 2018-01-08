@@ -18,12 +18,14 @@ android {
     defaultConfig {
         if (PACKAGE == "one") {
             applicationId "com.xhy.zhanhui"
-            manifestPlaceholders = [app_name:"星瀚云合客户版",package_name:"com.xhy.zhanhui"
+            manifestPlaceholders = [app_name:"前海星云",splash_theme:"@style/SplashTheme_User",
+                                    app_icon:"@mipmap/nebintel",package_name:"com.xhy.zhanhui"
                                     ,baidu_key:"BRroUSeNY2XXSElw0QyVZKyoknBqpRid"
                                     ,file_path:"Android/data/com.xhy.zhanhui/"]
         } else {
             applicationId "com.xhy.zhanhuic"
-            manifestPlaceholders = [app_name:"星瀚云合企业版",package_name:"com.xhy.zhanhuic"
+            manifestPlaceholders = [app_name:"前海星云企业版",splash_theme:"@style/SplashTheme_Company",
+                                    app_icon:"@mipmap/nebintel_company",package_name:"com.xhy.zhanhuic"
                                     ,baidu_key:"hHBy0FWRytDq41Q7rY86bClhPSpFSLVe"
                                     ,file_path:"Android/data/com.xhy.zhanhuic/"]
         }

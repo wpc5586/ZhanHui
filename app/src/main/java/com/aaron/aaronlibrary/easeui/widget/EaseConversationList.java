@@ -43,6 +43,9 @@ public class EaseConversationList extends ListView {
         init(context, attrs);
     }
 
+    public EaseConversationAdapter getAdapter() {
+        return adapter;
+    }
     
     private void init(Context context, AttributeSet attrs) {
         this.context = context;

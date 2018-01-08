@@ -26,8 +26,8 @@ public class TrustCompanyBean extends BaseBean implements Serializable{
         private String company_id;
         private String image_url;
         private String company_name;
-        private String recommend_index; // 企业关联度
-        private String attention_degree; // 企业关注度
+        private String recommend_index = "0"; // 综合匹配度
+        private String attention_degree = "0"; // 企业关注度
         private List<User> company_users;
         private List<Document> documents;
         private List<Product> products;
@@ -41,7 +41,7 @@ public class TrustCompanyBean extends BaseBean implements Serializable{
         }
 
         public String getAttention_degree() {
-            return attention_degree;
+            return attention_degree == null ? "0" : (Float.valueOf(attention_degree) == 0 ? "0" : attention_degree);
         }
 
         public void setAttention_degree(String attention_degree) {
@@ -81,7 +81,7 @@ public class TrustCompanyBean extends BaseBean implements Serializable{
         }
 
         public String getRecommend_index() {
-            return recommend_index;
+            return recommend_index == null ? "0" : (Float.valueOf(recommend_index) == 0 ? "0" : recommend_index);
         }
 
         public void setRecommend_index(String recommend_index) {

@@ -206,6 +206,27 @@ public class ActionbarView extends RelativeLayout {
         return button;
     }
 
+    /**
+     * 给Actionbar添加右侧的图标按钮（从最右方开始添加）
+     * @param resourceId 图片资源id
+     * @param onClickListener 点击事件
+     */
+    public ImageView addRightButton(int resourceId, OnClickListener onClickListener) {
+        ImageView button = getButton(resourceId);
+        button.setOnClickListener(onClickListener);
+        LayoutParams params = new LayoutParams(actionbarH, actionbarH);
+        button.setLayoutParams(params);
+        if (buttons.size() > 1)
+            params.addRule(RelativeLayout.LEFT_OF, buttons.get(buttons.size() - 2).getId());
+        else
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        addView(button);
+        button.getLayoutParams().width = button_width;
+        button.setPadding(MathUtils.dip2px(mContext, 10), MathUtils.dip2px(mContext, 15),
+                MathUtils.dip2px(mContext, 10), MathUtils.dip2px(mContext, 15));
+        return button;
+    }
+
     public void setOnBackListener(OnClickListener onClickListener) {
         backButton.setOnClickListener(onClickListener);
     }
@@ -260,6 +281,14 @@ public class ActionbarView extends RelativeLayout {
         button.setTextColor(mContext.getResources().getColor(R.color.theme_black));
         button.setBackgroundResource(R.drawable.selector_actionbar_button);
         buttons.add(button);
+        return button;
+    }
+
+    private ImageView getButton(int resourceId) {
+        ImageView button = new ImageView(mContext);
+        button.setId(defaultId++);
+        button.setImageResource(resourceId);
+        button.setBackgroundResource(R.drawable.selector_actionbar_button);
         return button;
     }
     

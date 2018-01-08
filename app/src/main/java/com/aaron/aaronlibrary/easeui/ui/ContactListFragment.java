@@ -14,6 +14,7 @@
 package com.aaron.aaronlibrary.easeui.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.ContextMenu;
@@ -35,6 +36,7 @@ import com.aaron.aaronlibrary.easeui.db.UserDao;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
@@ -95,6 +97,12 @@ public class ContactListFragment extends EaseContactListFragment{
 //        } else {
 //            applicationItem.hideUnreadMsgView();
 //        }
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showNoDataBg(contactList.size());
+            }
+        });
     }
 
 
@@ -260,6 +268,7 @@ public class ContactListFragment extends EaseContactListFragment{
                                     dismissProgressDialog();
                                     contactList.remove(tobeDeleteUser);
                                     contactListLayout.refresh();
+                                    showNoDataBg(contactList.size());
                                     EMClient.getInstance().chatManager().getAllConversations().remove(tobeDeleteUser.getUsername());
                                     MainActivity.getInstance().refreshConversation();
                                 }

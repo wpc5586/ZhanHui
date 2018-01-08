@@ -44,7 +44,7 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
     private String toUserId;
     private TrustUserBean bean;
     private ImageView ivAvatar; // 企业图片
-    private TextView tvName, tvIntro, tvProductDe, tvDemandDe, tvCompanyDe, tvDe;
+    private TextView tvName, tvIntro, tvDe1, tvDe2, tvDe3, tvDe4;
     private Button btnTrust;
     private RecyclerView recyclerDocument, recyclerProduct;
     private TrustCompanyAdapter adapterDocument, adapterProduct;
@@ -62,10 +62,10 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
         tvIntro = findViewById(R.id.tvIntro);
-        tvProductDe = findViewById(R.id.tvProductDe);
-        tvDemandDe = findViewById(R.id.tvDemandDe);
-        tvCompanyDe = findViewById(R.id.tvCompanyDe);
-        tvDe = findViewById(R.id.tvDe);
+        tvDe1 = findViewById(R.id.tvProductDe);
+        tvDe2 = findViewById(R.id.tvDemandDe);
+        tvDe3 = findViewById(R.id.tvCompanyDe);
+        tvDe4 = findViewById(R.id.tvDe);
         recyclerDocument = findViewById(R.id.recycler);
         recyclerProduct = findViewById(R.id.recycler1);
         llUser1 = findViewById(R.id.llUser1);
@@ -116,9 +116,11 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
                 ImageUtils.loadImageCircle(mContext, data.getIcon(), ivAvatar);
                 tvName.setText(data.getNickname());
                 tvIntro.setText(data.getV_title());
-                if (!TextUtils.isEmpty(data.getRecommend_index()))
-                    tvDe.setText(data.getRecommend_index() + "%");
-                if (isFriend(data.getHx_username(), true))
+                tvDe1.setText(data.getRecommend_index());
+                tvDe2.setText(data.getAttention_degree());
+                if (data.getHx_username().equals(getHxUserId()))
+                    btnTrust.setVisibility(View.GONE);
+                if (type == TYPE_TRUST)
                     btnTrust.setText("交谈");
                 setRecyclerView();
 //                if (data.getDocuments() != null)

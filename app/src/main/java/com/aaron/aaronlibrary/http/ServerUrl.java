@@ -1,6 +1,7 @@
 package com.aaron.aaronlibrary.http;
 
 import com.aaron.aaronlibrary.utils.AppInfo;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
 
 /**
@@ -14,7 +15,8 @@ public class ServerUrl {
      */
     public static final String SERVICE = "http://192.168.0.112:8080/services/";
 //    public static final String SERVICES = "http://ibp.tunnel.echomod.cn/services/"; // 本地
-    public static final String SERVICES = "http://api.nebintel.xyz:8090/services/"; // 本地
+    public static final String SERVICES = "http://api.nebintel.xyz:8090/services/"; // 测试
+    public static final String SERVICES_NORMAL = "http://bj.nebintel.com/ibp/services/"; // 正式
 
     /**
      * JS调原生 类名
@@ -30,7 +32,7 @@ public class ServerUrl {
     }
 
     public static String getService() {
-        return isUseHttps() ? SERVICES : SERVICE;
+        return isUseHttps() ? (Constants.DEBUGABLE ? SERVICES : SERVICES_NORMAL) : SERVICE;
     }
 
     /**

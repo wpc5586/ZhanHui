@@ -4,16 +4,26 @@
     android:id="@+id/ptrFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1ecf1"
+    android:background="#f2f0ed"
     cube_ptr:ptr_keep_header_when_refresh="true"
     cube_ptr:ptr_pull_to_fresh="true"
     cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
     cube_ptr:ptr_resistance="1.7">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/no_data_bg" />
+    </RelativeLayout>
 </in.srain.cube.views.ptr.PtrClassicFrameLayout>

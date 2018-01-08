@@ -13,6 +13,7 @@ import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.AppInfo;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.activity.OrderActivity;
@@ -41,7 +42,7 @@ public class MainFragment extends ZhanHuiFragment {
     private RelativeLayout rlSend, rlReceiveTrust, rlRelease, rlDemand, rlReceive, rlOrder, rlTicket, rlGuide, rlNavi, rlRecord, rlStatics;
     private LinearLayout llTrustMessage1, llTrustMessage2;
     private ImageView ivNewTrust, ivAvatar;
-    private TextView tvName;
+    private TextView tvName, tvCardIntro;
 
     @Override
     protected int getContentLayoutId() {
@@ -65,11 +66,12 @@ public class MainFragment extends ZhanHuiFragment {
         rlNavi = findViewAndSetListener(R.id.rlNavi);
         rlRecord = findViewAndSetListener(R.id.rlRecord);
         rlStatics = findViewAndSetListener(R.id.rlStatics);
-        llTrustMessage1 = findViewById(R.id.llTrustMessage1);
-        llTrustMessage2 = findViewById(R.id.llTrustMessage2);
+        llTrustMessage1 = findViewAndSetListener(R.id.llTrustMessage1);
+        llTrustMessage2 = findViewAndSetListener(R.id.llTrustMessage2);
         ivNewTrust = findViewById(R.id.ivNewTrust);
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
+        tvCardIntro = findViewById(R.id.tvCardIntro);
     }
 
     @Override
@@ -80,6 +82,8 @@ public class MainFragment extends ZhanHuiFragment {
         // 加载用户头像和名称
 //        ImageUtils.loadImageCircle(mContext, ZhanHuiApplication.getInstance().getIcon(), ivAvatar);
         tvName.setText(ZhanHuiApplication.getInstance().getNickname());
+        if (!Constants.VERSION_IS_USER)
+            tvCardIntro.setText("企业数字名片");
     }
 
     private void initWidget() {
@@ -104,15 +108,18 @@ public class MainFragment extends ZhanHuiFragment {
         Collections.reverse(msgs);
         if (msgs.size() > 0) {
             final InviteMessage msg = msgs.get(0);
-            String username = msg.getFrom();
-            final TextView textView = (TextView) llTrustMessage1.getChildAt(1);
+            final String username = msg.getFrom();
+            final TextView textView = (TextView) llTrustMessage2.getChildAt(1);
             PostCall.get(mContext, ServerUrl.hxidFriend(username), new BaseMap(), new PostCall.PostResponse<HxFriendBean>() {
                 @Override
                 public void onSuccess(int i, byte[] bytes, HxFriendBean bean) {
                     HxFriendBean.Obj data = bean.getData();
                     switch (msg.getStatus()) {
                         case BEINVITEED:
-                            textView.setText(data.getNickname() + "等待您处理申请");
+                            if (isFriend(username, true))
+                                textView.setText("已同意" + data.getNickname() + "的申请");
+                            else
+                                textView.setText(data.getNickname() + "等待您处理申请");
                             break;
                         case BEREFUSED:
                             textView.setText("已拒绝" + data.getNickname() + "的申请");
@@ -122,7 +129,6 @@ public class MainFragment extends ZhanHuiFragment {
                             break;
                     }
                     ivNewTrust.setVisibility(View.VISIBLE);
-                    llTrustMessage1.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -135,11 +141,11 @@ public class MainFragment extends ZhanHuiFragment {
         }
         String newSendTrust = TrustSharedPreferences.getInstance().getTrustData();
         if (!TextUtils.isEmpty(newSendTrust)) {
-            ivNewTrust.setVisibility(View.VISIBLE);
-            llTrustMessage2.setVisibility(View.VISIBLE);
-            TextView textView = (TextView) llTrustMessage2.getChildAt(1);
+            TextView textView = (TextView) llTrustMessage1.getChildAt(1);
             textView.setText(newSendTrust);
         }
+        llTrustMessage1.setVisibility(View.VISIBLE);
+        llTrustMessage2.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -159,10 +165,12 @@ public class MainFragment extends ZhanHuiFragment {
                 if (!isVcardIdZero())
                     StartActivityUtils.startVcard(mContext, getUserId());
                 break;
+            case R.id.llTrustMessage1:
             case R.id.rlSend: // 发出的申请
                 startMyActivity(SendTrustActivity.class);
                 ivNewTrust.setVisibility(View.INVISIBLE);
                 break;
+            case R.id.llTrustMessage2:
             case R.id.rlReceive: // 收到的邀请
                 startMyActivity(ReceiveTrustActivity.class);
                 ivNewTrust.setVisibility(View.INVISIBLE);

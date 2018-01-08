@@ -18,6 +18,7 @@ import com.aaron.aaronlibrary.base.menudrawer.Position;
 import com.aaron.aaronlibrary.bean.BaseBean;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
+import com.aaron.aaronlibrary.utils.Constants;
 import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -264,10 +265,20 @@ public class MainActivity extends BaseListSample{
     }
 
     /**
+     * 刷新信任客户列表
+     */
+    public void refreshTrustUser() {
+        if (fragments != null && fragments.length > 2)
+            ((BusinessCircleFragment) fragments[2]).refreshTrustUser();
+    }
+
+    /**
      * 刷新联系人列表
      */
     public void refreshContact() {
         if (fragments != null && fragments.length > 2)
             ((BusinessCircleFragment) fragments[2]).refreshContact();
+        if (!Constants.VERSION_IS_USER)
+            refreshTrustUser();
     }
 }

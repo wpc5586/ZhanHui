@@ -89,7 +89,8 @@
                     android:layout_alignBottom="@id/tvName"
                     android:layout_marginLeft="35dp"
                     android:layout_toRightOf="@id/tvName"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="invisible"/>
 
                 <TextView
                     android:id="@+id/tvId"
