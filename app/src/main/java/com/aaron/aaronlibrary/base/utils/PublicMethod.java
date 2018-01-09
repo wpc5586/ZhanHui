@@ -540,6 +540,7 @@ public class PublicMethod {
      * @param jzVideoPlayerStandard
      */
     public static void setVideoPlayer(JZVideoPlayerStandard jzVideoPlayerStandard) {
+        jzVideoPlayerStandard.getLayoutParams().width = AppInfo.getScreenWidthOrHeight(jzVideoPlayerStandard.getContext(), true);
         jzVideoPlayerStandard.getLayoutParams().height = (int) (AppInfo.getScreenWidthOrHeight(jzVideoPlayerStandard.getContext(), true) * 0.5625f);
     }
 

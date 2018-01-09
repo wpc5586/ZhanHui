@@ -19,17 +19,14 @@ import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemClickListener;
 import com.aaron.aaronlibrary.listener.OnRecyclerItemLongClickListener;
-import com.aaron.aaronlibrary.transformations.RoundedCornersTransformation;
 import com.aaron.aaronlibrary.utils.ImageUtils;
-import com.aaron.aaronlibrary.utils.MathUtils;
 import com.aaron.aaronlibrary.widget.listview.SwipeItemLayout;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.BusinessOfflineBean;
 import com.xhy.zhanhui.http.domain.BusinessOnlineBean;
-import com.xhy.zhanhui.http.domain.CenterMessageBean;
-import com.xhy.zhanhui.http.domain.ExhibitionProductInfoBean;
+import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,8 +168,8 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
                     } else if (holder.data instanceof BusinessOfflineBean.Obj) {
                         companyId = ((BusinessOfflineBean.Obj) holder.data).getCompany_id();
                     }
-//                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
-                    StartActivityUtils.startCompanyDetail(mContext, companyId);
+                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
+//                    StartActivityUtils.startCompanyDetail(mContext, companyId);
                 }
             });
             adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
@@ -186,6 +183,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
 
     /**
      * Item滑动监听
+     *
      * @param offset
      */
     @Override
@@ -214,7 +212,7 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
             this.onItemLongClickListener = onItemLongClickListener;
         }
 
-        public BusinessAttentionAdapter(Context context){
+        public BusinessAttentionAdapter(Context context) {
             this.context = context;
         }
 
@@ -247,15 +245,15 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
             if (data instanceof BusinessOnlineBean.Obj) {
-                ImageUtils.loadImageRoundedCorners(mContext, ((BusinessOnlineBean.Obj) data).getImage_url(), holder.ivAvatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
+                ImageUtils.loadImage(mContext, ((BusinessOnlineBean.Obj) data).getImage_url(), holder.ivAvatar);
                 holder.tvName.setText(((BusinessOnlineBean.Obj) data).getCompany_name());
 //                holder.tvContent.setText(data.getContent());
                 holder.tvDegree.setText("关注度：" + ((BusinessOnlineBean.Obj) data).getAttention_degree());
             } else if (data instanceof BusinessOfflineBean.Obj) {
-                ImageUtils.loadImageRoundedCorners(mContext, ((BusinessOfflineBean.Obj) data).getImage_url(), holder.ivAvatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
+                ImageUtils.loadImage(mContext, ((BusinessOfflineBean.Obj) data).getImage_url(), holder.ivAvatar);
                 holder.tvName.setText(((BusinessOfflineBean.Obj) data).getCompany_name());
 //                holder.tvContent.setText(data.getContent());
-                holder.tvDegree.setText(((BusinessOfflineBean.Obj) data).getAttention_degree());
+                holder.tvDegree.setText("关注度：" + ((BusinessOfflineBean.Obj) data).getAttention_degree());
             }
             holder.btnTrust.setOnClickListener(this);
             holder.btnTrust.setTag(holder);
@@ -269,10 +267,13 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
             return datas.size();
         }
 
-        public Object getItem(int position) { return datas.get(position); }
+        public Object getItem(int position) {
+            return datas.get(position);
+        }
 
         /**
          * 删除关注企业
+         *
          * @param holder
          */
         private void delete(final BusinessCompanyHolder holder) {
@@ -302,25 +303,26 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
                 case R.id.btnTrust:
                     BusinessCompanyHolder holder1 = (BusinessCompanyHolder) v.getTag();
                     String companyId = "";
+                    TrustCompanyBean bean = new TrustCompanyBean();
                     if (holder1.data instanceof BusinessOnlineBean.Obj) {
                         companyId = ((BusinessOnlineBean.Obj) holder1.data).getCompany_id();
-//                        TrustCompanyBean bean = new TrustCompanyBean();
-//                        TrustCompanyBean.Obj obj = bean.new Obj();
-//                        List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
-//                        TrustCompanyBean.Obj.User user = obj.new User();
-//                        BusinessOnlineBean.Obj.User holderUser = ((BusinessOnlineBean.Obj) holder1.data).getCompany_users().get(0);
-//                        user.setUser_id(holderUser.getUser_id());
-//                        user.setHx_username(holderUser.getHx_username());
-//                        user.setIcon(holderUser.getIcon());
-//                        user.setNickname(holderUser.getNickname());
-//                        user.setV_title(holderUser.getV_title());
-//                        users.add(user);
-//                        obj.setCompany_users(users);
-//                        obj.setCompany_id(((BusinessOnlineBean.Obj) holder1.data).getCompany_id());
-//                        obj.setCompany_name(((BusinessOnlineBean.Obj) holder1.data).getCompany_name());
-//                        bean.setData(obj);
+                        TrustCompanyBean.Obj obj = bean.new Obj();
+                        List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
+                        TrustCompanyBean.Obj.User user = obj.new User();
+                        BusinessOnlineBean.Obj.User holderUser = ((BusinessOnlineBean.Obj) holder1.data).getCompany_users().get(0);
+                        user.setUser_id(holderUser.getUser_id());
+                        user.setHx_username(holderUser.getHx_username());
+                        user.setIcon(holderUser.getIcon());
+                        user.setNickname(holderUser.getNickname());
+                        user.setV_title(holderUser.getV_title());
+                        users.add(user);
+                        obj.setCompany_users(users);
+                        obj.setImage_url(((BusinessOnlineBean.Obj) holder1.data).getImage_url());
+                        obj.setCompany_id(((BusinessOnlineBean.Obj) holder1.data).getCompany_id());
+                        obj.setCompany_name(((BusinessOnlineBean.Obj) holder1.data).getCompany_name());
+                        bean.setData(obj);
                     } else if (holder1.data instanceof BusinessOfflineBean.Obj) {
-                        companyId = ((BusinessOfflineBean.Obj) holder1.data).getCompany_id();
+//                        companyId = ((BusinessOfflineBean.Obj) holder1.data).getCompany_id();
 //                        TrustCompanyBean bean = new TrustCompanyBean();
 //                        TrustCompanyBean.Obj obj = bean.new Obj();
 //                        List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
@@ -337,10 +339,11 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
 //                        obj.setCompany_name(((BusinessOfflineBean.Obj) holder1.data).getCompany_name());
 //                        bean.setData(obj);
                     }
-                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
+                    StartActivityUtils.startTrustCompany(mContext, bean);
+//                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
                     break;
                 case R.id.delete:
-                    BusinessCompanyHolder holder2 = (BusinessCompanyHolder) v.getTag();
+                    BusinessCompanyHolder holder2 = (BusinessCompanyHolder) v.getTag();                 
                     holder2.itemLayout.close();
                     delete(holder2);
                     break;

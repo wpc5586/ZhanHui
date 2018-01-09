@@ -166,10 +166,11 @@
                 <LinearLayout
                     android:id="@+id/bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="66dp"
+                    android:layout_height="56dp"
                     android:layout_below="@+id/ivThum"
                     android:background="@color/transparent"
-                    android:paddingBottom="6dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="1dp">
 
                     <RelativeLayout
                         android:id="@+id/rl1"
@@ -179,10 +180,10 @@
 
                         <ImageView
                             android:id="@+id/iv1"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:src="@mipmap/icon_praise_w" />
 
                         <TextView
@@ -194,7 +195,7 @@
                             android:layout_marginTop="3dp"
                             android:text="赞"
                             android:textColor="@color/white"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -205,10 +206,10 @@
 
                         <ImageView
                             android:id="@+id/iv2"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:src="@mipmap/icon_attention_w" />
 
                         <TextView
@@ -220,7 +221,7 @@
                             android:layout_marginTop="3dp"
                             android:text="关注"
                             android:textColor="@color/white"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -231,10 +232,10 @@
 
                         <ImageView
                             android:id="@+id/iv3"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:src="@mipmap/icon_comment_w" />
 
                         <TextView
@@ -246,7 +247,7 @@
                             android:layout_marginTop="3dp"
                             android:text="评论"
                             android:textColor="@color/white"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -257,10 +258,10 @@
 
                         <ImageView
                             android:id="@+id/iv4"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="6dp"
                             android:src="@mipmap/icon_share_w" />
 
                         <TextView
@@ -272,7 +273,7 @@
                             android:layout_marginTop="3dp"
                             android:text="分享"
                             android:textColor="@color/white"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>

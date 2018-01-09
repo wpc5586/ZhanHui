@@ -15,7 +15,6 @@ package com.aaron.aaronlibrary.easeui.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -41,6 +40,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.activity.BusinessUserDetailActivity;
 import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
 import com.xhy.zhanhui.domain.StartActivityUtils;
@@ -134,7 +134,12 @@ public class ContactListFragment extends EaseContactListFragment{
                 if (user != null) {
                     String username = user.getUsername();
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
-                    StartActivityUtils.startChat(mContext, username, user.getNickname());
+                    // 观众版直接进入聊天页面，企业版先进去观众详情
+                    if (Constants.VERSION_IS_USER)
+                        StartActivityUtils.startChat(mContext, username, user.getNickname());
+                    else {
+                        StartActivityUtils.startTrustUserDetail(mContext, user.getUserId(), BusinessUserDetailActivity.TYPE_TRUST);
+                    }
 //                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username).putExtra("nickName", user.getNickname()));
                 }
             }

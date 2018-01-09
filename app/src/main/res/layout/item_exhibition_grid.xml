@@ -159,16 +159,14 @@
             android:maxLines="3"
             android:text=""
             android:textColor="@color/theme_black"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/browseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/listTitle"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="75dp"
             android:text="阅读"
             android:textColor="@color/gray_normal"
             android:textSize="13sp" />
@@ -177,9 +175,8 @@
             android:id="@+id/browse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/listTitle"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="75dp"
             android:layout_toRightOf="@+id/browseText"
             android:text=""
             android:textColor="@color/gray_normal"

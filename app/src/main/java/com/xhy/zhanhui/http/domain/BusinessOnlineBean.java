@@ -29,7 +29,7 @@ public class BusinessOnlineBean extends BaseBean implements Serializable {
         private List<User> company_users;
 
         public String getAttention_degree() {
-            return Float.valueOf(attention_degree) == 0 ? "0" : attention_degree;
+            return attention_degree == null ? "0" : (Float.valueOf(attention_degree) == 0 ? "0" : attention_degree);
         }
 
         public void setAttention_degree(String attention_degree) {

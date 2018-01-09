@@ -28,6 +28,7 @@ public class BusinessTrustBean extends BaseBean implements Serializable{
         private String hx_username;
         private String user_id;
         private String recommend_index;
+        private String attention_degree;
         private String user_name;
 
         public String getUser_name() {
@@ -54,8 +55,16 @@ public class BusinessTrustBean extends BaseBean implements Serializable{
             this.user_id = user_id;
         }
 
+        public String getAttention_degree() {
+            return attention_degree == null ? "0" : (Float.valueOf(attention_degree) == 0 ? "0" : attention_degree);
+        }
+
+        public void setAttention_degree(String attention_degree) {
+            this.attention_degree = attention_degree;
+        }
+
         public String getRecommend_index() {
-            return recommend_index;
+            return recommend_index == null ? "0" : (Float.valueOf(recommend_index) == 0 ? "0" : recommend_index);
         }
 
         public void setRecommend_index(String recommend_index) {

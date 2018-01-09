@@ -27,6 +27,7 @@ import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.BusinessOfflineBean;
 import com.xhy.zhanhui.http.domain.BusinessOnlineBean;
 import com.xhy.zhanhui.http.domain.BusinessTrustBean;
+import com.xhy.zhanhui.http.domain.TrustUserBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +131,8 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
                 @Override
                 public void onItemClick(View view, BaseViewHolder holder) {
                     String toUserId = ((BusinessTrustBean.Obj) holder.data).getUser_id();;
-                    StartActivityUtils.startVcardNoQRcode(mContext, toUserId);
+//                    StartActivityUtils.startVcardNoQRcode(mContext, toUserId);
+                    StartActivityUtils.startTrustUserDetail(mContext, toUserId, BusinessUserDetailActivity.TYPE_TARGET);
                 }
             });
         } else
@@ -199,8 +201,9 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
             holder.parent.setTag(holder);
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
-            ImageUtils.loadImageCircle(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar);
+            ImageUtils.loadImage(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar);
             holder.tvName.setText(((BusinessTrustBean.Obj) data).getUser_name());
+            holder.tvDegree.setText("推荐度：" + ((BusinessTrustBean.Obj) data).getRecommend_index());
             holder.btnTrust.setOnClickListener(this);
             holder.btnTrust.setTag(holder);
             holder.btnDelete.setOnClickListener(this);
@@ -247,7 +250,12 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
                     break;
                 case R.id.btnTrust:
                     BusinessCompanyHolder holder1 = (BusinessCompanyHolder) v.getTag();
-                    StartActivityUtils.startTrustUserDetail(mContext, ((BusinessTrustBean.Obj) holder1.data).getUser_id(), BusinessUserDetailActivity.TYPE_TARGET);
+                    TrustUserBean.Obj obj = new TrustUserBean().new Obj();
+                    obj.setHx_username(((BusinessTrustBean.Obj) holder1.data).getHx_username());
+                    obj.setIcon(((BusinessTrustBean.Obj) holder1.data).getIcon());
+                    obj.setNickname(((BusinessTrustBean.Obj) holder1.data).getUser_name());
+                    obj.setUser_id(((BusinessTrustBean.Obj) holder1.data).getUser_id());
+                    StartActivityUtils.startTrustUser(mContext, obj);
                     break;
                 case R.id.delete:
                     BusinessCompanyHolder holder2 = (BusinessCompanyHolder) v.getTag();
@@ -301,7 +309,7 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
             ivAvatar = itemView.findViewById(R.id.ivThum);
             tvName = itemView.findViewById(R.id.tvName);
             tvContent = itemView.findViewById(R.id.tvContent);
-            tvDegree = itemView.findViewById(R.id.tvTime);
+            tvDegree = itemView.findViewById(R.id.tvDegree);
             btnTrust = itemView.findViewById(R.id.btnTrust);
         }
     }

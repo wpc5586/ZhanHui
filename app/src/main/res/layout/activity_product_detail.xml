@@ -24,7 +24,7 @@
         <LinearLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@color/white">
 
             <RelativeLayout
@@ -35,10 +35,10 @@
 
                 <ImageView
                     android:id="@+id/iv1"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:src="@mipmap/icon_praise" />
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_marginTop="3dp"
                     android:text="赞"
                     android:textColor="@color/theme"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -61,10 +61,10 @@
 
                 <ImageView
                     android:id="@+id/iv2"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:src="@mipmap/icon_attention" />
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:layout_marginTop="3dp"
                     android:text="关注"
                     android:textColor="@color/theme"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -87,10 +87,10 @@
 
                 <ImageView
                     android:id="@+id/iv3"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:src="@mipmap/icon_comment" />
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:layout_marginTop="3dp"
                     android:text="评论"
                     android:textColor="@color/theme"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -113,10 +113,10 @@
 
                 <ImageView
                     android:id="@+id/iv4"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:src="@mipmap/icon_share" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_marginTop="3dp"
                     android:text="分享"
                     android:textColor="@color/theme"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
 

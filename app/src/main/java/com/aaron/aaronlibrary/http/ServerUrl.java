@@ -32,7 +32,7 @@ public class ServerUrl {
     }
 
     public static String getService() {
-        return isUseHttps() ? (Constants.DEBUGABLE ? SERVICES : SERVICES_NORMAL) : SERVICE;
+        return isUseHttps() ? (Constants.DEBUGABLE ? SERVICES_NORMAL : SERVICES_NORMAL) : SERVICE;
     }
 
     /**
@@ -47,8 +47,8 @@ public class ServerUrl {
      * 获取朋友列表
      * @return 数据
      */
-    public static String trustFriends() {
-        return getService() + "relation/users/" + ZhanHuiApplication.getInstance().getUserId() + "/trustFriends";
+    public static String getTrustFriends(String userId) {
+        return getService() + "relation/users/" + userId + "/trustFriends";
     }
 
     /**
@@ -546,8 +546,8 @@ public class ServerUrl {
      * 首页-获取二维码好友信息接口
      * @return 数据
      */
-    public static String getOfflineScanFriendInfo(String vcardNo, String timestp) {
-        return getService() + "relation/getOfflineScanFriendInfo?vcard_no=" + vcardNo + "&timestp=" + timestp;
+    public static String getOfflineScanFriendInfo(String vcardNo, String timestp, String type) {
+        return getService() + "relation/getOfflineScanFriendInfo?vcard_no=" + vcardNo + "&timestp=" + timestp + "&type=" + type;
     }
 
     /**

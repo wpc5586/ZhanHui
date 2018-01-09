@@ -45,7 +45,6 @@ import com.hyphenate.util.EasyUtils;
 import com.hyphenate.util.PathUtil;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.activity.MainActivity;
-import com.xhy.zhanhui.activity.VcardUserActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 
 import java.io.File;
@@ -291,7 +290,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
         if (username.equals(getHxUserId()))
             StartActivityUtils.startVcard(mContext, getUserId());
         else if (isFriend(username, true)){
-            StartActivityUtils.startVcard(mContext, getUserIdFromHxId(username));
+//            StartActivityUtils.startVcard(mContext, getUserIdFromHxId(username));
         }
     }
 

@@ -315,7 +315,7 @@ public class SplashActivity extends ZhanHuiActivity {
      * 获取朋友列表
      */
     private void getFriends() {
-        PostCall.get(mContext, ServerUrl.trustFriends(), null, new PostCall.PostResponse<FriendBean>() {
+        PostCall.get(mContext, ServerUrl.getTrustFriends(getUserId()), null, new PostCall.PostResponse<FriendBean>() {
             @Override
             public void onSuccess(int i, byte[] bytes, FriendBean bean) {
                 ZhanHuiApplication.getInstance().setFriendBean(bean);

@@ -14,19 +14,15 @@ import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
 import com.aaron.aaronlibrary.easeui.DemoHelper;
-import com.aaron.aaronlibrary.easeui.EaseUI;
-import com.aaron.aaronlibrary.easeui.domain.EaseAvatarOptions;
 import com.aaron.aaronlibrary.easeui.domain.EaseUser;
 import com.aaron.aaronlibrary.easeui.model.EaseAtMessageHelper;
 import com.aaron.aaronlibrary.easeui.utils.EaseCommonUtils;
 import com.aaron.aaronlibrary.easeui.utils.EaseSmileUtils;
 import com.aaron.aaronlibrary.easeui.utils.EaseUserUtils;
 import com.aaron.aaronlibrary.easeui.widget.EaseConversationList;
-import com.aaron.aaronlibrary.easeui.widget.EaseImageView;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
-import com.xhy.zhanhui.R;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -34,6 +30,7 @@ import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.DateUtils;
+import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.http.domain.HxFriendBean;
 
 import java.util.ArrayList;
@@ -128,7 +125,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
             holder.motioned.setVisibility(View.GONE);
         }else {
-            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
+            EaseUserUtils.setUserAvatarRec(getContext(), username, holder.avatar);
             EaseUserUtils.setUserNick(username, holder.name);
             if ("获取昵称中...".equals(holder.name.getText().toString())) {
                 // 通过服务器获取该环信ID的用户信息
@@ -144,7 +141,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                         user.setV_title(data.getV_title());
                         if (!DemoHelper.getInstance().getTempContactList().containsKey(username))
                             DemoHelper.getInstance().getTempContactList().put(username, user);
-                        EaseUserUtils.setUserAvatar(getContext(), username, finalHolder.avatar);
+                        EaseUserUtils.setUserAvatarRec(getContext(), username, finalHolder.avatar);
                         EaseUserUtils.setUserNick(username, finalHolder.name);
                     }
 
@@ -157,18 +154,18 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.motioned.setVisibility(View.GONE);
         }
 
-        EaseAvatarOptions avatarOptions = EaseUI.getInstance().getAvatarOptions();
-        if(avatarOptions != null && holder.avatar instanceof EaseImageView) {
-            EaseImageView avatarView = ((EaseImageView) holder.avatar);
-            if (avatarOptions.getAvatarShape() != 0)
-                avatarView.setShapeType(avatarOptions.getAvatarShape());
-            if (avatarOptions.getAvatarBorderWidth() != 0)
-                avatarView.setBorderWidth(avatarOptions.getAvatarBorderWidth());
-            if (avatarOptions.getAvatarBorderColor() != 0)
-                avatarView.setBorderColor(avatarOptions.getAvatarBorderColor());
-            if (avatarOptions.getAvatarRadius() != 0)
-                avatarView.setRadius(avatarOptions.getAvatarRadius());
-        }
+//        EaseAvatarOptions avatarOptions = EaseUI.getInstance().getAvatarOptions();
+//        if(avatarOptions != null && holder.avatar instanceof EaseImageView) {
+//            EaseImageView avatarView = ((EaseImageView) holder.avatar);
+//            if (avatarOptions.getAvatarShape() != 0)
+//                avatarView.setShapeType(avatarOptions.getAvatarShape());
+//            if (avatarOptions.getAvatarBorderWidth() != 0)
+//                avatarView.setBorderWidth(avatarOptions.getAvatarBorderWidth());
+//            if (avatarOptions.getAvatarBorderColor() != 0)
+//                avatarView.setBorderColor(avatarOptions.getAvatarBorderColor());
+//            if (avatarOptions.getAvatarRadius() != 0)
+//                avatarView.setRadius(avatarOptions.getAvatarRadius());
+//        }
         if (conversation.getUnreadMsgCount() > 0) {
             // show unread message count
             holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));

@@ -28,7 +28,7 @@ import com.xhy.zhanhui.preferences.TrustSharedPreferences;
 
 public class TrustConfirmUserActivity extends ZhanHuiActivity {
 
-    private String vcardNo, timestp;
+    private String vcardNo, timestp, type;
     private TrustUserBean.Obj trustData;
     private OfflineScanFriendBean.Obj offlineData;
     private boolean isOffline; // 是否是线下扫描二维码跳转
@@ -58,6 +58,7 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
         setActionbarTitle("资料详情");
         vcardNo = getStringExtra("vcard_no");
         timestp = getStringExtra("timestp");
+        type = getStringExtra("type");
         if (getIntent().hasExtra("trustData"))
             trustData = (TrustUserBean.Obj) getIntent().getSerializableExtra("trustData");
         if (trustData == null) {
@@ -75,7 +76,7 @@ public class TrustConfirmUserActivity extends ZhanHuiActivity {
      * 获取线下朋友信息
      */
     private void getOfflineData() {
-        PostCall.get(mContext, ServerUrl.getOfflineScanFriendInfo(vcardNo, timestp), new BaseMap(), new PostCall.PostResponse<OfflineScanFriendBean>() {
+        PostCall.get(mContext, ServerUrl.getOfflineScanFriendInfo(vcardNo, timestp, type), new BaseMap(), new PostCall.PostResponse<OfflineScanFriendBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, OfflineScanFriendBean bean) {
                 offlineData = bean.getData();

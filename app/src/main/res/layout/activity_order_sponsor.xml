@@ -134,6 +134,7 @@
                 android:background="#e8e3e8" />
 
             <RelativeLayout
+                android:id="@+id/rlTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/drawer_list_bg"

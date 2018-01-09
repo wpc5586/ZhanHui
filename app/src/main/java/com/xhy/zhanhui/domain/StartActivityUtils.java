@@ -245,11 +245,13 @@ public class StartActivityUtils {
      * @param mContext 上下文
      * @param vcardNo  id
      * @param timestp  时间戳
+     * @param type  类型
      */
-    public static void startTrustUser(Context mContext, String vcardNo, String timestp) {
+    public static void startTrustUser(Context mContext, String vcardNo, String timestp, String type) {
         Intent intent = new Intent(mContext, TrustConfirmUserActivity.class);
         intent.putExtra("vcard_no", vcardNo);
         intent.putExtra("timestp", timestp);
+        intent.putExtra("type", type);
         mContext.startActivity(intent);
     }
 

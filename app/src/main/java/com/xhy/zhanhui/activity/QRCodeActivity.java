@@ -44,7 +44,7 @@ public class QRCodeActivity extends ZhanHuiActivity implements QRCodeView.Delega
     @Override
     public void onScanQRCodeSuccess(String result) {
         String[] results = result.split("#");
-        StartActivityUtils.startTrustUser(mContext, results[0], results[1]);
+        StartActivityUtils.startTrustUser(mContext, results[0], results[1], results[2]);
         finish();
     }
 

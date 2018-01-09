@@ -325,7 +325,7 @@ public class ProductFragment extends ZhanHuiFragment implements OnItemClickListe
                     break;
                 case R.id.titleView:
                     String dataContent = (String) v.getTag();
-                    String[] temp = ((String) dataContent).split("id");
+                    String[] temp = (dataContent).split("id");
                     String industry2Id = temp[1];
                     String industry2Name = temp[0];
                     StartActivityUtils.startProductList(mContext, industry2Id, industry2Name);

@@ -48,6 +48,14 @@ public class TrustCompanyBean extends BaseBean implements Serializable{
             this.attention_degree = attention_degree;
         }
 
+        public String getRecommend_index() {
+            return recommend_index == null ? "0" : (Float.valueOf(recommend_index) == 0 ? "0" : recommend_index);
+        }
+
+        public void setRecommend_index(String recommend_index) {
+            this.recommend_index = recommend_index;
+        }
+
         public String getCompany_name_en() {
             return company_name_en;
         }
@@ -78,14 +86,6 @@ public class TrustCompanyBean extends BaseBean implements Serializable{
 
         public void setCompany_name(String company_name) {
             this.company_name = company_name;
-        }
-
-        public String getRecommend_index() {
-            return recommend_index == null ? "0" : (Float.valueOf(recommend_index) == 0 ? "0" : recommend_index);
-        }
-
-        public void setRecommend_index(String recommend_index) {
-            this.recommend_index = recommend_index;
         }
 
         public List<Document> getDocuments() {

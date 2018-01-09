@@ -180,6 +180,7 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
                 jzVideoPlayerStandard.setUp(data.getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
                 jzVideoPlayerStandard.setVisibility(View.VISIBLE);
                 PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
+                createVideoThumbnail(data.getVideo_url(), jzVideoPlayerStandard.getLayoutParams().width, jzVideoPlayerStandard.getLayoutParams().height, jzVideoPlayerStandard.thumbImageView);
             }
 
             @Override

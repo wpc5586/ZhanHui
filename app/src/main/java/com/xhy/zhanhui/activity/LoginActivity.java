@@ -34,6 +34,8 @@ import com.xhy.zhanhui.http.vo.LoginVo;
 
 public class LoginActivity extends ZhanHuiActivity {
 
+    private LoginBean loginBean;
+    private FriendBean friendBean;
     private RelativeLayout rlUp, rlPhone, rlUser;
     private Button btnLogin;
     private TextView tvCode, tvRegist;
@@ -153,7 +155,7 @@ public class LoginActivity extends ZhanHuiActivity {
             @Override
             public void onSuccess(int i, byte[] bytes, LoginBean bean) {
                 bean.getObj().setUserName(phone);
-                ZhanHuiApplication.getInstance().login(bean);
+                loginBean = bean;
                 getFriends();
                 loginEmchat(bean.getObj().getHx_username(), bean.getObj().getHx_password());
 //                showToast("登录成功");
@@ -178,6 +180,7 @@ public class LoginActivity extends ZhanHuiActivity {
         EMClient.getInstance().login(userName, password, new EMCallBack() {
             @Override
             public void onSuccess() {
+                ZhanHuiApplication.getInstance().login(loginBean);
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 dismissProgressDialog();
@@ -208,10 +211,11 @@ public class LoginActivity extends ZhanHuiActivity {
     private void getFriends() {
         DemoHelper.getInstance().setContactsSyncedWithServer(false);
         DemoHelper.getInstance().setSyncingContactsWithServer(true);
-        PostCall.get(mContext, ServerUrl.trustFriends(), new BaseMap(), new PostCall.PostResponse<FriendBean>() {
+        PostCall.get(mContext, ServerUrl.getTrustFriends(loginBean.getObj().getUser_id()), new BaseMap(), new PostCall.PostResponse<FriendBean>() {
             @Override
             public void onSuccess(int i, byte[] bytes, FriendBean bean) {
-                ZhanHuiApplication.getInstance().setFriendBean(bean);
+                friendBean = bean;
+                ZhanHuiApplication.getInstance().setFriendBean(friendBean);
             }
 
             @Override

@@ -1,7 +1,11 @@
 package com.xhy.zhanhui.base;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,6 +17,8 @@ import com.aaron.aaronlibrary.utils.MathUtils;
 import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.activity.EditVcardActivity;
+
+import java.util.HashMap;
 
 /**
  * Activity基类
@@ -138,6 +144,53 @@ public class ZhanHuiActivity extends BaseActivity {
         } else {
             return DemoHelper.getInstance().getContactListNe().get(userId) != null;
         }
+    }
+
+    /**
+     * 获取视频缩略图
+     * @param url 地址
+     * @param width 宽
+     * @param height 高
+     * @return
+     */
+    protected void createVideoThumbnail(final String url, final int width, final int height, final ImageView imageView) {
+        new Thread(){
+            @Override
+            public void run() {
+                Bitmap bitmap = null;
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                try {
+                    if (Build.VERSION.SDK_INT >= 14) {
+                        retriever.setDataSource(url, new HashMap<String, String>());
+                    } else {
+                        retriever.setDataSource(url);
+                    }
+                    bitmap = retriever.getFrameAtTime();
+                } catch (IllegalArgumentException ex) {
+                    // Assume this is a corrupt video file
+                } catch (RuntimeException ex) {
+                    // Assume this is a corrupt video file.
+                } finally {
+                    try {
+                        retriever.release();
+                    } catch (RuntimeException ex) {
+                        // Ignore failures while cleaning up.
+                    }
+                }
+                if (bitmap != null) {
+                    bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                            ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+                }
+                final Bitmap finalBitmap = bitmap;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (finalBitmap != null)
+                            imageView.setImageBitmap(finalBitmap);
+                    }
+                });
+            }
+        }.start();
     }
 
 }

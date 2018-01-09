@@ -25,6 +25,7 @@ import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.BusinessTrustBean;
+import com.xhy.zhanhui.http.domain.TrustUserBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,8 +167,8 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
                     } else if (holder.data instanceof BusinessTrustBean.Obj) {
                         toUserId = ((BusinessTrustBean.Obj) holder.data).getUser_id();
                     }
-//                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
-                    StartActivityUtils.startVcardNoQRcode(mContext, toUserId);
+                    StartActivityUtils.startTrustUserDetail(mContext, toUserId, BusinessUserDetailActivity.TYPE_FOCUS);
+//                    StartActivityUtils.startVcardNoQRcode(mContext, toUserId);
                 }
             });
             adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
@@ -242,10 +243,10 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
             if (data instanceof BusinessTrustBean.Obj) {
-                ImageUtils.loadImageCircle(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar);
+                ImageUtils.loadImage(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar);
                 holder.tvName.setText(((BusinessTrustBean.Obj) data).getUser_name());
 //                holder.tvContent.setText(data.getContent());
-//                holder.tvDegree.setText(data.getContent());
+                holder.tvDegree.setText("关注度：" + ((BusinessTrustBean.Obj) data).getAttention_degree());
             }
 //            else if (data instanceof BusinessTrustBean.Obj) {
 //                ImageUtils.loadImageRoundedCorners(mContext, ((BusinessTrustBean.Obj) data).getIcon(), holder.ivAvatar, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
@@ -298,23 +299,16 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
                 case R.id.btnTrust:
                     BusinessCompanyHolder holder1 = (BusinessCompanyHolder) v.getTag();
                     String toUserId = "";
+                    TrustUserBean bean = new TrustUserBean();
                     if (holder1.data instanceof BusinessTrustBean.Obj) {
                         toUserId = ((BusinessTrustBean.Obj) holder1.data).getUser_id();
-//                        TrustCompanyBean bean = new TrustCompanyBean();
-//                        TrustCompanyBean.Obj obj = bean.new Obj();
-//                        List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
-//                        TrustCompanyBean.Obj.User user = obj.new User();
-//                        BusinessTrustBean.Obj.User holderUser = ((BusinessTrustBean.Obj) holder1.data).getCompany_users().get(0);
-//                        user.setUser_id(holderUser.getUser_id());
-//                        user.setHx_username(holderUser.getHx_username());
-//                        user.setIcon(holderUser.getIcon());
-//                        user.setNickname(holderUser.getNickname());
-//                        user.setV_title(holderUser.getV_title());
-//                        users.add(user);
-//                        obj.setCompany_users(users);
-//                        obj.setCompany_id(((BusinessTrustBean.Obj) holder1.data).getCompany_id());
-//                        obj.setCompany_name(((BusinessTrustBean.Obj) holder1.data).getCompany_name());
-//                        bean.setData(obj);
+                        TrustUserBean.Obj obj = bean.new Obj();
+                        obj.setHx_username(((BusinessTrustBean.Obj) holder1.data).getHx_username());
+                        obj.setIcon(((BusinessTrustBean.Obj) holder1.data).getIcon());
+                        obj.setNickname(((BusinessTrustBean.Obj) holder1.data).getUser_name());
+                        obj.setUser_id(((BusinessTrustBean.Obj) holder1.data).getUser_id());
+//                        obj.setV_title(holder1.data);
+                        bean.setData(obj);
                     } else if (holder1.data instanceof BusinessTrustBean.Obj) {
                         toUserId = ((BusinessTrustBean.Obj) holder1.data).getUser_id();
 //                        TrustCompanyBean bean = new TrustCompanyBean();
@@ -333,7 +327,8 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
 //                        obj.setCompany_name(((BusinessTrustBean.Obj) holder1.data).getCompany_name());
 //                        bean.setData(obj);
                     }
-                    StartActivityUtils.startTrustUserDetail(mContext, toUserId, BusinessUserDetailActivity.TYPE_FOCUS);
+                    StartActivityUtils.startTrustUser(mContext, bean.getData());
+//                    StartActivityUtils.startTrustUserDetail(mContext, toUserId, BusinessUserDetailActivity.TYPE_FOCUS);
                     break;
                 case R.id.delete:
                     BusinessCompanyHolder holder2 = (BusinessCompanyHolder) v.getTag();
@@ -377,7 +372,7 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
             ivAvatar = itemView.findViewById(R.id.ivThum);
             tvName = itemView.findViewById(R.id.tvName);
             tvContent = itemView.findViewById(R.id.tvContent);
-            tvDegree = itemView.findViewById(R.id.tvTime);
+            tvDegree = itemView.findViewById(R.id.tvDegree);
             btnTrust = itemView.findViewById(R.id.btnTrust);
         }
     }

@@ -89,7 +89,7 @@ public class ChatActivity extends EaseBaseActivity {
         getActionbarView().getTitleView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StartActivityUtils.startVcardNoQRcode(mContext, getUserIdFromHxId(toChatUsername));
+//                StartActivityUtils.startVcardNoQRcode(mContext, getUserIdFromHxId(toChatUsername));
             }
         });
     }

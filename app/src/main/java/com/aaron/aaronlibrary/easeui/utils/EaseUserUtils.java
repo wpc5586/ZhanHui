@@ -37,7 +37,40 @@ public class EaseUserUtils {
     }
 
     /**
-     * set user avatar
+     * set user avatar 矩形
+     *
+     * @param username
+     */
+    public static void setUserAvatarRec(Context context, String username, ImageView imageView) {
+        Map<String, EaseUser> contactList = DemoHelper.getInstance().getContactList();
+        Map<String, EaseUser> tempContactList = DemoHelper.getInstance().getTempContactList();
+        if (imageView != null) {
+            if (username.equals(ZhanHuiApplication.getInstance().getHxUserId())) {
+                ImageUtils.loadImage(context, ZhanHuiApplication.getInstance().getIcon(), imageView);
+            } else if (contactList.get(username) != null && !TextUtils.isEmpty(contactList.get(username).getAvatar())) {
+                ImageUtils.loadImage(context, contactList.get(username).getAvatar(), imageView);
+            } else if (tempContactList.get(username) != null && !TextUtils.isEmpty(tempContactList.get(username).getNickname())){
+                ImageUtils.loadImage(context, tempContactList.get(username).getAvatar(), imageView);
+            } else{
+                Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
+            }
+        }
+//        EaseUser user = getUserInfo(username);
+//        if (user != null && user.getAvatar() != null) {
+//            try {
+//                int avatarResId = Integer.parseInt(user.getAvatar());
+//                Glide.with(context).load(avatarResId).into(imageView);
+//            } catch (Exception e) {
+//                //use default avatar
+//                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(imageView);
+//            }
+//        } else {
+//            Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
+//        }
+    }
+
+    /**
+     * set user avatar 圆形
      *
      * @param username
      */

@@ -101,7 +101,7 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
      * 初始化banner的高度
      */
     private void initBannerHeight() {
-        convenientBanner.getLayoutParams().height = (int) (AppInfo.getScreenWidthOrHeight(mContext, true) / 1.7617f);
+        convenientBanner.getLayoutParams().height = (int) (AppInfo.getScreenWidthOrHeight(mContext, true) / 1.5625f);
     }
 
     /**
@@ -176,6 +176,7 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
                     jzVideoPlayerStandard.setUp(data.getVideos().get(0).getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
                     jzVideoPlayerStandard.setVisibility(View.VISIBLE);
                     PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
+                    createVideoThumbnail(data.getVideos().get(0).getVideo_url(), jzVideoPlayerStandard.getLayoutParams().width, jzVideoPlayerStandard.getLayoutParams().height, jzVideoPlayerStandard.thumbImageView);
                 }
                 setRecyclerView();
 //                adapter.setData(data.getImages2());
