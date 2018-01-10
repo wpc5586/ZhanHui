@@ -255,6 +255,7 @@ public class BusinessTargetUserActivity extends ZhanHuiActivity implements Swipe
                     obj.setIcon(((BusinessTrustBean.Obj) holder1.data).getIcon());
                     obj.setNickname(((BusinessTrustBean.Obj) holder1.data).getUser_name());
                     obj.setUser_id(((BusinessTrustBean.Obj) holder1.data).getUser_id());
+                    obj.setV_title(((BusinessTrustBean.Obj) holder1.data).getV_title());
                     StartActivityUtils.startTrustUser(mContext, obj);
                     break;
                 case R.id.delete:

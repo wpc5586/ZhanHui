@@ -27,7 +27,7 @@ import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.BusinessOfflineBean;
-import com.xhy.zhanhui.http.domain.BusinessOnlineBean;
+import com.xhy.zhanhui.http.domain.TargetCompanyBean;
 import com.xhy.zhanhui.http.domain.TargetCompanyBean;
 import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 
@@ -260,7 +260,7 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
                     TrustCompanyBean.Obj obj = bean.new Obj();
                     List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
                     TrustCompanyBean.Obj.User user = obj.new User();
-                    BusinessOnlineBean.Obj.User holderUser = ((BusinessOnlineBean.Obj) holder1.data).getCompany_users().get(0);
+                    TargetCompanyBean.Obj.User holderUser = ((TargetCompanyBean.Obj) holder1.data).getCompany_users().get(0);
                     user.setUser_id(holderUser.getUser_id());
                     user.setHx_username(holderUser.getHx_username());
                     user.setIcon(holderUser.getIcon());
@@ -268,11 +268,12 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
                     user.setV_title(holderUser.getV_title());
                     users.add(user);
                     obj.setCompany_users(users);
-                    obj.setImage_url(((BusinessOnlineBean.Obj) holder1.data).getImage_url());
-                    obj.setCompany_id(((BusinessOnlineBean.Obj) holder1.data).getCompany_id());
-                    obj.setCompany_name(((BusinessOnlineBean.Obj) holder1.data).getCompany_name());
+                    obj.setImage_url(((TargetCompanyBean.Obj) holder1.data).getImage_url());
+                    obj.setCompany_id(((TargetCompanyBean.Obj) holder1.data).getCompany_id());
+                    obj.setCompany_name(((TargetCompanyBean.Obj) holder1.data).getCompany_name());
                     bean.setData(obj);
-                    StartActivityUtils.startTrustCompany(mContext, bean);
+                    if (!isVcardIdZero())
+                        StartActivityUtils.startTrustCompany(mContext, bean);
 //                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_TARGET);
                     break;
                 case R.id.delete:
@@ -297,8 +298,8 @@ public class BusinessTargetCompanyActivity extends ZhanHuiActivity implements Sw
                 case R.id.btnTrust:
                     Object data = v.getTag();
                     String companyId = "";
-                    if (data instanceof BusinessOnlineBean.Obj) {
-                        companyId = ((BusinessOnlineBean.Obj) data).getCompany_id();
+                    if (data instanceof TargetCompanyBean.Obj) {
+                        companyId = ((TargetCompanyBean.Obj) data).getCompany_id();
                     } else if (data instanceof BusinessOfflineBean.Obj) {
                         companyId = ((BusinessOfflineBean.Obj) data).getCompany_id();
                     }

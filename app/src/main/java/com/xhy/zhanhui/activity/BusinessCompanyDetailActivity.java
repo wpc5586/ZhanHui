@@ -185,8 +185,10 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
      * 信任并交换名片
      */
     private void trust() {
-        if (bean != null)
-            StartActivityUtils.startTrustCompany(mContext, bean);
+        if (!isVcardIdZero()) {
+            if (bean != null)
+                StartActivityUtils.startTrustCompany(mContext, bean);
+        }
     }
 
     @Override

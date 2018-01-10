@@ -339,7 +339,8 @@ public class BusinessAttentionCompanyActivity extends ZhanHuiActivity implements
 //                        obj.setCompany_name(((BusinessOfflineBean.Obj) holder1.data).getCompany_name());
 //                        bean.setData(obj);
                     }
-                    StartActivityUtils.startTrustCompany(mContext, bean);
+                    if (!isVcardIdZero())
+                        StartActivityUtils.startTrustCompany(mContext, bean);
 //                    StartActivityUtils.startTrustCompanyDetail(mContext, companyId, BusinessCompanyDetailActivity.TYPE_FOCUS);
                     break;
                 case R.id.delete:

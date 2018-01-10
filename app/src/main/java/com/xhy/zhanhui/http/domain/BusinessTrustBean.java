@@ -30,6 +30,15 @@ public class BusinessTrustBean extends BaseBean implements Serializable{
         private String recommend_index;
         private String attention_degree;
         private String user_name;
+        private String v_title;
+
+        public String getV_title() {
+            return v_title;
+        }
+
+        public void setV_title(String v_title) {
+            this.v_title = v_title;
+        }
 
         public String getUser_name() {
             return user_name;

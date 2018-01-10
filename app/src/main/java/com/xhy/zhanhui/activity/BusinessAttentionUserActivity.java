@@ -307,7 +307,7 @@ public class BusinessAttentionUserActivity extends ZhanHuiActivity implements Sw
                         obj.setIcon(((BusinessTrustBean.Obj) holder1.data).getIcon());
                         obj.setNickname(((BusinessTrustBean.Obj) holder1.data).getUser_name());
                         obj.setUser_id(((BusinessTrustBean.Obj) holder1.data).getUser_id());
-//                        obj.setV_title(holder1.data);
+                        obj.setV_title(((BusinessTrustBean.Obj) holder1.data).getV_title());
                         bean.setData(obj);
                     } else if (holder1.data instanceof BusinessTrustBean.Obj) {
                         toUserId = ((BusinessTrustBean.Obj) holder1.data).getUser_id();
