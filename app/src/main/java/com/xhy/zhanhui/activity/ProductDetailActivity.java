@@ -36,6 +36,7 @@ import com.xhy.zhanhui.widget.MyConvenientBanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZUtils;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
@@ -173,6 +174,7 @@ public class ProductDetailActivity extends ZhanHuiActivity implements OnItemClic
                         tvAttention.setText("关注");
                 }
                 if (data.getVideos() != null && data.getVideos().size() > 0) {
+                    JZUtils.clearSavedProgress(mContext, "");
                     jzVideoPlayerStandard.setUp(data.getVideos().get(0).getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
                     jzVideoPlayerStandard.setVisibility(View.VISIBLE);
                     PublicMethod.setVideoPlayer(jzVideoPlayerStandard);

@@ -3,6 +3,7 @@ package com.xhy.zhanhui.activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +43,15 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
 
     private String toUserId;
     private TrustUserBean bean;
-    private ImageView ivAvatar; // 企业图片
-    private TextView tvName, tvIntro, tvDe1, tvDe2, tvDe3, tvDe4;
+    private ImageView ivAvatar, ivCard; // 企业图片
+    private TextView tvName, tvIntro, tvDe1, tvDe2, tvDe3, tvDe4, tvRelation;
     private Button btnTrust;
     private RecyclerView recyclerDocument, recyclerProduct;
     private TrustCompanyAdapter adapterDocument, adapterProduct;
     private LinearLayout llUser1, llUser2, llUser3, llTrend;
     private LinearLayout[] llUsers;
+    private RelativeLayout rlRelation1, rlRelation2;
+    private View divider1;
 
     @Override
     protected int getContentLayoutId() {
@@ -59,6 +62,7 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
     protected void findView() {
         super.findView();
         ivAvatar = findViewById(R.id.ivAvatar);
+        ivCard = findAndSetClickListener(R.id.ivCard);
         tvName = findViewById(R.id.tvName);
         tvIntro = findViewById(R.id.tvIntro);
         tvDe1 = findViewById(R.id.tvProductDe);
@@ -73,16 +77,31 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
         llUsers = new LinearLayout[]{llUser1, llUser2, llUser3};
         llTrend = findViewById(R.id.llTrend);
         btnTrust = findAndSetClickListener(R.id.btnTrust);
+        tvRelation = findViewById(R.id.tvRelation);
+        rlRelation1 = findViewById(R.id.rlRelation1);
+        rlRelation2 = findViewById(R.id.rlRelation2);
+        divider1 = findViewById(R.id.divider1);
     }
 
     @Override
     protected void init() {
         super.init();
-        setActionbarTitle("客户详情");
         if (getIntent().hasExtra("toUserId"))
             toUserId = getIntent().getStringExtra("toUserId");
         if (getIntent().hasExtra("type"))
             type = getIntent().getIntExtra("type", TYPE_TARGET);
+        String title = getStringExtra("title");
+        if (!TextUtils.isEmpty(title)) {
+            setActionbarTitle(title);
+            tvRelation.setVisibility(View.GONE);
+            rlRelation1.setVisibility(View.GONE);
+            rlRelation2.setVisibility(View.GONE);
+            divider1.setVisibility(View.GONE);
+        } else
+            setActionbarTitle("客户详情");
+        if (type == TYPE_TRUST) {
+            ivCard.setVisibility(View.VISIBLE);
+        }
         getData();
     }
 
@@ -194,6 +213,9 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
+            case R.id.ivCard:
+                StartActivityUtils.startVcard(mContext, bean.getData().getUser_id());
+                break;
             case R.id.btnTrust:
                 String content = ((Button) view).getText().toString();
                 if ("交谈".equals(content))

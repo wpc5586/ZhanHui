@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <com.xhy.zhanhui.widget.MyConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -142,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="产品参数"
+            android:text="产品详情"
             android:textColor="@color/theme"
             android:textSize="17sp" />
 

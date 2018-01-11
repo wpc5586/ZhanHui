@@ -1,6 +1,5 @@
 package com.aaron.aaronlibrary.easeui.ui;
 
-import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -11,16 +10,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aaron.aaronlibrary.easeui.Constant;
-import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.db.InviteMessgeDao;
 import com.aaron.aaronlibrary.easeui.model.EaseAtMessageHelper;
-import com.aaron.aaronlibrary.easeui.widget.EaseConversationList;
-import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.NetUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
@@ -73,27 +67,27 @@ public class ConversationListFragment extends EaseConversationListFragment{
             }
         });
         //red packet code : 红包回执消息在会话列表最后一条消息的展示
-        conversationListView.setConversationListHelper(new EaseConversationList.EaseConversationListHelper() {
-            @Override
-            public String onSetItemSecondaryText(EMMessage lastMessage) {
-                if (lastMessage.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_ACK_MESSAGE, false)) {
-                    String sendNick = lastMessage.getStringAttribute(RPConstant.EXTRA_RED_PACKET_SENDER_NAME, "");
-                    String receiveNick = lastMessage.getStringAttribute(RPConstant.EXTRA_RED_PACKET_RECEIVER_NAME, "");
-                    String msg;
-                    if (lastMessage.direct() == EMMessage.Direct.RECEIVE) {
-                        msg = String.format(getResources().getString(R.string.msg_someone_take_red_packet), receiveNick);
-                    } else {
-                        if (sendNick.equals(receiveNick)) {
-                            msg = getResources().getString(R.string.msg_take_red_packet);
-                        } else {
-                            msg = String.format(getResources().getString(R.string.msg_take_someone_red_packet), sendNick);
-                        }
-                    }
-                    return msg;
-                }
-                return null;
-            }
-        });
+//        conversationListView.setConversationListHelper(new EaseConversationList.EaseConversationListHelper() {
+//            @Override
+//            public String onSetItemSecondaryText(EMMessage lastMessage) {
+//                if (lastMessage.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_ACK_MESSAGE, false)) {
+//                    String sendNick = lastMessage.getStringAttribute(RPConstant.EXTRA_RED_PACKET_SENDER_NAME, "");
+//                    String receiveNick = lastMessage.getStringAttribute(RPConstant.EXTRA_RED_PACKET_RECEIVER_NAME, "");
+//                    String msg;
+//                    if (lastMessage.direct() == EMMessage.Direct.RECEIVE) {
+//                        msg = String.format(getResources().getString(R.string.msg_someone_take_red_packet), receiveNick);
+//                    } else {
+//                        if (sendNick.equals(receiveNick)) {
+//                            msg = getResources().getString(R.string.msg_take_red_packet);
+//                        } else {
+//                            msg = String.format(getResources().getString(R.string.msg_take_someone_red_packet), sendNick);
+//                        }
+//                    }
+//                    return msg;
+//                }
+//                return null;
+//            }
+//        });
         super.setUpView();
         //end of red packet code
     }

@@ -91,7 +91,7 @@ public class VcardUserActivity extends ZhanHuiActivity{
             public void onSuccess(int statusCode, byte[] responseBody, VcardBean bean) {
                 VcardBean.Obj data = bean.getData();
                 tvVcard.setText(data.getVcard_no());
-                if (Constants.VERSION_IS_USER) {
+                if (!TextUtils.isEmpty(data.getV_name())) {
                     tvName.setText(data.getV_name());
                     tvIntro.setText(data.getV_title());
                     tvCompany.setText(data.getV_company());

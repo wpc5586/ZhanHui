@@ -5,16 +5,12 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.aaron.aaronlibrary.base.activity.BaseActivity;
 import com.aaron.aaronlibrary.easeui.DemoHelper;
 import com.aaron.aaronlibrary.easeui.EaseUI;
-import com.aaron.aaronlibrary.easeui.db.DemoDBManager;
-import com.aaron.aaronlibrary.utils.MathUtils;
-import com.hyphenate.chat.EMClient;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.activity.EditVcardActivity;
 
@@ -56,6 +52,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 根据size判断是否显示无数据背景
+     *
      * @param size 数据数量
      */
     protected void showNoDataBg(int size) {
@@ -68,6 +65,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 获取用户ID
+     *
      * @return
      */
     protected String getUserId() {
@@ -76,6 +74,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 根据环信ID获取用户ID
+     *
      * @return
      */
     protected String getUserIdFromHxId(String hxId) {
@@ -84,6 +83,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 获取环信用户ID
+     *
      * @return
      */
     protected String getHxUserId() {
@@ -92,6 +92,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 根据用户ID获取环信用户ID
+     *
      * @return
      */
     protected String getHxUserIdFromId(String id) {
@@ -100,6 +101,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 获取用户账号
+     *
      * @return
      */
     protected String getUserName() {
@@ -108,6 +110,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 判断当前账户的vcard_id是否为0（系统默认值），如果为0，需要先去设置个人名片，才可显示个人名片或者添加他人信任
+     *
      * @return
      */
     protected boolean isVcardIdZero() {
@@ -126,6 +129,7 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 获取用户头像
+     *
      * @return
      */
     protected String getUserAvatar() {
@@ -134,8 +138,9 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 判断是否是朋友关系
+     *
      * @param userId id
-     * @param isHx true：userId是环信ID false：是本系统ID
+     * @param isHx   true：userId是环信ID false：是本系统ID
      * @return
      */
     protected boolean isFriend(String userId, boolean isHx) {
@@ -148,49 +153,95 @@ public class ZhanHuiActivity extends BaseActivity {
 
     /**
      * 获取视频缩略图
-     * @param url 地址
-     * @param width 宽
+     *
+     * @param url    地址
+     * @param width  宽
      * @param height 高
      * @return
      */
     protected void createVideoThumbnail(final String url, final int width, final int height, final ImageView imageView) {
-        new Thread(){
-            @Override
-            public void run() {
-                Bitmap bitmap = null;
-                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                try {
-                    if (Build.VERSION.SDK_INT >= 14) {
-                        retriever.setDataSource(url, new HashMap<String, String>());
-                    } else {
-                        retriever.setDataSource(url);
-                    }
-                    bitmap = retriever.getFrameAtTime();
-                } catch (IllegalArgumentException ex) {
-                    // Assume this is a corrupt video file
-                } catch (RuntimeException ex) {
-                    // Assume this is a corrupt video file.
-                } finally {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    FFmpegMediaMetadataRetriever fmmr = new FFmpegMediaMetadataRetriever();
+////                MediaMetadataRetrieverCompat fmmr = new MediaMetadataRetrieverCompat(MediaMetadataRetrieverCompat.RETRIEVER_ANDROID);
+//                    try {
+//                        fmmr.setDataSource(url);
+//                        Bitmap bitmap = fmmr.getFrameAtTime();
+//
+//                        if (bitmap != null) {
+//                            Bitmap b2 = fmmr
+//                                    .getFrameAtTime(
+//                                            2000000,
+//                                            FFmpegMediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+//                            if (b2 != null) {
+//                                bitmap = b2;
+//                            }
+//                            if (bitmap.getWidth() > 640) {// 如果图片宽度规格超过640px,则进行压缩
+//                                bitmap = ThumbnailUtils.extractThumbnail(bitmap,
+//                                        width, height,
+//                                        ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+//                            }
+//                            final Bitmap finalBitmap = bitmap;
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (finalBitmap != null)
+//                                        imageView.setImageBitmap(finalBitmap);
+//                                }
+//                            });
+//                        }
+//                    } catch (IllegalArgumentException ex) {
+//                        ex.printStackTrace();
+//                    } finally {
+//                        fmmr.release();
+//                    }
+//                }
+//            }.start();
+//        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    Bitmap bitmap = null;
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                     try {
-                        retriever.release();
+                        if (Build.VERSION.SDK_INT >= 14) {
+                            retriever.setDataSource(url, new HashMap<String, String>());
+                        } else {
+                            retriever.setDataSource(url);
+                        }
+                        bitmap = retriever.getFrameAtTime(
+                                1000000,
+                                MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                    } catch (IllegalArgumentException ex) {
+                        // Assume this is a corrupt video file
                     } catch (RuntimeException ex) {
-                        // Ignore failures while cleaning up.
+                        // Assume this is a corrupt video file.
+                    } finally {
+                        try {
+                            retriever.release();
+                        } catch (RuntimeException ex) {
+                            // Ignore failures while cleaning up.
+                        }
                     }
-                }
-                if (bitmap != null) {
-                    bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
-                            ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-                }
-                final Bitmap finalBitmap = bitmap;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (finalBitmap != null)
-                            imageView.setImageBitmap(finalBitmap);
+                    System.out.println("~!~ bit1 = " + bitmap.getByteCount());
+                    if (bitmap != null) {
+                        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
                     }
-                });
-            }
-        }.start();
+                    System.out.println("~!~ bit2 = " + bitmap.getByteCount());
+                    final Bitmap finalBitmap = bitmap;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("~!~ bit3 = " + finalBitmap.getByteCount());
+                            if (finalBitmap != null)
+                                imageView.setImageBitmap(finalBitmap);
+                        }
+                    });
+                }
+            }.start();
+//        }
     }
-
 }

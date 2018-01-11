@@ -44,11 +44,13 @@
                         android:scaleType="centerCrop" />
 
                     <ImageView
+                        android:id="@+id/ivCard"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:src="@mipmap/icon_card" />
+                        android:src="@mipmap/icon_card"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <TextView
@@ -121,6 +123,7 @@
 
 
             <TextView
+                android:id="@+id/tvRelation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -130,6 +133,7 @@
                 android:textSize="15.5sp" />
 
             <RelativeLayout
+                android:id="@+id/rlRelation1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp">
@@ -194,6 +198,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rlRelation2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp">
@@ -376,6 +381,7 @@
                         android:layout_below="@+id/tvName"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:gravity="center"
                         android:text=""
                         android:textColor="#808080"
                         android:textSize="14sp" />
@@ -415,6 +421,7 @@
                         android:layout_below="@+id/tvName"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:gravity="center"
                         android:text=""
                         android:textColor="#808080"
                         android:textSize="14sp" />
@@ -454,6 +461,7 @@
                         android:layout_below="@+id/tvName"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:gravity="center"
                         android:text=""
                         android:textColor="#808080"
                         android:textSize="14sp" />

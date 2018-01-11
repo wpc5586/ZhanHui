@@ -136,9 +136,10 @@ public class ContactListFragment extends EaseContactListFragment{
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
                     // 观众版直接进入聊天页面，企业版先进去观众详情
                     if (Constants.VERSION_IS_USER)
-                        StartActivityUtils.startChat(mContext, username, user.getNickname());
+//                        StartActivityUtils.startChat(mContext, username, user.getNickname());
+                        StartActivityUtils.startTrustUserDetail(mContext, user.getUserId(), BusinessUserDetailActivity.TYPE_TRUST, "朋友详情");
                     else {
-                        StartActivityUtils.startTrustUserDetail(mContext, user.getUserId(), BusinessUserDetailActivity.TYPE_TRUST);
+                        StartActivityUtils.startTrustUserDetail(mContext, user.getUserId(), BusinessUserDetailActivity.TYPE_TRUST, "伙伴详情");
                     }
 //                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username).putExtra("nickName", user.getNickname()));
                 }

@@ -19,9 +19,8 @@ import android.view.View;
 
 import com.aaron.aaronlibrary.easeui.Constant;
 import com.aaron.aaronlibrary.easeui.base.EaseBaseActivity;
-import com.xhy.zhanhui.R;
-import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.chat.EMMessage;
+import com.xhy.zhanhui.R;
 
 public class ContextMenuActivity extends EaseBaseActivity {
 	public static final int RESULT_CODE_COPY = 1;
@@ -35,9 +34,9 @@ public class ContextMenuActivity extends EaseBaseActivity {
 		int type = message.getType().ordinal();
 		if (type == EMMessage.Type.TXT.ordinal()) {
 			if(message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false)
-					|| message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)
+					|| message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)){
 					//red packet code : 屏蔽红包消息的转发功能
-					|| message.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, false)){
+//					|| message.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, false)){
 				//end of red packet code
 				return R.layout.em_context_menu_for_location;
 			}else if(message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_BIG_EXPRESSION, false)){
@@ -65,9 +64,9 @@ public class ContextMenuActivity extends EaseBaseActivity {
 		setActionbarTitle("消息操作");
 		boolean isChatroom = getIntent().getBooleanExtra("ischatroom", false);
 		EMMessage message = getIntent().getParcelableExtra("message");
-		if (isChatroom
+		if (isChatroom){
 				//red packet code : 屏蔽红包消息的撤回功能
-				|| message.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, false)) {
+//				|| message.getBooleanAttribute(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, false)) {
 			//end of red packet code
 			View v = (View) findViewById(R.id.forward);
 			if (v != null) {

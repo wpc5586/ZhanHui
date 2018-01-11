@@ -196,6 +196,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         parent = findViewById(R.id.parent);
         actionbarView = findViewById(R.id.actionbar);
         statusView = findViewById(R.id.statusbar);
+        statusView.getLayoutParams().height = AppInfo.getStatusBarHeight();
         if (isNewMode)
             actionbarView.getBackButton().setOnTouchListener(this);
     }

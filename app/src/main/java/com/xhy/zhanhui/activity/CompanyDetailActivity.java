@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,13 +37,13 @@ import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.ExhibitionCompanyInfoBean;
 import com.xhy.zhanhui.http.domain.ExhibitionDataBean;
 import com.xhy.zhanhui.http.domain.ExhibitionProductBean;
-import com.xhy.zhanhui.http.domain.ExhibitionProductInfoBean;
 import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 import com.xhy.zhanhui.widget.ExhibitionTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZUtils;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
@@ -122,6 +123,7 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
                     if (scrollY == 0) {
                         setActionbarBackground(R.color.transparent);
                         setStatusBackground(R.color.transparent);
+                        setActionbarTitleColor(R.color.white);
                     } else {
                         setActionbarBackground(R.color.white);
                         setStatusBackground(R.color.theme);
@@ -177,10 +179,13 @@ public class CompanyDetailActivity extends ZhanHuiActivity {
                         tvAttention.setText("关注");
                 }
 //                tvIntroduction.setText(getIndent(data.getCompany_introduction()));
-                jzVideoPlayerStandard.setUp(data.getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
-                jzVideoPlayerStandard.setVisibility(View.VISIBLE);
-                PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
-                createVideoThumbnail(data.getVideo_url(), jzVideoPlayerStandard.getLayoutParams().width, jzVideoPlayerStandard.getLayoutParams().height, jzVideoPlayerStandard.thumbImageView);
+                if (!TextUtils.isEmpty(data.getVideo_url())) {
+                    JZUtils.clearSavedProgress(mContext, "");
+                    jzVideoPlayerStandard.setUp(data.getVideo_url(), JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
+                    jzVideoPlayerStandard.setVisibility(View.VISIBLE);
+                    PublicMethod.setVideoPlayer(jzVideoPlayerStandard);
+                    createVideoThumbnail(data.getVideo_url(), jzVideoPlayerStandard.getLayoutParams().width, jzVideoPlayerStandard.getLayoutParams().height, jzVideoPlayerStandard.thumbImageView);
+                }
             }
 
             @Override

@@ -216,6 +216,22 @@ public class StartActivityUtils {
     }
 
     /**
+     * 跳转商圈客户详情页面
+     *
+     * @param mContext 上下文
+     * @param toUserId 客户
+     * @param type     客户详情类型   0：目标客户  1：信任客户  2：关注客户
+     * @param title 标题
+     */
+    public static void startTrustUserDetail(Context mContext, String toUserId, int type, String title) {
+        Intent intent = new Intent(mContext, BusinessUserDetailActivity.class);
+        intent.putExtra("toUserId", toUserId);
+        intent.putExtra("type", type);
+        intent.putExtra("title", title);
+        mContext.startActivity(intent);
+    }
+
+    /**
      * 跳转商圈企业信任页面
      *
      * @param mContext 上下文

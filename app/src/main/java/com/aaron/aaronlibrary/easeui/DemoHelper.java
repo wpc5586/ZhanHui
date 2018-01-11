@@ -36,11 +36,9 @@ import com.aaron.aaronlibrary.easeui.ui.VideoCallActivity;
 import com.aaron.aaronlibrary.easeui.ui.VoiceCallActivity;
 import com.aaron.aaronlibrary.easeui.utils.EaseCommonUtils;
 import com.aaron.aaronlibrary.easeui.utils.PreferenceManager;
-import com.aaron.aaronlibrary.easeui.utils.RedPacketUtil;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
-import com.easemob.redpacketsdk.constant.RPConstant;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -1309,12 +1307,12 @@ public class DemoHelper {
                     EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
                     final String action = cmdMsgBody.action();//获取自定义action
                     //red packet code : 处理红包回执透传消息
-                    if(!easeUI.hasForegroundActivies()){
-                        if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)){
-                            RedPacketUtil.receiveRedPacketAckMessage(message);
-                            broadcastManager.sendBroadcast(new Intent(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION));
-                        }
-                    }
+//                    if(!easeUI.hasForegroundActivies()){
+//                        if (action.equals(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION)){
+//                            RedPacketUtil.receiveRedPacketAckMessage(message);
+//                            broadcastManager.sendBroadcast(new Intent(RPConstant.REFRESH_GROUP_RED_PACKET_ACTION));
+//                        }
+//                    }
 
                     if (action.equals("__Call_ReqP2P_ConferencePattern")) {
                         String title = message.getStringAttribute("em_apns_ext", "conference call");

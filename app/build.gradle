@@ -106,8 +106,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:11.6.2'
     compile 'com.hyphenate:hyphenate-sdk:3.3.5'
     //支付宝版红包SDK使用下面的远程依赖
-    compile 'com.hyphenate.redpacket:redpacket-alipay:1.1.2'
-    //钱包版红包SDK使用下面的远程依赖
+//    compile 'com.hyphenate.redpacket:redpacket-alipay:1.1.2'
+    //钱包版红包SDK使用下面的远程依赖、
     //compile 'com.hyphenate.redpacket:redpacket-wallet:3.4.4'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile 'cn.jzvd:jiaozivideoplayer:6.2.2'
@@ -121,4 +121,6 @@ dependencies {
     compile 'com.contrarywind:Android-PickerView:3.2.7'
     // Switch Button
     compile 'com.kyleduo.switchbutton:library:1.4.1'
+//    compile 'com.dyhdyh.compat.mmrc:media-metadata-retriever-compat:1.0.6'
+//    compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.14'
 }

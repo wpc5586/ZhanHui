@@ -212,7 +212,38 @@ public class ImageUtils {
         if (avatar)
             target.setImageResource(com.xhy.zhanhui.R.mipmap.common_avatar);
         try {
-            Glide.with(mContext).load(headPath).crossFade(800).into(target);
+            Glide.with(mContext).load(headPath).diskCacheStrategy(DiskCacheStrategy.SOURCE).crossFade(800).into(target);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        target.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 加载图片
+     * @param mContext
+     * @param path
+     * @param target
+     * @param isAvatar [0]：是否是加载头像  [1]：是否是加载本地
+     */
+    public static void loadImageForSource(Context mContext, String path, ImageView target, boolean... isAvatar) {
+        boolean avatar = isAvatar.length > 0 && isAvatar[0];
+        boolean isLocal = isAvatar.length > 1 && isAvatar[1];
+        if (TextUtils.isEmpty(path)) {
+            if (avatar) {
+                target.setImageResource(com.xhy.zhanhui.R.mipmap.common_avatar);
+            }
+            return;
+        }
+        String headPath = path;
+        if (!isLocal && headPath.charAt(0) != 'h') {
+            headPath = ServerUrl.SERVICE + path;
+        }
+//        target.setTag(null);
+        if (avatar)
+            target.setImageResource(com.xhy.zhanhui.R.mipmap.common_avatar);
+        try {
+            Glide.with(mContext).load(headPath).diskCacheStrategy(DiskCacheStrategy.SOURCE).crossFade(800).into(target);
         } catch (Exception e) {
             e.printStackTrace();
         }
