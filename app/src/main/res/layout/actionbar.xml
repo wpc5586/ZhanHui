@@ -9,8 +9,6 @@
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:background="@drawable/selector_actionbar_button"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:paddingBottom="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

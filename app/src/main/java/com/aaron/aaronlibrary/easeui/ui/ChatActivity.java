@@ -95,6 +95,11 @@ public class ChatActivity extends EaseBaseActivity {
     }
 
     @Override
+    public void onClick(View view) {
+        super.onClick(view);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         activityInstance = null;

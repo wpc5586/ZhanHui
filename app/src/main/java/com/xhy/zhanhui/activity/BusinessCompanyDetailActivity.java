@@ -42,7 +42,7 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
 
     private String companyId;
     private TrustCompanyBean bean;
-    private ImageView ivAvatar; // 企业图片
+    private ImageView ivAvatar, ivCard; // 企业图片
     private TextView tvName, tvIntro, tvDe1, tvDe2, tvDe3, tvDe4;
     private RecyclerView recyclerDocument, recyclerProduct;
     private TrustCompanyAdapter adapterDocument, adapterProduct;
@@ -58,7 +58,8 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
     @Override
     protected void findView() {
         super.findView();
-        ivAvatar = findViewById(R.id.ivAvatar);
+        ivAvatar = findAndSetClickListener(R.id.ivAvatar);
+        ivCard = findViewById(R.id.ivCard);
         tvName = findViewById(R.id.tvName);
         tvIntro = findViewById(R.id.tvIntro);
         tvDe1 = findViewById(R.id.tvProductDe);
@@ -84,6 +85,9 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
         if (getIntent().hasExtra("type"))
             type = getIntent().getIntExtra("type", TYPE_TARGET);
         getData();
+        if (type == TYPE_TRUST) {
+            ivCard.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -195,6 +199,10 @@ public class BusinessCompanyDetailActivity extends ZhanHuiActivity {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
+            case R.id.ivAvatar:
+                if (ivCard.getVisibility() == View.VISIBLE && bean.getData().getCompany_users() != null && bean.getData().getCompany_users().size() > 0)
+                    StartActivityUtils.startVcard(mContext, bean.getData().getCompany_users().get(0).getUser_id());
+                break;
             case R.id.btnTrust:
                 if ("交谈".equals(((Button) view).getText().toString()))
                     StartActivityUtils.startChat(mContext, bean.getData().getCompany_users().get(0).getHx_username());

@@ -44,11 +44,13 @@
                         android:scaleType="centerCrop" />
 
                     <ImageView
+                        android:id="@+id/ivCard"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:src="@mipmap/icon_card" />
+                        android:src="@mipmap/icon_card"
+                        android:visibility="gone"/>
                 </RelativeLayout>
 
                 <TextView

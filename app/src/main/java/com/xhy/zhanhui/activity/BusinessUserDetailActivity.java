@@ -61,8 +61,8 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
     @Override
     protected void findView() {
         super.findView();
-        ivAvatar = findViewById(R.id.ivAvatar);
-        ivCard = findAndSetClickListener(R.id.ivCard);
+        ivAvatar = findAndSetClickListener(R.id.ivAvatar);
+        ivCard = findViewById(R.id.ivCard);
         tvName = findViewById(R.id.tvName);
         tvIntro = findViewById(R.id.tvIntro);
         tvDe1 = findViewById(R.id.tvProductDe);
@@ -213,8 +213,9 @@ public class BusinessUserDetailActivity extends ZhanHuiActivity {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
-            case R.id.ivCard:
-                StartActivityUtils.startVcard(mContext, bean.getData().getUser_id());
+            case R.id.ivAvatar:
+                if (ivCard.getVisibility() == View.VISIBLE)
+                    StartActivityUtils.startVcard(mContext, bean.getData().getUser_id());
                 break;
             case R.id.btnTrust:
                 String content = ((Button) view).getText().toString();
