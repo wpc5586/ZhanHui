@@ -98,6 +98,10 @@ public class ZhanHuiApplication extends CrashApplication {
         MultiDex.install(this);
     }
 
+    public String getCompanyId() {
+        return loginBean == null ? "" : loginBean.getObj().getUser_id();
+    }
+
     public String getUserId() {
         return loginBean == null ? "" : loginBean.getObj().getUser_id();
     }

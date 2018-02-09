@@ -15,6 +15,8 @@ import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.Constants;
 import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.activity.IntelligentBusinessListActivity;
+import com.xhy.zhanhui.activity.IntelligentBusinessReleaseActivity;
 import com.xhy.zhanhui.activity.MainActivity;
 import com.xhy.zhanhui.activity.OrderActivity;
 import com.xhy.zhanhui.activity.QRCodeActivity;
@@ -60,6 +62,10 @@ public class MainFragment extends ZhanHuiFragment {
         rlRelease = findViewAndSetListener(R.id.rl_release);
         rlDemand = findViewAndSetListener(R.id.rl_demand);
         rlReceive = findViewAndSetListener(R.id.rl_receive);
+        if (Constants.VERSION_IS_USER)
+            rlReceive.setVisibility(View.GONE);
+        else
+            rlRelease.setVisibility(View.GONE);
         rlOrder = findViewAndSetListener(R.id.rlOrder);
         rlTicket = findViewAndSetListener(R.id.rlTicket);
         rlGuide = findViewAndSetListener(R.id.rlGuide);
@@ -88,9 +94,10 @@ public class MainFragment extends ZhanHuiFragment {
 
     private void initWidget() {
         int width = (AppInfo.getScreenWidthOrHeight(mContext, true) - 4) / 3;
-        rlRelease.getLayoutParams().width = width;
-        rlDemand.getLayoutParams().width = width;
-        rlReceive.getLayoutParams().width = width;
+        int width1 = (AppInfo.getScreenWidthOrHeight(mContext, true) - 2) / 2;
+        rlRelease.getLayoutParams().width = width1;
+        rlDemand.getLayoutParams().width = width1;
+        rlReceive.getLayoutParams().width = width1;
         rlOrder.getLayoutParams().width = width;
         rlTicket.getLayoutParams().width = width;
         rlGuide.getLayoutParams().width = width;
@@ -174,6 +181,15 @@ public class MainFragment extends ZhanHuiFragment {
             case R.id.rlReceive: // 收到的邀请
                 startMyActivity(ReceiveTrustActivity.class);
                 ivNewTrust.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.rl_release: // 智能商务-需求发布
+                startMyActivity(IntelligentBusinessReleaseActivity.class);
+                break;
+            case R.id.rl_demand: // 智能商务-需求匹配
+                startMyActivity(IntelligentBusinessListActivity.class);
+                break;
+            case R.id.rl_receive: // 智能商务-收到的申请
+                startMyActivity(IntelligentBusinessReleaseActivity.class);
                 break;
             case R.id.rlOrder: // 我的预约
                 startMyActivity(OrderActivity.class);

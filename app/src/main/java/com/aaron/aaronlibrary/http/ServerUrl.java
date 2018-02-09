@@ -32,7 +32,7 @@ public class ServerUrl {
     }
 
     public static String getService() {
-        return isUseHttps() ? (Constants.DEBUGABLE ? SERVICES_NORMAL : SERVICES_NORMAL) : SERVICE;
+        return isUseHttps() ? (Constants.DEBUGABLE ? SERVICES : SERVICES_NORMAL) : SERVICE;
     }
 
     /**
@@ -630,6 +630,64 @@ public class ServerUrl {
      */
     public static String deleteRequestRecord() {
         return getService() + "relation/deleteRequestRecord";
+    }
+
+    /**
+     * 首页-需求发布接口
+     * @return 数据
+     */
+    public static String demands() {
+        return getService() + "ibusiness/demands";
+    }
+
+    /**
+     * 首页-获取需求发布列表接口
+     * @return 数据
+     */
+    public static String demandsList() {
+        return getService() + "ibusiness/demands?user_id=" + ZhanHuiApplication.getInstance().getUserId();
+    }
+
+    /**
+     * 首页-获取需求发布详情接口
+     * @return 数据
+     */
+    public static String demandsDetail(String demandId) {
+        return getService() + "ibusiness/demands?" + demandId;
+    }
+
+    /**
+     * 首页-获得需求匹配结果(企业列表)接口
+     * @return 数据
+     */
+    public static String demandsCompanyList(String demandId) {
+        return getService() + "ibusiness/matchings?demand_id=" + demandId + "&type=poster";
+    }
+
+    /**
+     * 首页-获得需求匹配结果(企业列表)接口
+     * @return 数据
+     */
+    public static String demandsResult(String demandId) {
+        return getService() + "ibusiness/matchings/" + demandId + "?type=" + (Constants.VERSION_IS_USER ? "poster" : "receiver");
+    }
+
+    /**
+     * 首页-删除需求匹配结果接口
+     * @return 数据
+     */
+    public static String deleteDemandsResult(String demandId) {
+        return getService() + "ibusiness/matchings/" + demandId;
+    }
+
+    /**
+     * 首页-获取匹配的需求列表接口（企业版）
+     * @param state company_handle_state=0 为最新的需求匹配结果(未同意的)
+                     company_handle_state=1 为已同意的需求匹配结
+     * @return 数据
+     */
+    public static String demandsList(String state) {
+        return getService() + "ibusiness/matchings?" + ZhanHuiApplication.getInstance().getCompanyId() + "&type=receiver&company_handle_state=" + state;
     }
 
     /**

@@ -11,6 +11,7 @@ import com.xhy.zhanhui.activity.CenterDetailActivity;
 import com.xhy.zhanhui.activity.CenterMessageDetailActivity;
 import com.xhy.zhanhui.activity.CompanyDetailActivity;
 import com.xhy.zhanhui.activity.CompanyListActivity;
+import com.xhy.zhanhui.activity.IntelligentBusinessDetailActivity;
 import com.xhy.zhanhui.activity.OrderDetailActivity;
 import com.xhy.zhanhui.activity.OrderSponsorActivity;
 import com.xhy.zhanhui.activity.ProductDetailActivity;
@@ -348,5 +349,17 @@ public class StartActivityUtils {
         Intent intent = new Intent(mContext, OrderDetailActivity.class);
         intent.putExtra("reservationId", reservationId);
         ((Activity) mContext).startActivityForResult(intent, 1);
+    }
+
+    /**
+     * 跳转需求详情页面
+     *
+     * @param mContext      上下文
+     * @param demandId 需求Id
+     */
+    public static void startDemandDetail(Context mContext, String demandId) {
+        Intent intent = new Intent(mContext, IntelligentBusinessDetailActivity.class);
+        intent.putExtra("demandId", demandId);
+        mContext.startActivity(intent);
     }
 }

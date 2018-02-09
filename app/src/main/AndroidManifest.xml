@@ -113,6 +113,15 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme_NoActionBar"/>
         <activity
+            android:name=".activity.IntelligentBusinessReleaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".activity.IntelligentBusinessListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
             android:name=".activity.TicketActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_NoActionBar"/>

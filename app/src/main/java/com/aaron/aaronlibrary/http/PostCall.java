@@ -47,6 +47,11 @@ public class PostCall {
         _postHttpUtilsFile1(mContext, url, null, null, response, toasts, clazz, null, file, null, isShowDialog);
     }
 
+    public static <T> void postFiles(Context mContext, final String url, HashMap<String, String> params, String filesKeyName, File[] files, final PostResponse<T> response,
+                                    String[] toasts, boolean isShowDialog, final Class<T> clazz) {
+        _postHttpUtilsFile2(mContext, url, params, null, response, toasts, clazz, filesKeyName, files, null, isShowDialog);
+    }
+
     public static <T> void postJson(Context mContext, final String url, Object params, final PostResponse<T> response,
                                     String[] toasts, boolean isShowDialog, final Class<T> clazz) {
         _postHttpUtils(mContext, url, null, params, response, toasts, clazz, null, null, null, isShowDialog, true);
@@ -177,6 +182,52 @@ public class PostCall {
             @Override
             public void run() {
 
+                try {
+                    response[0] = client.newCall(request).execute();
+                    final String jsonString = response[0].body().string();
+                    if (!response[0].isSuccessful()) {
+                        if (postResponse != null) {
+                            if (toasts.length > 1 && !TextUtils.isEmpty(toasts[1]))
+                                ToastUtil.setErrorToast(mContext, toasts[1]);
+                            postResponse.onFailure(-1, null);
+                        }
+                    } else {
+                        Logger.dl("AsyncHttpClient.post()------", url + "?" + params + "    response:" + jsonString);
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                handleResponse(jsonString, mContext, postResponse, toasts, clazz);
+                            }
+                        });
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private static <T> void _postHttpUtilsFile2(final Context mContext, final String url, final HashMap<String, String> params, final Object paramsT, final PostResponse<T> postResponse,
+                                                final String[] toasts, final Class<T> clazz, String filesKeyName, final File[] files, final OkHttpClientManager.ProgressListener listener, final boolean isShowDialog) {
+        Logger.dl("AsyncHttpClient.post()------", url + "?" + files.length);
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        for (String key : params.keySet()) {
+            builder.addFormDataPart(key, params.get(key));
+        }
+        for (File file : files) {
+            builder.addFormDataPart(filesKeyName, file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
+        }
+        RequestBody requestBody = builder.build();
+        final Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        final OkHttpClient client = new OkHttpClient();
+        final Response[] response = new Response[1];
+        new Thread() {
+            @Override
+            public void run() {
                 try {
                     response[0] = client.newCall(request).execute();
                     final String jsonString = response[0].body().string();
