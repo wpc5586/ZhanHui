@@ -362,4 +362,16 @@ public class StartActivityUtils {
         intent.putExtra("demandId", demandId);
         mContext.startActivity(intent);
     }
+
+    /**
+     * 跳转需求结果详情页面
+     *
+     * @param mContext      上下文
+     * @param matchingId 结果Id
+     */
+    public static void startDemandResultDetail(Context mContext, String matchingId) {
+        Intent intent = new Intent(mContext, IntelligentBusinessDetailActivity.class);
+        intent.putExtra("matchingId", matchingId);
+        mContext.startActivity(intent);
+    }
 }

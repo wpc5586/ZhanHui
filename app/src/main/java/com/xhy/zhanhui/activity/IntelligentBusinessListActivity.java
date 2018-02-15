@@ -61,7 +61,7 @@ public class IntelligentBusinessListActivity extends ZhanHuiActivity {
     @Override
     protected void init() {
         super.init();
-        setActionbarTitle("我的预约");
+        setActionbarTitle("我的需求");
         initPull();
         getData(true);
     }
@@ -118,7 +118,7 @@ public class IntelligentBusinessListActivity extends ZhanHuiActivity {
     }
 
     /**
-     * 设置资料、动态
+     * 设置
      */
     private void setRecyclerView() {
 //        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(mContext);
@@ -156,7 +156,7 @@ public class IntelligentBusinessListActivity extends ZhanHuiActivity {
      */
     private void delete(final int index) {
         final IBusinessListBean.Obj data = (IBusinessListBean.Obj) adapter.getItem(index);
-        PostCall.delete(mContext, ServerUrl.deleteDemandsResult(data.getDemand_id()), ServerUrl.getUserIdBody(), new PostCall.PostResponse<BaseBean>() {
+        PostCall.delete(mContext, ServerUrl.demandsDetail(data.getDemand_id()), "0", new PostCall.PostResponse<BaseBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
                 adapter.removeData(data, index);

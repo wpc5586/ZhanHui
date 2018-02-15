@@ -122,6 +122,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_NoActionBar"/>
         <activity
+            android:name=".activity.IntelligentBusinessDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
             android:name=".activity.TicketActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_NoActionBar"/>

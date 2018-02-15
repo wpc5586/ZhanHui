@@ -653,7 +653,7 @@ public class ServerUrl {
      * @return 数据
      */
     public static String demandsDetail(String demandId) {
-        return getService() + "ibusiness/demands?" + demandId;
+        return getService() + "ibusiness/demands/" + demandId;
     }
 
     /**
@@ -665,7 +665,7 @@ public class ServerUrl {
     }
 
     /**
-     * 首页-获得需求匹配结果(企业列表)接口
+     * 首页-获得需求匹配结果详情(企业列表)接口
      * @return 数据
      */
     public static String demandsResult(String demandId) {
