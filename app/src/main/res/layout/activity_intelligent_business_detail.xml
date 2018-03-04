@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/ivState"
-            android:text="星云智能商务大脑"
+            android:text=""
             android:layout_marginTop="20dp"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -205,7 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/tvStateTitle"
-            android:text="正在为您精准匹配中"
+            android:text=""
             android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:textColor="#989898"/>

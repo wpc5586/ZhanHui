@@ -56,11 +56,21 @@ public class IntelligentBusinessListActivity extends ZhanHuiActivity {
         super.findView();
         ptrFrameLayout = findViewById(R.id.ptrFrameLayout);
         recyclerView = findViewById(R.id.recycler);
+        findViewById(R.id.add);
     }
 
     @Override
     protected void init() {
         super.init();
+        setActionbarBackgroundResource(R.mipmap.ibusiness_actionbar_bg);
+        setActionbarTitleColor(R.color.white);
+        getActionbarView().getBackButton().setImageResource(R.mipmap.common_back_white1);
+        getActionbarView().addRightButton(R.mipmap.common_add_white, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMyActivity(IntelligentBusinessReleaseActivity.class);
+            }
+        });
         setActionbarTitle("我的需求");
         initPull();
         getData(true);

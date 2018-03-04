@@ -64,3 +64,11 @@ http://api.nebintel.xyz:8090/services/documents/14/favorite?user_id=28?{}    res
 
 2018-01-09 19:41:18
 1、聊天页面的上方标题，还有对方发过来的聊天消息头像可以点击吗？
+
+
+2018-2-24 10:29:04
+1、观众-获得需求匹配结果(企业列表) URL:http://api.nebintel.xyz:8090/services/ibusiness/matchings?demand_id=1&type=poster
+    这个接口缺少匹配度的字段，而且右侧的信任按钮需要对方的userId和环信Id，现在的company_id其实就是userId吧，如果是的话也需要增加个company_id和hx_user_id。
+2、需求匹配结果的删除操作也是长按吧？因为布局并没有铺满横屏，长按好一些吧。
+3、企业详情页面的添加信任，是添加业务顾问的第一个用户信息吗？
+4、

@@ -665,7 +665,7 @@ public class ServerUrl {
     }
 
     /**
-     * 首页-获得需求匹配结果详情(企业列表)接口
+     * 首页-获得需求匹配结果详情(企业详情)接口
      * @return 数据
      */
     public static String demandsResult(String demandId) {

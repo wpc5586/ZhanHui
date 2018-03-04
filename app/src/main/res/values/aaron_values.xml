@@ -16,6 +16,8 @@
 
     <color name="theme_black">#101010</color>
     <color name="theme_blue">#32b7ef</color>
+    <color name="theme_blue_ibusiness">#007aff</color>
+    <color name="theme_blue_ibusiness_p">#005aff</color>
     <color name="theme_gray">#f7f7f7</color>
     <color name="collection_text">#818181</color>
     <color name="theme_jf">#3EAFF8</color>
@@ -92,7 +94,7 @@
     <color name="light_blue">#6593cb</color>
     <color name="theme">#ffe13232</color>
     <color name="theme_pressed">#ffbb3232</color>
-    <color name="tab_bg">#fafafa</color>
+    <color name="tab_bg">#ffffff</color>
     <color name="theme_text">#141414</color>
     <color name="red">#c12c20</color>
     <color name="list_pressed_bg">#d9d9d9</color>

@@ -37,21 +37,21 @@
             android:textSize="13sp" />
 
         <View
+            android:id="@+id/divide"
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:layout_marginLeft="15dp"
-            android:layout_below="@+id/tvName"
+            android:layout_below="@+id/tvTitle"
             android:layout_marginRight="15dp"
             android:background="#EFEFF4" />
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/divide"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/llContent"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-    </LinearLayout>
 </RelativeLayout>

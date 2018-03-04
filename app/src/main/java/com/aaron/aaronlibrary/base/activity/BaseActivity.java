@@ -213,6 +213,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         actionbarView.setBackgroundColor(getColorFromResuource(id));
     }
 
+    protected void setActionbarBackgroundResource(int id) {
+        actionbarView.setBackgroundResource(id);
+    }
+
     protected void setActionbarDividerVisibility(boolean visibility) {
         actionbarView.getDividerView().setVisibility(visibility ? View.VISIBLE : View.GONE);
     }

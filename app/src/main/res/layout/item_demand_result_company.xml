@@ -12,15 +12,44 @@
         android:layout_marginTop="14dp"
         android:layout_marginBottom="14dp"/>
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/item_demand_result_btn_bg"
+        android:layout_centerVertical="true"
+        android:text="信任"
+        android:textColor="#007aff"
+        android:textSize="11sp"/>
+
+    <Button
+        android:id="@+id/tvState"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/item_demand_result_btn_bg"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:text="已信任"
+        android:textColor="#989898"
+        android:textSize="14sp"/>
+
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_toRightOf="@+id/ivImage"
         android:gravity="start"
-        android:text="最新"
+        android:text=""
         android:textColor="#282828"
         android:textSize="14sp" />
 
@@ -43,21 +72,9 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tvName"
         android:layout_toRightOf="@+id/tvDegreeText"
-        android:text="8.5"
+        android:text=""
         android:textColor="#ff2d55"
         android:textSize="13sp" />
-    
-    <Button
-        android:id="@+id/button"
-        android:layout_width="60dp"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/item_demand_result_btn_bg"
-        android:layout_centerVertical="true"
-        android:text="信任"
-        android:textColor="#007aff"
-        android:textSize="11sp"/>
 
     <View
         android:layout_width="match_parent"

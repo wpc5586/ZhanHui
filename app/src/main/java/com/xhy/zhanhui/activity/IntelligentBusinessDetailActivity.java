@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aaron.aaronlibrary.base.domain.BaseViewHolder;
+import com.aaron.aaronlibrary.bean.BaseBean;
 import com.aaron.aaronlibrary.http.BaseMap;
 import com.aaron.aaronlibrary.http.PostCall;
 import com.aaron.aaronlibrary.http.ServerUrl;
@@ -26,9 +27,12 @@ import com.aaron.aaronlibrary.utils.MathUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.domain.StartActivityUtils;
+import com.xhy.zhanhui.http.domain.BusinessOnlineBean;
 import com.xhy.zhanhui.http.domain.DemandDetailBean;
 import com.xhy.zhanhui.http.domain.DemandResultBean;
 import com.xhy.zhanhui.http.domain.IBusinessListBean;
+import com.xhy.zhanhui.http.domain.TrustCompanyBean;
+import com.xhy.zhanhui.http.vo.DeleteIBusinessResultVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,7 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
     private TextView tvName, tvBrand, tvClass, tvNum, tvDemand, tvTime, tvStateTitle, tvStateContent;
     private ImageView image1, image2, image3, ivState;
     private ImageView[] imageViews;
+    private RelativeLayout rlBottom;
     private RecyclerView recyclerView;
     private IBusinessDetailAdapter adapter;
 
@@ -76,6 +81,7 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
         ivState = findViewById(R.id.ivState);
         imageViews = new ImageView[]{image1, image2, image3};
         recyclerView = findViewById(R.id.recycler);
+        rlBottom = findViewById(R.id.rlBottom);
     }
 
     @Override
@@ -89,7 +95,6 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
         setActionbarTitleColor(R.color.white);
         demandId = getStringExtra("demandId");
         getData();
-        getResultData();
     }
 
     /**
@@ -112,6 +117,19 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
                             ImageUtils.loadImageRoundedCorners(mContext, data.getImage_url().get(i).getImage_url(), imageViews[i], RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 5));
                         }
                     }
+                    if ("0".equals(data.getMatching_nums())) {
+                        tvStateTitle.setText("星云智能商务大脑");
+                        tvStateContent.setText("正在为您精准匹配中");
+                        ivState.setImageResource(R.mipmap.icon_demand_detail_state1);
+                    } else if ("0".equals(data.getMatching_accept_nums())) {
+                        tvStateTitle.setText("已为您智能匹配" + data.getMatching_nums() + "家满足需求企业");
+                        tvStateContent.setText("请耐心等待企业接受");
+                        ivState.setImageResource(R.mipmap.icon_demand_detail_state2);
+                    } else {
+                        tvStateTitle.setText("");
+                        tvStateContent.setText("");
+                        getResultData();
+                    }
                 }
             }
 
@@ -131,12 +149,12 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
             public void onSuccess(int statusCode, byte[] responseBody, DemandResultBean bean) {
                 resultData = bean.getData();
                 if (resultData != null && resultData.size() > 0) {
+                    rlBottom.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     setRecyclerView();
                     for (int i = 0; i < resultData.size(); i++) {
                         adapter.addData(resultData.get(i));
                     }
-                } else {
-
                 }
             }
 
@@ -169,7 +187,6 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
                 @Override
                 public void onItemClick(View view, BaseViewHolder holder) {
-                    StartActivityUtils.startDemandResultDetail(mContext, ((DemandResultBean.Obj.Matching) holder.data).getMatching_id());
                 }
             });
             adapter.setOnItemLongClickListener(new OnRecyclerItemLongClickListener() {
@@ -227,6 +244,7 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
             holder.parent.setTag(holder);
             holder.parent.setOnClickListener(this);
             holder.parent.setOnLongClickListener(this);
+            boolean isTrust = false;
             switch (data.getUser_handle_state()) {
                 case "1":
                     holder.tvTitle.setText("最新");
@@ -236,16 +254,39 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
                     break;
                 case "3":
                     holder.tvTitle.setText("信任");
+                    isTrust = true;
                     break;
             }
             holder.tvNum.setText(String.valueOf(data.getMatchings().size()));
+            for (int i = 0; i < data.getMatchings().size(); i++) {
+                holder.llContent.addView(getContentView(data.getMatchings().get(i), isTrust));
+            }
         }
 
-        private RelativeLayout getContentView(DemandResultBean.Obj.Matching data) {
+        private RelativeLayout getContentView(DemandResultBean.Obj.Matching data, boolean isTrust) {
             RelativeLayout relativeLayout = (RelativeLayout) View.inflate(mContext, R.layout.item_demand_result_company, null);
             TextView tvName = relativeLayout.findViewById(R.id.tvName);
             TextView tvDegree = relativeLayout.findViewById(R.id.tvDegree);
-            Button button = relativeLayout.findViewById(R.id.button);+
+            TextView tvState = relativeLayout.findViewById(R.id.tvState);
+            Button button = relativeLayout.findViewById(R.id.button);
+            if (isTrust) {
+                tvState.setVisibility(View.VISIBLE);
+                button.setVisibility(View.GONE);
+            } else {
+                tvState.setVisibility(View.GONE);
+                button.setVisibility(View.VISIBLE);
+                button.setTag(data);
+                button.setOnClickListener(this);
+            }
+            ImageView imageView = relativeLayout.findViewById(R.id.ivImage);
+            ImageUtils.loadImageRoundedCorners(mContext, data.getCompany_icon(), imageView, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 4));
+            tvName.setText(data.getCompany_name());
+            // TODO
+//            tvDegree.setText(data.get);
+            relativeLayout.setTag(data.getMatching_id());
+            relativeLayout.setOnClickListener(this);
+            relativeLayout.setOnLongClickListener(this);
+            return relativeLayout;
         }
 
         @Override
@@ -265,23 +306,73 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
                     if (onItemClickListener != null)
                         onItemClickListener.onItemClick(v, holder);
                     break;
+                case R.id.content:
+                    String matchingId = (String) v.getTag();
+                    StartActivityUtils.startIBusinessCompanyDetail(mContext, matchingId, IBusinessCompanyDetailActivity.TYPE_DEFAULT);
+                    break;
+                case R.id.button:
+                    trust((DemandResultBean.Obj.Matching) v.getTag());
+                    break;
                 default:
                     break;
             }
         }
 
+        private void trust(DemandResultBean.Obj.Matching data) {
+            if (!isVcardIdZero()) {
+                TrustCompanyBean bean = new TrustCompanyBean();
+                TrustCompanyBean.Obj obj = bean.new Obj();
+                List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
+                TrustCompanyBean.Obj.User user = obj.new User();
+//                user.setUser_id(data.get);
+//                user.setHx_username(holderUser.getHx_username());
+                users.add(user);
+                obj.setCompany_users(users);
+                obj.setImage_url(data.getCompany_icon());
+//                obj.setCompany_id(data.getCompany_id());
+                obj.setCompany_name(data.getCompany_name());
+                bean.setData(obj);
+                StartActivityUtils.startTrustCompany(mContext, bean);
+            }
+        }
+
         @Override
-        public boolean onLongClick(View v) {
+        public boolean onLongClick(final View v) {
             switch (v.getId()) {
                 case R.id.parent:
                     IBusinessDetailHolder holder = (IBusinessDetailHolder) v.getTag();
                     if (onItemLongClickListener != null)
                         onItemLongClickListener.onItemLongClick(v, holder);
                     break;
+                case R.id.content:
+                    final String matchingId = (String) v.getTag();
+                    showAlertDialog("", "是否删除该条匹配结果？", "确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            delete(v, matchingId);
+                        }
+                    }, "取消", null, true);
+                    break;
                 default:
                     break;
             }
             return false;
+        }
+
+        /**
+         * 删除匹配结果企业
+         */
+        private void delete(final View view, String matchingId) {
+            PostCall.putJson(mContext, ServerUrl.deleteDemandsResult(matchingId), new DeleteIBusinessResultVo("poster"), new PostCall.PostResponse<BaseBean>() {
+
+                @Override
+                public void onSuccess(int i, byte[] bytes, BaseBean baseBean) {
+                    ((ViewGroup) view.getParent()).removeView(view);
+                }
+
+                @Override
+                public void onFailure(int i, byte[] bytes) {}
+            }, new String[]{}, false, BaseBean.class);
         }
     }
 

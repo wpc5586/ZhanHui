@@ -11,6 +11,7 @@ import com.xhy.zhanhui.activity.CenterDetailActivity;
 import com.xhy.zhanhui.activity.CenterMessageDetailActivity;
 import com.xhy.zhanhui.activity.CompanyDetailActivity;
 import com.xhy.zhanhui.activity.CompanyListActivity;
+import com.xhy.zhanhui.activity.IBusinessCompanyDetailActivity;
 import com.xhy.zhanhui.activity.IntelligentBusinessDetailActivity;
 import com.xhy.zhanhui.activity.OrderDetailActivity;
 import com.xhy.zhanhui.activity.OrderSponsorActivity;
@@ -364,14 +365,16 @@ public class StartActivityUtils {
     }
 
     /**
-     * 跳转需求结果详情页面
+     * 跳转需求结果详情(智能匹配企业详情)页面
      *
      * @param mContext      上下文
      * @param matchingId 结果Id
+     * @param type      企业详情类型   0：目标企业  1：信任企业  2：关注企业
      */
-    public static void startDemandResultDetail(Context mContext, String matchingId) {
-        Intent intent = new Intent(mContext, IntelligentBusinessDetailActivity.class);
+    public static void startIBusinessCompanyDetail(Context mContext, String matchingId, int type) {
+        Intent intent = new Intent(mContext, IBusinessCompanyDetailActivity.class);
         intent.putExtra("matchingId", matchingId);
+        intent.putExtra("type", type);
         mContext.startActivity(intent);
     }
 }

@@ -28,7 +28,25 @@ public class DemandDetailBean extends BaseBean {
         private String demand_brand;
         private String demand_notes;
         private String post_time;
+        private String matching_nums;
+        private String matching_accept_nums;
         private List<Image> image_url;
+
+        public String getMatching_nums() {
+            return matching_nums;
+        }
+
+        public void setMatching_nums(String matching_nums) {
+            this.matching_nums = matching_nums;
+        }
+
+        public String getMatching_accept_nums() {
+            return matching_accept_nums;
+        }
+
+        public void setMatching_accept_nums(String matching_accept_nums) {
+            this.matching_accept_nums = matching_accept_nums;
+        }
 
         public String getDemand_id() {
             return demand_id;

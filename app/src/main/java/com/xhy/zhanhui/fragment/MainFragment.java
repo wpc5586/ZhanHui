@@ -15,6 +15,7 @@ import com.aaron.aaronlibrary.http.ServerUrl;
 import com.aaron.aaronlibrary.utils.AppInfo;
 import com.aaron.aaronlibrary.utils.Constants;
 import com.xhy.zhanhui.R;
+import com.xhy.zhanhui.activity.IBusinessReceiveListActivity;
 import com.xhy.zhanhui.activity.IntelligentBusinessListActivity;
 import com.xhy.zhanhui.activity.IntelligentBusinessReleaseActivity;
 import com.xhy.zhanhui.activity.MainActivity;
@@ -189,7 +190,7 @@ public class MainFragment extends ZhanHuiFragment {
                 startMyActivity(IntelligentBusinessListActivity.class);
                 break;
             case R.id.rl_receive: // 智能商务-收到的申请
-                startMyActivity(IntelligentBusinessReleaseActivity.class);
+                startMyActivity(IBusinessReceiveListActivity.class);
                 break;
             case R.id.rlOrder: // 我的预约
                 startMyActivity(OrderActivity.class);
