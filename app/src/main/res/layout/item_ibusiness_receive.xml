@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/item_ibusiness_receive_bg1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/item_ibusiness_receive_bg">
+            
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivAvatar"
+                android:layout_alignTop="@+id/ivAvatar"
+                android:layout_marginTop="3dp"
+                android:text="Aaron"
+                android:textColor="#282828"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvDemandText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvName"
+                android:layout_toRightOf="@+id/ivAvatar"
+                android:layout_marginTop="12dp"
+                android:text="需求："
+                android:textColor="#656565"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvDemand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvName"
+                android:layout_toRightOf="@+id/tvDemandText"
+                android:layout_marginTop="12dp"
+                android:text=""
+                android:textColor="#656565"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/divide"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="18dp"
+                android:layout_below="@+id/ivAvatar"
+                android:background="#efeff4"/>
+
+            <Button
+                android:id="@+id/btnRefuse"
+                android:layout_width="56dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:layout_below="@+id/divide"
+                android:background="@drawable/item_demand_result_btn_bg_gray"
+                android:text="拒绝"
+                android:textSize="12sp"
+                android:textColor="#989898"/>
+
+            <Button
+                android:id="@+id/btnAgree"
+                android:layout_width="56dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="16dp"
+                android:layout_toLeftOf="@+id/btnRefuse"
+                android:layout_marginRight="25dp"
+                android:layout_below="@+id/divide"
+                android:background="@drawable/item_demand_result_btn_bg"
+                android:text="同意"
+                android:textSize="12sp"
+                android:textColor="#007aff"/>
+
+            <TextView
+                android:id="@+id/tvState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divide"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#ff2d55"
+                android:paddingTop="18dp"
+                android:paddingBottom="20dp"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

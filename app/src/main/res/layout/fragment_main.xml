@@ -421,9 +421,11 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/ivNewIBusiness"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@mipmap/icon_red_dot" />
+                        android:src="@mipmap/icon_red_dot"
+                        android:visibility="invisible"/>
 
                     <ImageView
                         android:layout_width="23dp"
@@ -440,6 +442,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/llTrustMessage3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -456,12 +459,13 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLength="20"
-                            android:text="等待XXXXXX公司同意申请"
+                            android:text="暂未发布新的需求"
                             android:textColor="#333333"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llTrustMessage4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -478,7 +482,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLength="20"
-                            android:text="等待XXXXXX公司同意申请"
+                            android:text="暂未收到新的需求"
                             android:textColor="#333333"
                             android:textSize="14sp" />
                     </LinearLayout>

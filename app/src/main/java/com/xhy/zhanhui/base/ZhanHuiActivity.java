@@ -91,6 +91,15 @@ public class ZhanHuiActivity extends BaseActivity {
     }
 
     /**
+     * 获取企业用户企业ID
+     *
+     * @return
+     */
+    protected String getCompanyId() {
+        return ZhanHuiApplication.getInstance().getCompanyId();
+    }
+
+    /**
      * 根据用户ID获取环信用户ID
      *
      * @return

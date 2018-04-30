@@ -30,6 +30,7 @@ import com.xhy.zhanhui.base.ZhanHuiApplication;
 import com.xhy.zhanhui.base.ZhanHuiFragment;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.HxFriendBean;
+import com.xhy.zhanhui.preferences.IBusinessSharedPreferences;
 import com.xhy.zhanhui.preferences.TrustSharedPreferences;
 
 import java.util.Collections;
@@ -43,8 +44,8 @@ import java.util.List;
 public class MainFragment extends ZhanHuiFragment {
 
     private RelativeLayout rlSend, rlReceiveTrust, rlRelease, rlDemand, rlReceive, rlOrder, rlTicket, rlGuide, rlNavi, rlRecord, rlStatics;
-    private LinearLayout llTrustMessage1, llTrustMessage2;
-    private ImageView ivNewTrust, ivAvatar;
+    private LinearLayout llTrustMessage1, llTrustMessage2, llTrustMessage3, llTrustMessage4;
+    private ImageView ivNewTrust, ivNewIBusiness, ivAvatar;
     private TextView tvName, tvCardIntro;
 
     @Override
@@ -65,8 +66,10 @@ public class MainFragment extends ZhanHuiFragment {
         rlReceive = findViewAndSetListener(R.id.rl_receive);
         if (Constants.VERSION_IS_USER)
             rlReceive.setVisibility(View.GONE);
-        else
+        else {
+            rlDemand.setVisibility(View.GONE);
             rlRelease.setVisibility(View.GONE);
+        }
         rlOrder = findViewAndSetListener(R.id.rlOrder);
         rlTicket = findViewAndSetListener(R.id.rlTicket);
         rlGuide = findViewAndSetListener(R.id.rlGuide);
@@ -75,7 +78,10 @@ public class MainFragment extends ZhanHuiFragment {
         rlStatics = findViewAndSetListener(R.id.rlStatics);
         llTrustMessage1 = findViewAndSetListener(R.id.llTrustMessage1);
         llTrustMessage2 = findViewAndSetListener(R.id.llTrustMessage2);
+        llTrustMessage3 = findViewAndSetListener(R.id.llTrustMessage3);
+        llTrustMessage4 = findViewAndSetListener(R.id.llTrustMessage4);
         ivNewTrust = findViewById(R.id.ivNewTrust);
+        ivNewIBusiness = findViewById(R.id.ivNewIBusiness);
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
         tvCardIntro = findViewById(R.id.tvCardIntro);
@@ -98,7 +104,7 @@ public class MainFragment extends ZhanHuiFragment {
         int width1 = (AppInfo.getScreenWidthOrHeight(mContext, true) - 2) / 2;
         rlRelease.getLayoutParams().width = width1;
         rlDemand.getLayoutParams().width = width1;
-        rlReceive.getLayoutParams().width = width1;
+        rlReceive.getLayoutParams().width = AppInfo.getScreenWidthOrHeight(mContext, true);
         rlOrder.getLayoutParams().width = width;
         rlTicket.getLayoutParams().width = width;
         rlGuide.getLayoutParams().width = width;
@@ -152,8 +158,16 @@ public class MainFragment extends ZhanHuiFragment {
             TextView textView = (TextView) llTrustMessage1.getChildAt(1);
             textView.setText(newSendTrust);
         }
+        String newIBusiness = IBusinessSharedPreferences.getInstance().getIBusinessData();
+        if (!TextUtils.isEmpty(newIBusiness)) {
+            TextView textView = (TextView) llTrustMessage3.getChildAt(1);
+            textView.setText(newIBusiness);
+            ivNewIBusiness.setVisibility(View.VISIBLE);
+        }
         llTrustMessage1.setVisibility(View.VISIBLE);
         llTrustMessage2.setVisibility(View.VISIBLE);
+        llTrustMessage3.setVisibility(View.VISIBLE);
+        llTrustMessage4.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -210,4 +210,13 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected void dismissProgressDialog() {
         ((BaseActivity) mContext).dismissProgressDialog();
     }
+
+    /**
+     * 方法描述: 获取color值
+     *
+     * @param id 资源文件
+     */
+    protected int getColorFromResuource(int id) {
+        return getResources().getColor(id);
+    }
 }

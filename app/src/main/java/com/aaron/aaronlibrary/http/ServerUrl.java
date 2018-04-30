@@ -687,7 +687,23 @@ public class ServerUrl {
      * @return 数据
      */
     public static String demandsList(String state) {
-        return getService() + "ibusiness/matchings?" + ZhanHuiApplication.getInstance().getCompanyId() + "&type=receiver&company_handle_state=" + state;
+        return getService() + "ibusiness/matchings?company_id=" + ZhanHuiApplication.getInstance().getCompanyId() + "&type=receiver&company_handle_state=" + state;
+    }
+
+    /**
+     * 首页-获取需求详情结果接口（企业版）
+     * @return 数据
+     */
+    public static String demandsDetailUser(String demandId) {
+        return getService() + "ibusiness/matchings/" + demandId + "?type=receiver";
+    }
+
+    /**
+     * 首页-处理匹配结果（企业版）
+     * @return 数据
+     */
+    public static String demandsHandle(String matchingId) {
+        return getService() + "ibusiness/matchings/" + matchingId;
     }
 
     /**

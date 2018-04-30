@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ac_dialog_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View
+        android:id="@+id/ac_dialog_list_center"
+        style="@style/center" />
+
+    <View
+        android:id="@+id/ac_dialog_list_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77999999" />
+
+    <RelativeLayout
+        android:id="@+id/ac_dialog_list_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/ac_dialog_list_btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/ac_dialog_list_btn_margin_l_r"
+            android:background="@drawable/list_dialog_bg"
+            android:text="@string/cancel"
+            android:textColor="#007aff"
+            android:textSize="@dimen/ac_dialog_list_btn_textsize" />
+
+        <RelativeLayout
+            android:id="@+id/rlContent"
+            android:layout_width="match_parent"
+            android:background="@drawable/list_dialog_bg"
+            android:layout_height="245dp"
+            android:layout_marginLeft="@dimen/ac_dialog_list_btn_margin_l_r"
+            android:layout_marginRight="@dimen/ac_dialog_list_btn_margin_l_r"
+            android:layout_above="@+id/ac_dialog_list_btn_cancel">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:text="请选择企业顾问"
+                android:textSize="18sp"
+                android:textColor="#282828"/>
+
+            <View
+                android:id="@+id/divide"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#efefef"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/tvTitle" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+        </RelativeLayout>
+        
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/rlContent"
+            android:src="@mipmap/icon_trust_add"
+            android:layout_marginBottom="-35dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -12,4 +12,6 @@
     <color name="order_text">#808080</color>
     <color name="order_title_done">#767676</color>
     <color name="order_text_donw">#b9b9b9</color>
+    <color name="ibusiness_receiver1">#656565</color>
+    <color name="ibusiness_receiver2">#ff2d55</color>
 </resources>

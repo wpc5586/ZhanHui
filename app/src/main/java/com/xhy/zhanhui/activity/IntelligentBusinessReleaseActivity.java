@@ -21,6 +21,7 @@ import com.aaron.aaronlibrary.utils.MathUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
 import com.xhy.zhanhui.base.ZhanHuiApplication;
+import com.xhy.zhanhui.preferences.IBusinessSharedPreferences;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -237,7 +238,10 @@ public class IntelligentBusinessReleaseActivity extends ZhanHuiActivity{
         PostCall.postFiles(mContext, ServerUrl.demands(), params, "files", files, new PostCall.PostResponse<BaseBean>() {
             @Override
             public void onSuccess(int statusCode, byte[] responseBody, BaseBean bean) {
-
+                showToast("需求发布成功");
+                IBusinessSharedPreferences.getInstance().setIBusinessData("您发布的需求匹配成功");
+                finish();
+                MainActivity.getInstance().refreshMainMessage();
             }
 
             @Override

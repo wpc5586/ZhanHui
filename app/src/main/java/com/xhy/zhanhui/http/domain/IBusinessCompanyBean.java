@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 商圈企业详情Bean
+ * 智能商务企业详情Bean
  * Created by Aaron on 2017/12/14 0001.
  */
 public class IBusinessCompanyBean extends BaseBean implements Serializable{

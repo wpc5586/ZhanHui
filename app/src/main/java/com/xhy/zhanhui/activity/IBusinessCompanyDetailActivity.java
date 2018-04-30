@@ -1,5 +1,6 @@
 package com.xhy.zhanhui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +23,10 @@ import com.aaron.aaronlibrary.listener.OnRecyclerItemLongClickListener;
 import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
+import com.xhy.zhanhui.dialog.TrustDialog;
 import com.xhy.zhanhui.domain.StartActivityUtils;
 import com.xhy.zhanhui.http.domain.CenterBean;
-import com.xhy.zhanhui.http.domain.ExhibitionCompanyInfoBean;
 import com.xhy.zhanhui.http.domain.IBusinessCompanyBean;
-import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +91,12 @@ public class IBusinessCompanyDetailActivity extends ZhanHuiActivity {
         setActionbarBackgroundResource(R.mipmap.ibusiness_actionbar_bg);
         setActionbarTitleColor(R.color.white);
         getActionbarView().getBackButton().setImageResource(R.mipmap.common_back_white1);
+        getActionbarView().addRightButton(R.mipmap.icon_company, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StartActivityUtils.startCompanyDetail(mContext, bean.getData().getCompany().getCompany_id());
+            }
+        });
         matchingId = getStringExtra("matchingId");
         if (getIntent().hasExtra("type"))
             type = getIntent().getIntExtra("type", TYPE_DEFAULT);
@@ -197,22 +203,28 @@ public class IBusinessCompanyDetailActivity extends ZhanHuiActivity {
         IBusinessCompanyBean.Obj data = bean.getData();
         if (data != null && data.getCompany() != null && data.getCompany_users().size() > 0) {
             if (!isVcardIdZero()) {
-                TrustCompanyBean bean = new TrustCompanyBean();
-                TrustCompanyBean.Obj obj = bean.new Obj();
-                obj.setCompany_name(data.getCompany().getCompany_name());
-                obj.setImage_url(data.getCompany().getCompany_icon());
-                List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
-                TrustCompanyBean.Obj.User user = obj.new User();
-                IBusinessCompanyBean.Obj.User userInfo = data.getCompany_users().get(0);
-                user.setHx_username(userInfo.getHx_username());
-                user.setIcon(userInfo.getIcon());
-                user.setNickname(userInfo.getNickname());
-                user.setUser_id(userInfo.getUser_id());
-                user.setV_title(userInfo.getV_title());
-                users.add(user);
-                obj.setCompany_users(users);
-                bean.setData(obj);
-                StartActivityUtils.startTrustCompany(mContext, bean);
+                TrustDialog dialog = new TrustDialog((Activity) mContext, R.style.listDialog);
+                for (int i = 0; i < data.getCompany_users().size(); i++) {
+                    IBusinessCompanyBean.Obj.User user = data.getCompany_users().get(i);
+                    dialog.addData(user.getUser_id(), user.getHx_username(), user.getIcon(), user.getNickname(), user.getV_title());
+                }
+                dialog.show();
+//                TrustCompanyBean bean = new TrustCompanyBean();
+//                TrustCompanyBean.Obj obj = bean.new Obj();
+//                obj.setCompany_name(data.getCompany().getCompany_name());
+//                obj.setImage_url(data.getCompany().getCompany_icon());
+//                List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
+//                TrustCompanyBean.Obj.User user = obj.new User();
+//                IBusinessCompanyBean.Obj.User userInfo = data.getCompany_users().get(0);
+//                user.setHx_username(userInfo.getHx_username());
+//                user.setIcon(userInfo.getIcon());
+//                user.setNickname(userInfo.getNickname());
+//                user.setUser_id(userInfo.getUser_id());
+//                user.setV_title(userInfo.getV_title());
+//                users.add(user);
+//                obj.setCompany_users(users);
+//                bean.setData(obj);
+//                StartActivityUtils.startTrustCompany(mContext, bean);
             }
         } else
             showToast("该企业没有用户信息，无法申请信任");
@@ -229,7 +241,7 @@ public class IBusinessCompanyDetailActivity extends ZhanHuiActivity {
             case R.id.btnTrust:
                 String content = ((Button) view).getText().toString();
                 if ("交谈".equals(content))
-                    StartActivityUtils.startChat(mContext, bean.getData().getCompany().getCompany_id());
+                    StartActivityUtils.startChat(mContext, bean.getData().getCompany_users().get(0).getHx_username());
                 else
                     trust();
                 break;

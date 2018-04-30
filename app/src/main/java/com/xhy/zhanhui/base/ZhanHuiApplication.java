@@ -99,7 +99,7 @@ public class ZhanHuiApplication extends CrashApplication {
     }
 
     public String getCompanyId() {
-        return loginBean == null ? "" : loginBean.getObj().getUser_id();
+        return loginBean == null ? "" : loginBean.getObj().getCompany_id();
     }
 
     public String getUserId() {

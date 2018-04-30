@@ -1,5 +1,6 @@
 package com.xhy.zhanhui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -26,11 +27,11 @@ import com.aaron.aaronlibrary.utils.ImageUtils;
 import com.aaron.aaronlibrary.utils.MathUtils;
 import com.xhy.zhanhui.R;
 import com.xhy.zhanhui.base.ZhanHuiActivity;
+import com.xhy.zhanhui.dialog.TrustDialog;
 import com.xhy.zhanhui.domain.StartActivityUtils;
-import com.xhy.zhanhui.http.domain.BusinessOnlineBean;
 import com.xhy.zhanhui.http.domain.DemandDetailBean;
 import com.xhy.zhanhui.http.domain.DemandResultBean;
-import com.xhy.zhanhui.http.domain.IBusinessListBean;
+import com.xhy.zhanhui.http.domain.IBusinessCompanyBean;
 import com.xhy.zhanhui.http.domain.TrustCompanyBean;
 import com.xhy.zhanhui.http.vo.DeleteIBusinessResultVo;
 
@@ -281,8 +282,7 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
             ImageView imageView = relativeLayout.findViewById(R.id.ivImage);
             ImageUtils.loadImageRoundedCorners(mContext, data.getCompany_icon(), imageView, RoundedCornersTransformation.CornerType.ALL, MathUtils.dip2px(mContext, 4));
             tvName.setText(data.getCompany_name());
-            // TODO
-//            tvDegree.setText(data.get);
+            tvDegree.setText(data.getMatched_degree());
             relativeLayout.setTag(data.getMatching_id());
             relativeLayout.setOnClickListener(this);
             relativeLayout.setOnLongClickListener(this);
@@ -320,19 +320,26 @@ public class IntelligentBusinessDetailActivity extends ZhanHuiActivity{
 
         private void trust(DemandResultBean.Obj.Matching data) {
             if (!isVcardIdZero()) {
-                TrustCompanyBean bean = new TrustCompanyBean();
-                TrustCompanyBean.Obj obj = bean.new Obj();
-                List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
-                TrustCompanyBean.Obj.User user = obj.new User();
-//                user.setUser_id(data.get);
-//                user.setHx_username(holderUser.getHx_username());
-                users.add(user);
-                obj.setCompany_users(users);
-                obj.setImage_url(data.getCompany_icon());
-//                obj.setCompany_id(data.getCompany_id());
-                obj.setCompany_name(data.getCompany_name());
-                bean.setData(obj);
-                StartActivityUtils.startTrustCompany(mContext, bean);
+                TrustDialog dialog = new TrustDialog((Activity) mContext, R.style.listDialog);
+                for (int i = 0; i < data.getCompany_users().size(); i++) {
+                    DemandResultBean.Obj.Matching.User user = data.getCompany_users().get(i);
+                    // TODO
+                    dialog.addData(user.getUser_id(), user.getHx_username(), "", user.getNickname(), user.getV_title());
+                }
+                dialog.show();
+//                TrustCompanyBean bean = new TrustCompanyBean();
+//                TrustCompanyBean.Obj obj = bean.new Obj();
+//                List<TrustCompanyBean.Obj.User> users = new ArrayList<>();
+//                TrustCompanyBean.Obj.User user = obj.new User();
+//                user.setUser_id(data.getCompany_users().get(0).getUser_id());
+//                user.setHx_username(data.getCompany_users().get(0).getHx_username());
+//                users.add(user);
+//                obj.setCompany_users(users);
+//                obj.setImage_url(data.getCompany_icon());
+////                obj.setCompany_id(data.getCompany_id());
+//                obj.setCompany_name(data.getCompany_name());
+//                bean.setData(obj);
+//                StartActivityUtils.startTrustCompany(mContext, bean);
             }
         }
 

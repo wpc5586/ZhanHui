@@ -51,6 +51,15 @@ public class ZhanHuiFragment extends BaseFragment {
     }
 
     /**
+     * 获取企业用户企业ID
+     *
+     * @return
+     */
+    protected String getCompanyId() {
+        return ZhanHuiApplication.getInstance().getCompanyId();
+    }
+
+    /**
      * 根据环信ID获取用户ID
      * @return
      */

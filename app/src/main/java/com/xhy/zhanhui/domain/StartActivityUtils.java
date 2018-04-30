@@ -12,6 +12,7 @@ import com.xhy.zhanhui.activity.CenterMessageDetailActivity;
 import com.xhy.zhanhui.activity.CompanyDetailActivity;
 import com.xhy.zhanhui.activity.CompanyListActivity;
 import com.xhy.zhanhui.activity.IBusinessCompanyDetailActivity;
+import com.xhy.zhanhui.activity.IBusinessUserDetailActivity;
 import com.xhy.zhanhui.activity.IntelligentBusinessDetailActivity;
 import com.xhy.zhanhui.activity.OrderDetailActivity;
 import com.xhy.zhanhui.activity.OrderSponsorActivity;
@@ -361,6 +362,20 @@ public class StartActivityUtils {
     public static void startDemandDetail(Context mContext, String demandId) {
         Intent intent = new Intent(mContext, IntelligentBusinessDetailActivity.class);
         intent.putExtra("demandId", demandId);
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 跳转客户需求详情页面（企业版）
+     *
+     * @param mContext      上下文
+     * @param matchingId    需求Id
+     * @param type      企业详情类型   0：目标企业  1：信任企业  2：关注企业
+     */
+    public static void startDemandUserDetail(Context mContext, String matchingId, int type) {
+        Intent intent = new Intent(mContext, IBusinessUserDetailActivity.class);
+        intent.putExtra("matchingId", matchingId);
+        intent.putExtra("type", type);
         mContext.startActivity(intent);
     }
 

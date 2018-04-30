@@ -23,9 +23,18 @@ public class LoginBean extends BaseBean {
         private String hx_username;
         private String icon;
         private String user_id;
+        private String company_id;
         private String nickname;
         private String userName;
         private String vcard_id;
+
+        public String getCompany_id() {
+            return company_id;
+        }
+
+        public void setCompany_id(String company_id) {
+            this.company_id = company_id;
+        }
 
         public String getVcard_id() {
             return vcard_id;
